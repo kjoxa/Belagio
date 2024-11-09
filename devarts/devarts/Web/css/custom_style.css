@@ -1,0 +1,254 @@
+﻿/*
+    STARY ZŁOTY BUDDHA GOLD: #FDC939;
+    NOWY ZŁOTY: rgba(170, 150, 91);
+*/
+
+.picture-border {
+    border: 1px solid rgba(170, 150, 91);
+}
+
+/*Buddha gold*/
+.gold {
+    color: rgba(170, 150, 91);
+}
+
+.pointer{
+    cursor:pointer;
+}
+
+.background-grey {
+    background: url(/Web/images/belagio/logo_container.jpg) no-repeat center center fixed;
+    background-size: cover;
+}
+
+.bg-overlay {
+    border-bottom: 5px solid rgba(170, 150, 91);
+}
+
+.heading-text.heading-section h2 {
+    color: white;
+}
+
+#footer .copyright-content {
+    min-height: 80px;
+    padding: 30px 0;
+    background-color: #353536;
+    font-size: 13px;
+}
+
+.footer-content {
+    padding: 60px 0 40px;
+    color: white;
+    background-color: #282525;
+}
+
+.footer-content {
+    border-top: 1px solid rgba(170, 150, 91);
+    border-bottom: 1px solid rgba(170, 150, 91);
+}
+
+.lead {
+    color: white;
+}
+
+/*DODANE DODATKOWO*/
+.big-checkbox {
+    width: 20px;
+    height: 20px;
+}
+
+.hr-gold {
+    border-top: 1px solid rgba(170, 150, 91);
+    width: 100px;
+    margin: 0 auto;
+}
+
+.hr-text {
+    line-height: 2.5em;
+    position: relative;
+    outline: 0;
+    border: 0;
+    color: white;
+    text-align: center;
+    height: 2.5em;
+    opacity: 0.5;
+    font-size: large;
+    opacity:0.9;
+}
+
+    .hr-text:before {
+        content: "";
+        background: linear-gradient(to right, transparent, rgba(170, 150, 91), transparent);
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: 100%;
+        height: 2px;
+    }
+
+    .hr-text:after {
+        content: attr(data-content);
+        position: relative;
+        display: inline-block;
+        color: black;
+        padding: 0 0.5em;
+        line-height: 1.5em;
+        color: white;
+        background-color: rgba(170, 150, 91);
+    }
+
+.copyright-content {
+    background: url(/Web/images/belagio/logo_container.jpg) no-repeat center center fixed;
+    background-size: cover;
+}
+
+.content{
+    margin-bottom:0;
+}
+
+.belagio_container {
+    padding: 20px;
+    background: rgb(68 68 68 / 86%);    
+}
+
+.belagio_container h3, h4, h5{
+    color:white;
+}
+
+.belagio-gallery{
+    background-color: initial;
+}
+
+/*tekst wbr hr*/
+.title{
+    font-size:medium;
+}
+
+.tabs .nav-tabs .nav-link {
+    color: #484848;
+    padding: 14px 24px;
+    color: rgb(209 209 209 / 80%);
+    transition: .3s ease;
+    font-weight: 500;
+    border: 0;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom: 2px solid #e6e8eb;
+}
+
+.tabs.tabs-vertical .nav-tabs .nav-link.active {
+    color: #ffffff;
+    background-color: transparent;
+    border-right: 2px solid #ffffff;
+}
+
+.tabs.tabs-vertical .nav-tabs .nav-link {
+    border-radius: 0;
+    border-bottom: 0;
+    border-right: 2px solid #575758;
+}
+
+.field-validation-error {
+    color: burlywood;
+}
+
+.silver{
+    color:silver !important;
+    font-size:medium;
+}
+
+/*Paginacja*/
+.pagination {
+    display: inline-flex;
+    margin: 0;
+    overflow: hidden;
+    border-radius: 0;
+    padding-bottom: 3px;
+}
+
+    .pagination ul {
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        font-family: 'Montserrat', sans-serif;
+    }
+
+        .pagination ul > li {
+            display: inline-flex !important;
+            margin-right: 2px;
+        }
+
+            .pagination ul > li > a,
+            .pagination ul > li > span {
+                float: none
+            }
+
+            .pagination ul > li > a {
+                background: #FFF;
+                font-size: 14px;
+                color: #3b3b3b;
+                font-weight: 700;
+                display: inline-block;
+                padding: 9px 18px;
+                box-shadow: 0 2px 0 rgba(0, 0, 0, 0.07);
+            }
+
+            .pagination ul > li:first-child > a,
+            .pagination ul > li:last-child > a {
+            }
+
+            .pagination ul > li > a:hover,
+            .pagination ul > li > a:focus,
+            .pagination ul > .active > a,
+            .pagination ul > .active > span {
+                color: #70aed2
+            }
+
+    .pagination > li:first-child > a, .pagination > li:first-child > span {
+        margin-left: 0;
+        border-bottom-left-radius: 4px;
+        border-top-left-radius: 4px;
+    }
+
+    .pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+        z-index: 2;
+        color: #fff;
+        background-color: #edf1f6;
+        border-color: #edf1f6;
+        cursor: default;
+    }
+
+    .pagination > li > a, .pagination > li > span {
+        position: relative;
+        float: left;
+        padding: 6px 12px;
+        line-height: 1.42857143;
+        text-decoration: none;
+        color: black;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        margin-left: -1px;
+    }
+
+.under {
+    padding-top: 0 !important;
+    text-align: center;
+    font-size: 0.9em;
+    color: rgba(170, 150, 91) !important;
+    font-weight: bold;
+    text-transform: none;
+    margin: 0 auto;
+    display: table;
+    padding: 0 20px;
+}
+
+.nav-link:hover {
+    color: white !important;
+}
+
+.nav-link.active {
+    color: white !important;
+}

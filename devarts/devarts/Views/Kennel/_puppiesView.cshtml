@@ -1,0 +1,92 @@
+﻿<div class="panel panel-default">
+    <div class="panel-heading">
+        <i class="fa fa-bar-chart-o fa-fw"></i> Szczenięta
+        <div class="pull-right">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                    Operacje
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu pull-right" role="menu">
+                    <li>
+                        <a id="btnRemoveStatistics"><i class="fa fa-remove"></i> Dodaj szczenię</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div id="morris-area-chart"></div>
+        <table id="puppiesDataTable" class="table small table-striped table-hover" width="100%" cellspacing="0">
+            <tfoot>
+                <tr>
+                    <th>Zdjęcie</th>
+                    <th>Nazwa</th>
+                    <th>Rasa</th>
+                    <th>Miot</th>
+                    <th>Matka</th>
+                    <th>Masa ur.</th>
+                    <th>Narodziny</th>
+                    <th>Płeć</th>
+                    <th>Kolor</th>
+                    <th>Link</th>
+                    <th>Akcje</th>
+                </tr>
+            </tfoot>
+            <thead>
+                <tr>
+                    <th>Zdjęcie</th>
+                    <th>Nazwa</th>
+                    <th>Rasa</th>
+                    <th>Miot</th>
+                    <th>Matka</th>
+                    <th>Masa ur.</th>
+                    <th>Narodziny</th>
+                    <th>Płeć</th>
+                    <th>Kolor</th>
+                    <th>Link</th>
+                    <th>Akcje</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    var TeamDetailPostBackURL = '/Admin/PreviewPost';
+    $(document).ready(function () {
+        $(document).on('click', ".previewPost", function () {
+            //debugger;
+            var $buttonClicked = $(this);
+            var id = $buttonClicked.attr('data-id');
+            //console.log("Klik");
+            var options = { "backdrop": "static", keyboard: true };
+            $.ajax({
+                type: "GET",
+                url: TeamDetailPostBackURL,
+                contentType: "application/json; charset=utf-8",
+                data: { "Id": id },
+                datatype: "json",
+                success: function (data) {
+                    //debugger;
+                    $('#myModalContent').html(data);
+                    $('#myModal').modal(options);
+
+                },
+                error: function () {
+                    alert("Błąd ładowania danych.");
+                }
+            });
+        });
+    });
+</script>
+
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" id="myModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>

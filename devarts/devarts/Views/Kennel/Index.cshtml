@@ -1,0 +1,941 @@
+﻿@model devarts.Models.BreedDogLitterViewModel
+
+@Scripts.Render("~/bundles/jquery")
+@Styles.Render("~/Content/font-awesome.css")
+
+@Styles.Render("~/Content/DataTables")
+@Scripts.Render("~/Scripts/AdminDataTables")
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2><i class="fa fa-bars"></i> Rasy</h2>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="col-lg-12">
+                    @if (Model.dogBreeds.Count() > 0)
+                    {
+                        <h3>Utworzono przynajmniej jedną rasę.</h3>
+                        <p>Teraz możesz przypisywać do niej psy.</p>
+                    }
+                    else
+                    {
+                        <h3>Najpierw dodaj rasę.</h3>
+                        <p>Nie utworzono rasy. Aby dodać psa musisz najpierw utworzyć rasę, do której będzie możliwość dodania zwierzęcia.</p>
+                    }
+                </div>
+                <div class="col-lg-12">
+                    <hr />
+                    <a href="@Url.Action("AddBreed","Kennel")" class="btn btn-app"><i class="fa fa-check"></i> Nowa <b>rasa</b></a>
+
+                    <a href="javascript:void(0);" id="help" class="btn btn-app"><i class="fa fa-question-circle"></i> Pomoc</a>
+                </div>
+                @if (Model.dogBreeds.Count() > 0)
+                {
+                    <div class="col-lg-12">
+                        <hr />
+                        <p>Dodane rasy</p>
+                        @foreach (var dog in Model.dogBreeds)
+                        {
+                            int countDogInBreed = Model.dogs.Where(d => d.SpeciesId == dog.Id).Count();
+                            <a href="@Url.Action("AddDog","Kennel", new { id = dog.Id })" class="btn btn-app"><span class="badge bg-dark-alfa-40">Psów w rasie <b>@countDogInBreed</b></span><i class="fa fa-paw"></i>Nowy <b>@dog.BreedSpeciesDisplayName</b></a>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-bar-chart-o fa-fw"></i> Zwierzęta w hodowli z podziałem na rasy
+                <div class="pull-right">
+                    @*<div class="btn-group">
+                            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                Czyszczenie
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu pull-right" role="menu">
+                                <li>
+                                    <a id="btnRemoveStatistics"><i class="fa fa-remove"></i> Wyczyść listę odwiedzin strony</a>
+                                </li>
+                                <li>
+                                    <a id="btnRemoveTracing"><i class="fa fa-remove"></i> Wyczyść listę kliknięć użytkowników</a>
+                                </li>
+                            </ul>
+                        </div>*@
+                </div>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div id="morris-area-chart"></div>
+
+                <!-- UL CONTENT -->
+                @if (Model.dogBreeds.Count() > 0)
+                {
+                    int classActiveIdentifier = 0;
+                    <ul class="nav small dashboard nav-tabs bar_tabs" id="statisticTab">
+                        @foreach (var breed in Model.dogBreeds)
+                        {
+                            <li @(classActiveIdentifier < 1 ? ("class=active") : (""))><a href="#@breed.Id"><i class="glyphicon glyphicon-import"></i> @breed.BreedSpeciesDisplayName<small> @breed.BreedSpeciesDisplayNameEng</small></a></li>
+
+                            classActiveIdentifier++;
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <h4>Nie utworzono żadnej rasy.</h4>
+                    <p>Aby dodawać zwierzęta do hodowli najpierw utwórz rasę.</p>
+                }
+
+                <!-- TAB CONTENT -->
+                @if (Model.dogBreeds.Count() > 0)
+                {
+                    var _age = new AgeHelper();
+
+                    int classActiveIdentifier = 0;
+                    <div class="tab-content">
+
+                        @foreach (var breed in Model.dogBreeds)
+                        {
+                        <div id="@breed.Id" class="tab-pane fade @(classActiveIdentifier < 1 ? "in active" : "" )">
+                            <h3>@breed.BreedSpeciesDisplayName<small><br /><i class="fa fa-paw"></i> @breed.BreedSpeciesDisplayNameEng</small></h3>
+                            <hr />
+
+                            @{
+                                int countDogInBreed = Model.dogs.Where(d => d.SpeciesId == breed.Id).Count();
+                            }
+
+                            @if (countDogInBreed < 1)
+                            {
+                                <p>Nie dodano psa do tej rasy.</p>
+                                <a href="@Url.Action("AddDog","Kennel", new { Id = breed.Id })" class="btn btn-app"><i class="fa fa-plus"></i> Nowy <strong>@breed.BreedSpeciesDisplayName</strong></a>
+                            }
+                            else
+                            {
+                                <div class="col-lg-12 text-center"><h4><b>WIEK PRODUKCYJNY</b></h4><hr /></div>
+                                /// obecne psy danej rasy - bez emerytury
+                                int rowDivider = 0;
+                                <div class="row">
+                                    @foreach (var dog in Model.dogs.Where(d => d.SpeciesId == breed.Id && !d.IsRetired && !d.Coowner).OrderByDescending(d => d.BornDateDateTime))
+                                    {
+                                        if (rowDivider != 0 && rowDivider % 3 == 0)
+                                        {
+                                        @:</div>
+                                        @:<div class="row">
+                                        }
+
+                                        <div class="col-lg-4">
+                                            <div class="x_panel tile">
+                                                <div class="x_title">
+                                                    <h2><strong>@dog.DogName</strong><small>@dog.BreedName</small></h2>
+                                                    <ul class="nav navbar-right panel_toolbox">
+                                                        <li>
+                                                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                                        </li>
+                                                        <li class="dropdown">
+                                                            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                                            <ul class="dropdown-menu" role="menu">
+                                                                <li>
+                                                                    <a href="#"><i class="fa fa-eye"></i> Podgląd</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="@Url.Action("EditDog", "Kennel", new { id = dog.Id })"><i class="fa fa-edit"></i> Edycja</a>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="divider"></div>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="#"><i class="fa fa-hand-peace-o"></i> Dodaj miot</a>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="divider"></div>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="@Url.Action("RemoveDog", "Remove", new { id = dog.Id })"><i class="fa fa-remove"></i> <b class="red">Usuń bezpowrotnie zwierzę wraz z miotami i szczeniętami</b></a>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                        <li>
+                                                            <a class="close-link"><i class="fa fa-close"></i></a>
+                                                        </li>
+                                                    </ul>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                                <div class="x_content">
+                                                    <div class="col-lg-6">
+                                                        <a href="@Url.Action("EditDog", "Kennel", new { id = dog.Id })" data-placement="top" data-toggle="tooltip" data-original-title="Kliknij, by przejść do edycji"><img src="~/Dogs/@dog.BreedLink/@dog.DogLink/@dog.MainPicture" style="width:100%; border:3px solid silver;" /></a>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <h5><b>@dog.DogName</b><small> @dog.BreedName</small></h5>
+                                                        <h4>
+                                                            @if (string.IsNullOrEmpty(dog.DeathDate))
+                                                            {
+                                                                <small data-placement="top" data-toggle="tooltip" data-original-title="Data urodzenia"><i class="fa fa-heart red"></i> @dog.BornDate</small>
+                                                                <br /><small data-placement="top" data-toggle="tooltip" data-original-title="Czas życia"><i class="fa fa-heartbeat red"></i> @_age.HowOld(dog.BornDate, null)</small>
+                                                            }
+                                                            else
+                                                            {
+                                                                <small data-placement="top" data-toggle="tooltip" data-original-title="Data urodzenia"><i class="fa fa-heart red"></i> @dog.BornDate - @dog.DeathDate</small>
+                                                                <br /><small data-placement="top" data-toggle="tooltip" data-original-title="Czas życia"><i class="fa fa-heartbeat red"></i> @_age.HowOld(dog.BornDate, dog.DeathDate)</small>
+                                                            }
+                                                        </h4>
+                                                        <a href="@Url.Action("EditDog", "Kennel", new { id = dog.Id })" class="btn btn-xs btn-danger"><i class="fa fa-edit"></i> Edytuj</a>
+                                                        <a href="@Url.Action("Dog", "Home", new { dogLink = dog.DogLink })" class="btn btn-xs btn-success" target="_blank" data-placement="top" data-toggle="tooltip" data-original-title="Jeśli masz podłączoną witrynę, kliknij, aby zobaczyć wygląd psa w jej layoucie"><i class="fa fa-eye"></i> Podgląd na stronie</a>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <br />
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="bs-example">
+                                                            <ul class="nav small dashboard nav-tabs bar_tabs" id="myTab">
+                                                                <li class="active"><a style="padding:10px;" href="#sectionA_@dog.Id"><i class="fa fa-asterisk"></i> Podstawowe</a></li>
+                                                                <li><a style="padding:10px;" href="#sectionB_@dog.Id"><i class="fa fa-barcode"></i> Hodowlane</a></li>
+                                                                @if (dog.DogSex == false)
+                                                                {
+                                                                    <li><a style="padding:10px;" href="#sectionC_@dog.Id"><i class="fa fa-home"></i> <b>Mioty</b></a></li>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <li><a style="padding:10px;" href="#sectionC_@dog.Id"><i class="fa fa-home"></i> <b>Krycia</b></a></li>
+                                                                }
+                                                            </ul>
+                                                        </div>
+                                                        <!-- STANDARDOWE DANE -->
+                                                        <div class="tab-content">
+                                                            <div id="sectionA_@dog.Id" class="tab-pane fade in active">
+                                                                <div class="crop">
+                                                                    <table class="table table-striped">
+                                                                        <thead>
+                                                                            <tr>
+
+                                                                                <th>Parametr</th>
+                                                                                <th>Dane</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <th>Nazwa zwierzęcia</th>
+                                                                                <td>@dog.DogName</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Hodowla</th>
+                                                                                <td>@dog.BreedName <a href="https://www.google.com/search?as_q=@dog.BreedName" target="_blank" class="btn btn-xs btn-warning pull-right" data-placement="top" data-toggle="tooltip" data-original-title="Szukaj w Google"><i class="fa fa-arrow-right"></i> Google</a></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Umaszczenie</th>
+                                                                                <td>@dog.DogColour</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Płeć</th>
+                                                                                <td>@((dog.DogSex == false) ? "Suka" : "Pies")</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Umaszczenie</th>
+                                                                                <td>@dog.DogColour</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Wzrost (w kłębie)</th>
+                                                                                <td>@dog.Height</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Waga</th>
+                                                                                <td>@dog.Weight</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Hodowca</th>
+                                                                                <td>@dog.OwnerName</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Kontakt do hodowcy</th>
+                                                                                <td>@dog.OwnerContact <a href="mailto:@dog.OwnerContact" class="btn btn-xs btn-primary pull-right" data-placement="top" data-toggle="tooltip" data-original-title="Napisz wiadomość pod podany kontakt"><i class="fa fa-envelope"></i></a>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                            <!-- HODOWLANE -->
+                                                            <div id="sectionB_@dog.Id" class="tab-pane fade">
+                                                                <div class="crop">
+                                                                    <table class="table table-striped">
+                                                                        <thead>
+                                                                            <tr>
+
+                                                                                <th>Parametr</th>
+                                                                                <th>Dane</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <th>Drzewo</th>
+                                                                                <td>Link do drzewa  <a href="@dog.BreedArchiveUrl" target="_blank" class="btn btn-xs btn-success pull-right" data-placement="top" data-toggle="tooltip" data-original-title="Otwórz link w nowej zakładce"><i class="fa fa-arrow-right"></i> Przejdź do</a></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Ojciec</th>
+                                                                                <td>@dog.DogFatherName <a href="@dog.DogFatherUrl" target="_blank" class="btn btn-xs btn-primary pull-right" data-placement="top" data-toggle="tooltip" data-original-title="Otwórz link w nowej zakładce"><i class="fa fa-arrow-right"></i> Przejdź do</a></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Matka</th>
+                                                                                <td>@dog.DogMotherName <a href="@dog.DogMotherUrl" target="_blank" class="btn btn-xs btn-primary pull-right" data-placement="top" data-toggle="tooltip" data-original-title="Otwórz link w nowej zakładce"><i class="fa fa-arrow-right"></i> Przejdź do</a></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Hodowla ojca</th>
+                                                                                <td>@dog.DogFatherBreedName</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Hodowla matki</th>
+                                                                                <td>@dog.DogMotherBreedName</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Pochodzenie ojca</th>
+                                                                                <td>@dog.DogFatherCountry / @dog.DogFatherCity</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Pochodzenie matki</th>
+                                                                                <td>@dog.DogMotherCountry / @dog.DogMotherCity</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                            <!-- POCHODZENIE -->
+                                                            <div id="sectionC_@dog.Id" class="tab-pane fade">
+                                                                @{
+                                                                    var littersByDog = Model.litters.Where(l => l.DogId == dog.Id);
+
+                                                                }
+                                                                @if (littersByDog.Count() > 0)
+                                                                {
+                                                                    <div class="crop">
+                                                                        <table class="table table-striped">
+                                                                            <thead>
+                                                                                <tr>
+
+                                                                                    <th>Nazwa</th>
+                                                                                    <th>Ojciec</th>
+                                                                                    <th>Miot</th>
+                                                                                    <th>Narodziny</th>
+                                                                                    <th>Akcje</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                @foreach (var litter in littersByDog)
+                                                                                {
+                                                                                    <tr>
+                                                                                        <th><a href="@Url.Action("EditLitter","Kennel", new { id = litter.Id  })">@litter.LitterPresentationName</a></th>
+                                                                                        <td><a href="@litter.DogFatherLink" target="_blank" data-placement="top" data-toggle="tooltip" data-original-title="@litter.DogFather">@(litter.DogFather.Length > 5 ? litter.DogFather.Substring(0, 5) + "..." : litter.DogFather )</a></td>
+                                                                                        @*<td data-placement="top" data-toggle="tooltip" data-original-title="@litter.DogFather">@(litter.DogFather.Length > 5 ? litter.DogFather.Substring(0, 5) + "..." : litter.DogFather )</td>*@
+                                                                                        <td><i class="fa fa-female"></i> <b class="blue">@litter.FemaleCount</b>&nbsp;<i class="fa fa-male"></i> <b>@litter.MaleCount</b></td>
+                                                                                        <td>@litter.BornDate</td>
+                                                                                        <td>
+                                                                                            <a href="@Url.Action("EditLitter","Kennel", new { id = litter.Id  })" class="btn btn-xs btn-primary" data-toggle="tooltip" data-original-title="Zarządzaj"><i class="fa fa-edit"></i></a>
+                                                                                            <a href="#" class="btn btn-xs btn-danger" data-placement="top" data-toggle="tooltip" data-original-title="Usuń miot"><i class="fa fa-trash-o"></i></a>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                }
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <p>Nie dodano żadnego miotu.</p>
+                                                                }
+
+                                                                <div class="col-md-12">
+                                                                    <div class="btn-group">
+                                                                        <a href="@Url.Action("Litters","Kennel")" class="btn btn-sm btn-default"><i class="fa fa-arrow-right"></i> Mioty</a>
+                                                                        <a href="@Url.Action("Puppies","Kennel")" class="btn btn-sm btn-default"><i class="fa fa-arrow-right"></i> Szczenięta</a>
+                                                                        <a href="@Url.Action("AddLitter","Kennel", new { id = dog.Id })" class="btn btn-sm btn-primary" data-placement="top" data-toggle="tooltip" data-original-title="Dodaj miot"><i class="fa fa-plus"></i></a>
+                                                                        <a class="btn btn-sm btn-default" data-placement="top" data-toggle="tooltip" data-original-title="Statystyki"><i class="fa fa-line-chart"></i></a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        rowDivider++;
+                                    }
+                                </div>
+                                classActiveIdentifier++;
+
+                                /// psy na emeryturze
+                                <div class="col-lg-12 text-center"><h4><b>PSIA EMERYTURA</b></h4><hr /></div>
+                                rowDivider = 0;
+                                <div class="row">
+                                    @foreach (var dog in Model.dogs.Where(d => d.SpeciesId == breed.Id && d.IsRetired).OrderByDescending(d => d.BornDateDateTime))
+                                    {
+                                        if (rowDivider != 0 && rowDivider % 3 == 0)
+                                        {
+                                        @:</div>
+                                        @:<div class="row">
+                                        }
+
+                                        <div class="col-lg-4">
+                                            <div class="x_panel tile">
+                                                <div class="x_title">
+                                                    <h2><strong>@dog.DogName</strong><small>@dog.BreedName</small></h2>
+                                                    <ul class="nav navbar-right panel_toolbox">
+                                                        <li>
+                                                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                                        </li>
+                                                        <li class="dropdown">
+                                                            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                                            <ul class="dropdown-menu" role="menu">
+                                                                <li>
+                                                                    <a href="#"><i class="fa fa-eye"></i> Podgląd</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="@Url.Action("EditDog", "Kennel", new { id = dog.Id })"><i class="fa fa-edit"></i> Edycja</a>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="divider"></div>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="#"><i class="fa fa-hand-peace-o"></i> Dodaj miot</a>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="divider"></div>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="@Url.Action("RemoveDog", "Remove", new { id = dog.Id })"><i class="fa fa-remove"></i> <b class="red">Usuń bezpowrotnie zwierzę wraz z miotami i szczeniętami</b></a>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                        <li>
+                                                            <a class="close-link"><i class="fa fa-close"></i></a>
+                                                        </li>
+                                                    </ul>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                                <div class="x_content">
+                                                    <div class="col-lg-6">
+                                                        <a href="@Url.Action("EditDog", "Kennel", new { id = dog.Id })" data-placement="top" data-toggle="tooltip" data-original-title="Kliknij, by przejść do edycji"><img src="~/Dogs/@dog.BreedLink/@dog.DogLink/@dog.MainPicture" style="width:100%; border:3px solid silver;" /></a>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <h5><b>@dog.DogName</b><small> @dog.BreedName</small></h5>
+                                                        <h4>
+                                                            @if (string.IsNullOrEmpty(dog.DeathDate))
+                                                            {
+                                                                <small data-placement="top" data-toggle="tooltip" data-original-title="Data urodzenia"><i class="fa fa-heart red"></i> @dog.BornDate</small>
+                                                                <br /><small data-placement="top" data-toggle="tooltip" data-original-title="Czas życia"><i class="fa fa-heartbeat red"></i> @_age.HowOld(dog.BornDate, null)</small>
+                                                            }
+                                                            else
+                                                            {
+                                                                <small data-placement="top" data-toggle="tooltip" data-original-title="Data urodzenia"><i class="fa fa-heart red"></i> @dog.BornDate - @dog.DeathDate</small>
+                                                                <br /><small data-placement="top" data-toggle="tooltip" data-original-title="Czas życia"><i class="fa fa-heartbeat red"></i> @_age.HowOld(dog.BornDate, dog.DeathDate)</small>
+                                                            }
+                                                        </h4>
+                                                        <a href="@Url.Action("EditDog", "Kennel", new { id = dog.Id })" class="btn btn-xs btn-danger"><i class="fa fa-edit"></i> Edytuj</a>
+                                                        <a href="@Url.Action("Dog", "Home", new { dogLink = dog.DogLink })" class="btn btn-xs btn-success" target="_blank" data-placement="top" data-toggle="tooltip" data-original-title="Jeśli masz podłączoną witrynę, kliknij, aby zobaczyć wygląd psa w jej layoucie"><i class="fa fa-eye"></i> Podgląd na stronie</a>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <br />
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="bs-example">
+                                                            <ul class="nav small dashboard nav-tabs bar_tabs" id="myTab">
+                                                                <li class="active"><a style="padding:10px;" href="#sectionA_@dog.Id"><i class="fa fa-asterisk"></i> Podstawowe</a></li>
+                                                                <li><a style="padding:10px;" href="#sectionB_@dog.Id"><i class="fa fa-barcode"></i> Hodowlane</a></li>
+                                                                @if (dog.DogSex == false)
+                                                                {
+                                                                    <li><a style="padding:10px;" href="#sectionC_@dog.Id"><i class="fa fa-home"></i> <b>Mioty</b></a></li>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <li><a style="padding:10px;" href="#sectionC_@dog.Id"><i class="fa fa-home"></i> <b>Krycia</b></a></li>
+                                                                }
+                                                            </ul>
+                                                        </div>
+                                                        <!-- STANDARDOWE DANE -->
+                                                        <div class="tab-content">
+                                                            <div id="sectionA_@dog.Id" class="tab-pane fade in active">
+                                                                <div class="crop">
+                                                                    <table class="table table-striped">
+                                                                        <thead>
+                                                                            <tr>
+
+                                                                                <th>Parametr</th>
+                                                                                <th>Dane</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <th>Nazwa zwierzęcia</th>
+                                                                                <td>@dog.DogName</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Hodowla</th>
+                                                                                <td>@dog.BreedName <a href="https://www.google.com/search?as_q=@dog.BreedName" target="_blank" class="btn btn-xs btn-warning pull-right" data-placement="top" data-toggle="tooltip" data-original-title="Szukaj w Google"><i class="fa fa-arrow-right"></i> Google</a></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Umaszczenie</th>
+                                                                                <td>@dog.DogColour</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Płeć</th>
+                                                                                <td>@((dog.DogSex == false) ? "Suka" : "Pies")</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Umaszczenie</th>
+                                                                                <td>@dog.DogColour</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Wzrost (w kłębie)</th>
+                                                                                <td>@dog.Height</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Waga</th>
+                                                                                <td>@dog.Weight</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Hodowca</th>
+                                                                                <td>@dog.OwnerName</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Kontakt do hodowcy</th>
+                                                                                <td>@dog.OwnerContact <a href="mailto:@dog.OwnerContact" class="btn btn-xs btn-primary pull-right" data-placement="top" data-toggle="tooltip" data-original-title="Napisz wiadomość pod podany kontakt"><i class="fa fa-envelope"></i></a>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                            <!-- HODOWLANE -->
+                                                            <div id="sectionB_@dog.Id" class="tab-pane fade">
+                                                                <div class="crop">
+                                                                    <table class="table table-striped">
+                                                                        <thead>
+                                                                            <tr>
+
+                                                                                <th>Parametr</th>
+                                                                                <th>Dane</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <th>Drzewo</th>
+                                                                                <td>Link do drzewa  <a href="@dog.BreedArchiveUrl" target="_blank" class="btn btn-xs btn-success pull-right" data-placement="top" data-toggle="tooltip" data-original-title="Otwórz link w nowej zakładce"><i class="fa fa-arrow-right"></i> Przejdź do</a></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Ojciec</th>
+                                                                                <td>@dog.DogFatherName <a href="@dog.DogFatherUrl" target="_blank" class="btn btn-xs btn-primary pull-right" data-placement="top" data-toggle="tooltip" data-original-title="Otwórz link w nowej zakładce"><i class="fa fa-arrow-right"></i> Przejdź do</a></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Matka</th>
+                                                                                <td>@dog.DogMotherName <a href="@dog.DogMotherUrl" target="_blank" class="btn btn-xs btn-primary pull-right" data-placement="top" data-toggle="tooltip" data-original-title="Otwórz link w nowej zakładce"><i class="fa fa-arrow-right"></i> Przejdź do</a></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Hodowla ojca</th>
+                                                                                <td>@dog.DogFatherBreedName</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Hodowla matki</th>
+                                                                                <td>@dog.DogMotherBreedName</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Pochodzenie ojca</th>
+                                                                                <td>@dog.DogFatherCountry / @dog.DogFatherCity</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Pochodzenie matki</th>
+                                                                                <td>@dog.DogMotherCountry / @dog.DogMotherCity</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                            <!-- POCHODZENIE -->
+                                                            <div id="sectionC_@dog.Id" class="tab-pane fade">
+                                                                @{
+                                                                    var littersByDog = Model.litters.Where(l => l.DogId == dog.Id);
+
+                                                                }
+                                                                @if (littersByDog.Count() > 0)
+                                                                {
+                                                                    <div class="crop">
+                                                                        <table class="table table-striped">
+                                                                            <thead>
+                                                                                <tr>
+
+                                                                                    <th>Nazwa</th>
+                                                                                    <th>Ojciec</th>
+                                                                                    <th>Miot</th>
+                                                                                    <th>Narodziny</th>
+                                                                                    <th>Akcje</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                @foreach (var litter in littersByDog)
+                                                                                {
+                                                                                    <tr>
+                                                                                        <th><a href="@Url.Action("EditLitter","Kennel", new { id = litter.Id  })">@litter.LitterPresentationName</a></th>
+                                                                                        <td><a href="@litter.DogFatherLink" target="_blank" data-placement="top" data-toggle="tooltip" data-original-title="@litter.DogFather">@(litter.DogFather.Length > 5 ? litter.DogFather.Substring(0, 5) + "..." : litter.DogFather )</a></td>
+                                                                                        @*<td data-placement="top" data-toggle="tooltip" data-original-title="@litter.DogFather">@(litter.DogFather.Length > 5 ? litter.DogFather.Substring(0, 5) + "..." : litter.DogFather )</td>*@
+                                                                                        <td><i class="fa fa-female"></i> <b class="blue">@litter.FemaleCount</b>&nbsp;<i class="fa fa-male"></i> <b>@litter.MaleCount</b></td>
+                                                                                        <td>@litter.BornDate</td>
+                                                                                        <td>
+                                                                                            <a href="@Url.Action("EditLitter","Kennel", new { id = litter.Id  })" class="btn btn-xs btn-primary" data-toggle="tooltip" data-original-title="Zarządzaj"><i class="fa fa-edit"></i></a>
+                                                                                            <a href="#" class="btn btn-xs btn-danger" data-placement="top" data-toggle="tooltip" data-original-title="Usuń miot"><i class="fa fa-trash-o"></i></a>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                }
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <p>Nie dodano żadnego miotu.</p>
+                                                                }
+
+                                                                <div class="col-md-12">
+                                                                    <div class="btn-group">
+                                                                        <a href="@Url.Action("Litters","Kennel")" class="btn btn-sm btn-default"><i class="fa fa-arrow-right"></i> Mioty</a>
+                                                                        <a href="@Url.Action("Puppies","Kennel")" class="btn btn-sm btn-default"><i class="fa fa-arrow-right"></i> Szczenięta</a>
+                                                                        <a href="@Url.Action("AddLitter","Kennel", new { id = dog.Id })" class="btn btn-sm btn-primary" data-placement="top" data-toggle="tooltip" data-original-title="Dodaj miot"><i class="fa fa-plus"></i></a>
+                                                                        <a class="btn btn-sm btn-default" data-placement="top" data-toggle="tooltip" data-original-title="Statystyki"><i class="fa fa-line-chart"></i></a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        rowDivider++;
+                                    }
+                                </div>
+                                classActiveIdentifier++;
+
+                                /// WSPÓŁWŁASNOŚĆ
+                                /// psy na emeryturze
+                                <div class="col-lg-12 text-center"><h4><b>WSPÓŁWŁASNOŚĆ</b></h4><hr /></div>
+                                rowDivider = 0;
+                                <div class="row">
+                                    @foreach (var dog in Model.dogs.Where(d => d.SpeciesId == breed.Id && d.Coowner).OrderByDescending(d => d.BornDateDateTime))
+                                    {
+                                        if(Model.dogs.Where(d => d.SpeciesId == breed.Id && d.Coowner).OrderByDescending(d => d.BornDateDateTime).Count() < 1)
+                                        {
+                                            <p>Brak psów na współwłasność.</p>
+                                        }
+                                        if (rowDivider != 0 && rowDivider % 3 == 0)
+                                        {
+                                        @:</div>
+                                        @:<div class="row">
+                                        }
+
+                                        <div class="col-lg-4">
+                                            <div class="x_panel tile">
+                                                <div class="x_title">
+                                                    <h2><strong>@dog.DogName</strong><small>@dog.BreedName</small></h2>
+                                                    <ul class="nav navbar-right panel_toolbox">
+                                                        <li>
+                                                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                                        </li>
+                                                        <li class="dropdown">
+                                                            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                                            <ul class="dropdown-menu" role="menu">
+                                                                <li>
+                                                                    <a href="#"><i class="fa fa-eye"></i> Podgląd</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="@Url.Action("EditDog", "Kennel", new { id = dog.Id })"><i class="fa fa-edit"></i> Edycja</a>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="divider"></div>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="#"><i class="fa fa-hand-peace-o"></i> Dodaj miot</a>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="divider"></div>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="@Url.Action("RemoveDog", "Remove", new { id = dog.Id })"><i class="fa fa-remove"></i> <b class="red">Usuń bezpowrotnie zwierzę wraz z miotami i szczeniętami</b></a>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                        <li>
+                                                            <a class="close-link"><i class="fa fa-close"></i></a>
+                                                        </li>
+                                                    </ul>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                                <div class="x_content">
+                                                    <div class="col-lg-6">
+                                                        <a href="@Url.Action("EditDog", "Kennel", new { id = dog.Id })" data-placement="top" data-toggle="tooltip" data-original-title="Kliknij, by przejść do edycji"><img src="~/Dogs/@dog.BreedLink/@dog.DogLink/@dog.MainPicture" style="width:100%; border:3px solid silver;" /></a>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <h5><b>@dog.DogName</b><small> @dog.BreedName</small></h5>
+                                                        <h4>
+                                                            @if (string.IsNullOrEmpty(dog.DeathDate))
+                                                            {
+                                                                <small data-placement="top" data-toggle="tooltip" data-original-title="Data urodzenia"><i class="fa fa-heart red"></i> @dog.BornDate</small>
+                                                                <br /><small data-placement="top" data-toggle="tooltip" data-original-title="Czas życia"><i class="fa fa-heartbeat red"></i> @_age.HowOld(dog.BornDate, null)</small>
+                                                            }
+                                                            else
+                                                            {
+                                                                <small data-placement="top" data-toggle="tooltip" data-original-title="Data urodzenia"><i class="fa fa-heart red"></i> @dog.BornDate - @dog.DeathDate</small>
+                                                                <br /><small data-placement="top" data-toggle="tooltip" data-original-title="Czas życia"><i class="fa fa-heartbeat red"></i> @_age.HowOld(dog.BornDate, dog.DeathDate)</small>
+                                                            }
+                                                        </h4>
+                                                        <a href="@Url.Action("EditDog", "Kennel", new { id = dog.Id })" class="btn btn-xs btn-danger"><i class="fa fa-edit"></i> Edytuj</a>
+                                                        <a href="@Url.Action("Dog", "Home", new { dogLink = dog.DogLink })" class="btn btn-xs btn-success" target="_blank" data-placement="top" data-toggle="tooltip" data-original-title="Jeśli masz podłączoną witrynę, kliknij, aby zobaczyć wygląd psa w jej layoucie"><i class="fa fa-eye"></i> Podgląd na stronie</a>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <br />
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="bs-example">
+                                                            <ul class="nav small dashboard nav-tabs bar_tabs" id="myTab">
+                                                                <li class="active"><a style="padding:10px;" href="#sectionA_@dog.Id"><i class="fa fa-asterisk"></i> Podstawowe</a></li>
+                                                                <li><a style="padding:10px;" href="#sectionB_@dog.Id"><i class="fa fa-barcode"></i> Hodowlane</a></li>
+                                                                @if (dog.DogSex == false)
+                                                                {
+                                                                    <li><a style="padding:10px;" href="#sectionC_@dog.Id"><i class="fa fa-home"></i> <b>Mioty</b></a></li>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <li><a style="padding:10px;" href="#sectionC_@dog.Id"><i class="fa fa-home"></i> <b>Krycia</b></a></li>
+                                                                }
+                                                            </ul>
+                                                        </div>
+                                                        <!-- STANDARDOWE DANE -->
+                                                        <div class="tab-content">
+                                                            <div id="sectionA_@dog.Id" class="tab-pane fade in active">
+                                                                <div class="crop">
+                                                                    <table class="table table-striped">
+                                                                        <thead>
+                                                                            <tr>
+
+                                                                                <th>Parametr</th>
+                                                                                <th>Dane</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <th>Nazwa zwierzęcia</th>
+                                                                                <td>@dog.DogName</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Hodowla</th>
+                                                                                <td>@dog.BreedName <a href="https://www.google.com/search?as_q=@dog.BreedName" target="_blank" class="btn btn-xs btn-warning pull-right" data-placement="top" data-toggle="tooltip" data-original-title="Szukaj w Google"><i class="fa fa-arrow-right"></i> Google</a></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Umaszczenie</th>
+                                                                                <td>@dog.DogColour</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Płeć</th>
+                                                                                <td>@((dog.DogSex == false) ? "Suka" : "Pies")</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Umaszczenie</th>
+                                                                                <td>@dog.DogColour</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Wzrost (w kłębie)</th>
+                                                                                <td>@dog.Height</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Waga</th>
+                                                                                <td>@dog.Weight</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Hodowca</th>
+                                                                                <td>@dog.OwnerName</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Kontakt do hodowcy</th>
+                                                                                <td>@dog.OwnerContact <a href="mailto:@dog.OwnerContact" class="btn btn-xs btn-primary pull-right" data-placement="top" data-toggle="tooltip" data-original-title="Napisz wiadomość pod podany kontakt"><i class="fa fa-envelope"></i></a>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                            <!-- HODOWLANE -->
+                                                            <div id="sectionB_@dog.Id" class="tab-pane fade">
+                                                                <div class="crop">
+                                                                    <table class="table table-striped">
+                                                                        <thead>
+                                                                            <tr>
+
+                                                                                <th>Parametr</th>
+                                                                                <th>Dane</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <th>Drzewo</th>
+                                                                                <td>Link do drzewa  <a href="@dog.BreedArchiveUrl" target="_blank" class="btn btn-xs btn-success pull-right" data-placement="top" data-toggle="tooltip" data-original-title="Otwórz link w nowej zakładce"><i class="fa fa-arrow-right"></i> Przejdź do</a></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Ojciec</th>
+                                                                                <td>@dog.DogFatherName <a href="@dog.DogFatherUrl" target="_blank" class="btn btn-xs btn-primary pull-right" data-placement="top" data-toggle="tooltip" data-original-title="Otwórz link w nowej zakładce"><i class="fa fa-arrow-right"></i> Przejdź do</a></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Matka</th>
+                                                                                <td>@dog.DogMotherName <a href="@dog.DogMotherUrl" target="_blank" class="btn btn-xs btn-primary pull-right" data-placement="top" data-toggle="tooltip" data-original-title="Otwórz link w nowej zakładce"><i class="fa fa-arrow-right"></i> Przejdź do</a></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Hodowla ojca</th>
+                                                                                <td>@dog.DogFatherBreedName</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Hodowla matki</th>
+                                                                                <td>@dog.DogMotherBreedName</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Pochodzenie ojca</th>
+                                                                                <td>@dog.DogFatherCountry / @dog.DogFatherCity</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Pochodzenie matki</th>
+                                                                                <td>@dog.DogMotherCountry / @dog.DogMotherCity</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                            <!-- POCHODZENIE -->
+                                                            <div id="sectionC_@dog.Id" class="tab-pane fade">
+                                                                @{
+                                                                    var littersByDog = Model.litters.Where(l => l.DogId == dog.Id);
+
+                                                                }
+                                                                @if (littersByDog.Count() > 0)
+                                                                {
+                                                                    <div class="crop">
+                                                                        <table class="table table-striped">
+                                                                            <thead>
+                                                                                <tr>
+
+                                                                                    <th>Nazwa</th>
+                                                                                    <th>Ojciec</th>
+                                                                                    <th>Miot</th>
+                                                                                    <th>Narodziny</th>
+                                                                                    <th>Akcje</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                @foreach (var litter in littersByDog)
+                                                                                {
+                                                                                    <tr>
+                                                                                        <th><a href="@Url.Action("EditLitter","Kennel", new { id = litter.Id  })">@litter.LitterPresentationName</a></th>
+                                                                                        <td><a href="@litter.DogFatherLink" target="_blank" data-placement="top" data-toggle="tooltip" data-original-title="@litter.DogFather">@(litter.DogFather.Length > 5 ? litter.DogFather.Substring(0, 5) + "..." : litter.DogFather )</a></td>
+                                                                                        @*<td data-placement="top" data-toggle="tooltip" data-original-title="@litter.DogFather">@(litter.DogFather.Length > 5 ? litter.DogFather.Substring(0, 5) + "..." : litter.DogFather )</td>*@
+                                                                                        <td><i class="fa fa-female"></i> <b class="blue">@litter.FemaleCount</b>&nbsp;<i class="fa fa-male"></i> <b>@litter.MaleCount</b></td>
+                                                                                        <td>@litter.BornDate</td>
+                                                                                        <td>
+                                                                                            <a href="@Url.Action("EditLitter","Kennel", new { id = litter.Id  })" class="btn btn-xs btn-primary" data-toggle="tooltip" data-original-title="Zarządzaj"><i class="fa fa-edit"></i></a>
+                                                                                            <a href="#" class="btn btn-xs btn-danger" data-placement="top" data-toggle="tooltip" data-original-title="Usuń miot"><i class="fa fa-trash-o"></i></a>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                }
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <p>Nie dodano żadnego miotu.</p>
+                                                                }
+
+                                                                <div class="col-md-12">
+                                                                    <div class="btn-group">
+                                                                        <a href="@Url.Action("Litters","Kennel")" class="btn btn-sm btn-default"><i class="fa fa-arrow-right"></i> Mioty</a>
+                                                                        <a href="@Url.Action("Puppies","Kennel")" class="btn btn-sm btn-default"><i class="fa fa-arrow-right"></i> Szczenięta</a>
+                                                                        <a href="@Url.Action("AddLitter","Kennel", new { id = dog.Id })" class="btn btn-sm btn-primary" data-placement="top" data-toggle="tooltip" data-original-title="Dodaj miot"><i class="fa fa-plus"></i></a>
+                                                                        <a class="btn btn-sm btn-default" data-placement="top" data-toggle="tooltip" data-original-title="Statystyki"><i class="fa fa-line-chart"></i></a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        rowDivider++;
+                                    }
+                                </div>
+                                classActiveIdentifier++;
+                            }
+                        </div>
+                        }
+
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div> <!-- <== 25.11.2020 dodano -->
+
+    <script>
+        var TeamDetailPostBackURL = '/Admin/PreviewPost';
+        $(document).ready(function () {
+            $(document).on('click', "#help", function () {
+
+                $('#myModal').modal();
+
+            });
+        });
+    </script>
+
+    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" id="myModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h3 class="modal-title blue" id="myModalLabel"><i class="fa fa-question-circle"></i> Jak dodawać psy, szczenięta i mioty?</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <h4 class="blue"><i class="fa fa-first-order"></i> 1. Stwórz rasę</h4>
+                            <p>Od tego zaczyna się tworzenie hodowli - od wybrania rasy.</p>
+                            <p>Utwórz nową rasę, aby móc dodawać do niej kolejne zwierzęta.</p>
+                            <a class="btn btn-xs btn-danger" href="@Url.Action("AddBreed", "Kennel")"><i class="fa fa-pencil"></i> Okej, tworzę rasę!</a>
+                        </div>
+                        <div class="col-lg-3">
+                            <h4 class="blue"><i class="fa fa-paw"></i> 2. Dodaj zwierzę</h4>
+                            <p>Po utorzeniu rasy możesz dodać do niej zwierzę.</p>
+                            <p>Dzięki takiemu rozwiązaniu masz możliwość rozdzielenia zwierząt.</p>
+                        </div>
+                        <div class="col-lg-3">
+                            <h4 class="blue"><i class="fa fa-magic"></i> 3. Dodaj mioty</h4>
+                            <p>Majac już rasę i dodane zwierze, możesz dodać miot do zwierzęcia!</p>
+                            <p>Zachowana zostanie odpowiednia struktura danych i struktura plików na serwerze.</p>
+                        </div>
+                        <div class="col-lg-3">
+                            <h4 class="blue"><i class="fa fa-list"></i> 4. Dodaj szczenięta</h4>
+                            <p>Ostatnim krokiem jest dodanie szczeniąt do miotu.</p>
+                            <p>System dzięki temu dokładnie wie do której rasy, zwierzęcia i miotu należy szczenię.</p>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <hr />
+                            <h4 class="blue"><i class="fa fa-info"></i> Co dalej?</h4>
+                            <p>System jest w trakcie budowy.</p>
+                            <p>Niebawem pojawią się nowe funkcjonalności.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Rozumiem</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+

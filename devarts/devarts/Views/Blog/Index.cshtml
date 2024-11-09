@@ -1,0 +1,116 @@
+﻿@model PagedList.IPagedList<devarts.Models.PostWithMainImageUrl>
+@using PagedList.Mvc;
+
+<!-- PAGE TITLE SMALL -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="relative container align-left">
+            <div class="row">
+
+                <div class="col-md-8">
+                    <h1 class="page-title">BLOG</h1>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="breadcrumbs">
+                        <a href="index.html">GŁÓWNA</a><span class="slash-divider">/</span><span class="bread-current">BLOG</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- COTENT CONTAINER -->
+<div class="container p-140-cont">
+    <div class="row masonry">
+
+        <!-- Post Item -->
+        @{
+            int i = 0;
+        }
+
+        @foreach (var post in Model)
+        {
+            if (i != 0 && i % 2 == 0)
+            {
+            @:</div>
+            @:<div class="row">
+            }
+            <div class="col-sm-6 col-md-6 col-lg-6 pb-70">
+                <div class="post-prev-img">
+                    <a href="/Blog/Single"><img src="~/Posts/@post.PostLink/@post.mainImage" alt="img"></a>
+                </div>
+
+                <div class="post-prev-title">
+                    <h3><a href="/Blog/Single">@post.PostName</a></h3>
+                </div>
+
+                <div class="post-prev-info">
+                    @post.PostDate<span class="slash-divider">/</span><a href="http://themeforest.net/user/abcgomel/portfolio?ref=abcgomel">@post.AuthorName</a>
+                </div>
+
+                <div class="post-prev-text">
+                    @Html.Raw(post.PostContentShort)
+                </div>
+
+                <div class="post-prev-more-cont clearfix">
+                    <div class="post-prev-more left">
+                        <a href="blog-single-sidebar-right.html" class="blog-more">CZYTAJ</a>
+                    </div>
+                    <div class="right">
+                        <a><i class="fa fa-eye"></i> @post.PostShow</a>
+                        @*<a href="blog-single-sidebar-right.html#comments" class="post-prev-count"><span aria-hidden="true" class="icon_comment_alt"></span><span class="icon-count">21</span></a>
+                            <a href="http://themeforest.net/user/abcgomel/portfolio?ref=abcgomel" class="post-prev-count"><span aria-hidden="true" class="icon_heart_alt"></span><span class="icon-count">53</span></a>*@
+                        <a href="#" class="post-prev-count dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <span aria-hidden="true" class="social_share"></span>
+                        </a>
+                        <ul class="social-menu dropdown-menu dropdown-menu-right" role="menu">
+                            <li>
+                                <a href="#"><span aria-hidden="true" class="social_facebook"></span></a>
+                            </li>
+                            <li><a href="#"><span aria-hidden="true" class="social_twitter"></span></a></li>
+                            <li><a href="#"><span aria-hidden="true" class="social_dribbble"></span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            i++;
+        }
+    </div>
+
+    <!-- PAGINATION -->
+    <div class="mt-0">
+        <nav class="blog-pag text-center">
+            <hr />
+            <ul class="pagination m-0">
+                <li>@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))</li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<!-- NEWS LETTER -->
+<div class="page-section nl-cont">
+    <div class="container">
+        <div class="relative">
+            <div id="mc_embed_signup" class="nl-form-container clearfix">
+                <form action="http://abcgomel.us9.list-manage.com/subscribe/post-json?u=ba37086d08bdc9f56f3592af0&amp;id=e38247f7cc&amp;c=?" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="newsletterform validate" target="_blank" novalidate>
+                    <!-- EDIT THIS ACTION URL (add "post-json?u" instead of "post?u" and appended "&amp;c=?" to the end of this URL) -->
+                    <input type="email" value="" name="EMAIL" class="email nl-email-input" id="mce-EMAIL" placeholder="Podaj swój e-mail" required>
+                    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                    <div style="position: absolute; left: -5000px;"><input type="text" name="b_ba37086d08bdc9f56f3592af0_e38247f7cc" tabindex="-1" value=""></div>
+
+                    <input type="submit" value="SUBSKRYBUJ" name="subscribe" id="mc-embedded-subscribe" class="button medium gray">
+                </form>
+                <div id="notification_container"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- BACK TO TOP -->
+<p id="back-top">
+    <a href="#top" title="Back to Top"><span class="icon icon-arrows-up"></span></a>
+</p>

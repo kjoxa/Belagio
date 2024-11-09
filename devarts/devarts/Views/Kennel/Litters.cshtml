@@ -1,0 +1,125 @@
+﻿@Scripts.Render("~/bundles/jquery")
+@Styles.Render("~/Content/font-awesome.css")
+
+@Styles.Render("~/Content/DataTables")
+@Scripts.Render("~/Scripts/KennelDataTables")
+
+<script>
+    function passwordChange() {
+        $(document).ready(function () {
+            $("#pswdFrm").modal('show');
+        });
+    };
+
+    $("#closbtn").click(function () {
+        $('#myModal').modal('hide');
+    });
+
+    function newAlert(type, title, message) {
+        $("#alert-area").css("display", "none");
+        $("#alert-area").html($("<br><br><div class='alert-message alert alert-" + type + " fade in'>" + '<button type="button" class="close" data-dismiss="alert">&times;</button><strong>' + title + '</strong> ' + message + "</div>"));
+        $("#alert-area").fadeIn();
+        $(".alert-message").delay(3000).fadeOut("slow", function () { $(this).remove(); });
+    }
+
+    $(document).ready(function () {
+        $("#btnRemoveStatistics").click(function () {
+            var table = $('#statisticDataTable').DataTable();
+            $.ajax(
+                {
+                    type: "GET",
+                    url: "/Admin/RemoveStatisticRecords"// Controller/View
+                    //data: { //Passing data
+                    //    //Reading text box values using Jquery
+                    //    Line: $("#txtLine").val(),
+                    //    Supplier: $("#txtSupplier").val()
+                    //}
+                }).success(function () {
+                    table.ajax.reload();
+                    newAlert('success', 'Sukces', 'Lista odwiedzin została skasowana.');
+                }).error(function () {
+                    table.ajax.reload();
+                    newAlert('danger', 'Błąd', 'Coś poszło nie tak.');
+                });
+        });
+
+        $("#btnRemoveTracing").click(function () {
+            var table = $('#tracingDataTable').DataTable();
+            $.ajax(
+                {
+                    type: "GET",
+                    url: "/Admin/RemoveTracingRecords"// Controller/View
+                    //data: { //Passing data
+                    //    //Reading text box values using Jquery
+                    //    Line: $("#txtLine").val(),
+                    //    Supplier: $("#txtSupplier").val()
+                    //}
+                }).success(function () {
+                    table.ajax.reload();
+                    newAlert('success', 'Sukces', 'Lista tras użytkowników została wyczyszczona.');
+                }).error(function () {
+                    table.ajax.reload();
+                    newAlert('danger', 'Błąd', 'Coś poszło nie tak.');
+                });
+        });
+    });
+</script>
+
+<style>
+    /*styl pozycjonujący rodzaj urządzenia*/
+    .dt-body-center {
+        text-align: center;
+    }
+
+    #alert-area {
+        display: none;
+    }
+</style>
+<br />
+<div id="alert-area"></div>
+<div id="alerts">
+</div>
+<div class="row">
+    <div class="container">
+        <br />
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="x_panel">
+                    <ol class="breadcrumb">
+                        <li>
+                            @Html.ActionLink("Strona Główna", "Index", "Home")
+                        </li>
+                        <li>
+                            <a href="~/Admin/AdminPanel">Panel administratora</a>
+                        </li>
+                        <li>
+                            <a href="~/Kennel/Index">Hodowla</a>
+                        </li>
+                        <li>
+                            <a href="~/Kennel/Litters">Mioty</a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="x_panel">
+        <div class="x_title">
+            <h1>@ViewBag.siteName <small>@ViewBag.ownerFirstName @ViewBag.OwnerSurName</small></h1>
+            <h5><strong>@ViewBag.devaArtsCMS</strong></h5>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <h3>Mioty hodowli</h3>
+            <p>Zarządzanie miotami i szczeniętami przypisanymi do hodowli.</p>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    @Html.Partial("_littersView")
+</div>

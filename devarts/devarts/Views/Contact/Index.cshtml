@@ -1,0 +1,16 @@
+﻿@model devarts.Models.Contact
+
+@section metatags
+{
+    <meta property="og:title" content="Belagio - Hodowla Hiszpańskich Psów Dowodnych">
+    <meta property="og:image" content="https://www.spanishwaterdog.pl/Web/images/belagio/facebook_thumb.jpg">
+    <meta property="og:url" content="https://www.spanishwaterdog.pl/Contact/Index/">
+    <meta property="og:description" content="Formularz kontaktowy">
+    <meta property="og:type" content="article">
+    <meta name="robots" content="noodp">
+}
+
+@Html.Partial("~/Views/Contact/Send.cshtml", Model)
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

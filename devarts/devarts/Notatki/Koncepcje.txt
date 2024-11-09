@@ -1,0 +1,60 @@
+﻿1. SAMODZIELNA ZMIANA ZDJĘĆ W CAROUSELU
+Może nie powinno ograniczać się to do karuzela, ale ogólnie do Layoutu?
+
+# sprawdzenie w czy Razor da radę renderować carousela w danym przypadku
+
+- klasa modelu danych
+- baza danych {Id, FileName, CreateDate}
+- wrzucenie tego do AdminRepository lub WebRepository (stworzenie)
+
+----
+
+- stworzenie pozycji w menu
+- stworzenie interfejsu do dodawania i usuwania zdjęć z karouzela
+- wymyślenie ścieżki do zapisywanych zdjęć z carousela
+- stworzenie metody w WebApiController do uploadu
+
+2. Panel Główny
+
+- emerytowane/sterylizowane (retired) żeby były jakoś zaznaczane, np. na końcu listy po jakimś hr-ze
+- psy zmarłe (na sam koniec listy psów)
+
+3. Szczenięta (na potrzeby kontaktu)
+
+- Imię i nazwisko
+- Telefon
+- Email
+- Facebook
+- PDF z umową
+- Czy poszedł do Hodowli / na Kolanko
+- Imię domowe psa
+- Licencja coursingowa
+- Ewenetualna możliwość wysłania maila do danej grupy (kontakt@supercharty.pl)
+
+4. Formularz rezerwacji szczenięcia
+- Imię
+- Nazwisko
+- Adres (Kraj, miejscowość)
+- Email
+- Nr. Tel
+- Rasa
+- Płeć (suka/pies/nieistotne)
+- Umaszczenie (błękitny, izabelowaty, czarny, nieistotne)
+- Poziom energii szczenięcia (niski, średni, wysoki, nieistotne)
+- Wielkość (mały, średni, większy, bubowaty, nieistotne)
+- Hodowla/Wystawy - nie hodowla/Pet
+- Wyścigi: Coursing/Tor
+- Agility (sprawność, jak lampart)
+- Preferowana matka (opcjonalnie)
+- Preferowany ojciec (opcjonalnie)
+- Na kiedy gotowość na odbiór (miesiąc, kwartał, pół roku, rok, więcej, nieistotne)
+- Uwagi klienta
+- Małe dzieci i inne zwierzęta (i jakie)
+- Alergie
+
+- Notatki własne
+- Status płatności (backend)
+- Data dodania
+- Dostawa (backend)
+
+[ ] - zgoda na przetwarzanie danych osobowych

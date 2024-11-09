@@ -1,0 +1,402 @@
+﻿@model devarts.Models.Tree
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/fileUpload")
+@Scripts.Render("~/bundles/devarts")
+@Styles.Render("~/Content/font-awesome.css")
+@Styles.Render("~/Content/css")
+
+<style>
+    .tooltip-inner{
+        white-space:break-spaces;
+    }
+    #wrapper {
+        position: relative;
+    }
+
+    .family-tree {
+        position: relative;
+        margin-left: 250px;
+    }
+
+        .family-tree:before {
+            content: "";
+            width: 50px;
+            border-top: 2px solid #817d7d;
+            position: absolute;
+            left: -100px;
+            top: 50%;
+            margin-top: 1px;
+        }
+
+    .entry {
+        position: relative;
+        min-height: 60px;
+    }
+
+        .entry:before {
+            content: "";
+            height: 100%;
+            border-left: 2px solid #817d7d;
+            position: absolute;
+            left: -50px;
+        }
+
+        .entry:after {
+            content: "";
+            width: 50px;
+            border-top: 2px solid #817d7d;
+            position: absolute;
+            left: -50px;
+            top: 50%;
+            margin-top: 1px;
+        }
+
+        .entry:first-child:before {
+            width: 10px;
+            height: 50%;
+            top: 50%;
+            margin-top: 2px;
+            border-radius: 1px 0 0 0;
+        }
+
+        .entry:first-child:after {
+            height: 10px;
+            border-radius: 1px 0 0 0;
+        }
+
+        .entry:last-child:before {
+            width: 10px;
+            height: 50%;
+            border-radius: 0 0 0 1px;
+        }
+
+        .entry:last-child:after {
+            height: 10px;
+            border-top: none;
+            border-bottom: 2px solid #817d7d;
+            border-radius: 0 0 0 1px;
+            margin-top: -9px;
+        }
+
+        .entry.sole:before {
+            display: none;
+        }
+
+        .entry.sole:after {
+            width: 50px;
+            height: 0;
+            margin-top: 1px;
+            border-radius: 0;
+        }
+
+    .label {
+        white-space: break-spaces;
+        display: block;
+        min-width: 150px;
+        max-width: 150px;
+        padding: 5px 10px;
+        line-height: 20px;
+        text-align: center;
+        border: 2px solid #545454;
+        border-radius: 2px;
+        background: #2e2d2d;
+        position: absolute;
+        left: 0;
+        top: 50%;
+        font-size: 10px;
+        margin-top: -27px;
+        color: #FFF;
+    }
+
+        .label:hover, .label a:hover {
+            color: #FFF !important;
+            background: #080808;
+        }
+    .validate{
+        color:red;
+    }
+
+    span{
+        cursor:pointer
+    }
+</style>
+
+<div class="x_panel">
+    <div class="x_title">
+        <h2>
+            <strong>@Model.LitterLink</strong>
+            <br />
+            <br />
+            Edycja<small>drzewa genealogicznego miotu</small>
+        </h2>
+        <div class="clearfix"></div>
+    </div>
+    <div class="x_content">
+        <br>
+        <div class="row">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-8 text-center">
+                <div id="wrapper">
+                    <!--PIES W HODOWLI-->
+                    <a href="javascript:void(0);" class="label editBox" id="DogTreeBox" data-element-name="DogTreeBox" data-id=@Model.Id
+                       data-box-text="@Model.DogTreeBox" data-box-tooltip="@Model.DogTreeTooltip" data-box-picture="@Model.DogTreeTooltip_Image" data-toggle="tooltip" data-html="true"
+                       title="<br><img style='width:150px' src='@Model.DogTreeTooltip_Image'><br>@Model.DogTreeTooltip">@Html.Raw(Model.DogTreeBox)</a>
+                    <div class="family-tree">
+                        <div class="entry">
+                            <!--OJCIEC A1-->
+                            <span class="label editBox" id="A_DogTreeBox_Father_1" data-element-name="A_DogTreeBox_Father_1" data-id=@Model.Id
+                                  data-box-text="@Model.A_DogTreeBox_Father_1" data-box-tooltip="@Model.A_DogTreeTooltip_Father_1" data-box-picture="@Model.A_DogTreeImage_Father_1" data-toggle="tooltip" data-html="true"
+                                  title="<br><img style='width:150px' src='@Model.A_DogTreeImage_Father_1'><br>@Model.A_DogTreeTooltip_Father_1">@Html.Raw(Model.A_DogTreeBox_Father_1)</span>
+                            <div class="family-tree">
+                                <div class="entry">
+                                    <!--DZIADEK B3-->
+                                    <span class="label editBox" id="B_DogTreeBox_Father_3" data-element-name="B_DogTreeBox_Father_3" data-id=@Model.Id
+                                          data-box-text="@Model.B_DogTreeBox_Father_3" data-box-tooltip="@Model.B_DogTreeTooltip_Father_3" data-box-picture="@Model.B_DogTreeImage_Father_3" data-toggle="tooltip" data-html="true"
+                                          title="<br><img style='width:150px' src='@Model.B_DogTreeImage_Father_3'><br>@Model.B_DogTreeTooltip_Father_3">@Model.B_DogTreeBox_Father_3</span>
+                                        <div class="family-tree">
+                                            <!--PRADZIADEK C7-->
+                                            <div class="entry">                                                
+                                                <span class="label editBox" id="C_DogTreeBox_Father_7" data-element-name="C_DogTreeBox_Father_7" data-id=@Model.Id
+                                                      data-box-text="@Model.C_DogTreeBox_Father_7" data-box-tooltip="@Model.C_DogTreeTooltip_Father_7" data-box-picture="@Model.C_DogTreeImage_Father_7" data-toggle="tooltip" data-html="true"
+                                                      title="<br><img style='width:150px' src='@Model.C_DogTreeImage_Father_7'><br>@Model.C_DogTreeTooltip_Father_7">@Model.C_DogTreeBox_Father_7</span></div>
+                                                <!--PRABABCIA C8-->
+                                            <div class="entry">
+                                                <span class="label editBox" id="C_DogTreeBox_Mother_8" data-element-name="C_DogTreeBox_Mother_8" data-id=@Model.Id
+                                                      data-box-text="@Model.C_DogTreeBox_Mother_8" data-box-tooltip="@Model.C_DogTreeTooltip_Mother_8" data-box-picture="@Model.C_DogTreeImage_Mother_8" data-toggle="tooltip" data-html="true"
+                                                      title="<br><img style='width:150px' src='@Model.C_DogTreeImage_Father_7'><br>@Model.C_DogTreeTooltip_Father_7">@Model.C_DogTreeBox_Father_7</span></div>
+                                        </div>
+                                </div>
+                                <div class="entry">
+                                    <!--BABCIA B4-->
+                                    <span class="label editBox" id="B_DogTreeBox_Mother_4" data-element-name="B_DogTreeBox_Mother_4" data-id=@Model.Id
+                                          data-box-text="@Model.B_DogTreeBox_Mother_4" data-box-tooltip="@Model.B_DogTreeTooltip_Mother_4" data-box-picture="@Model.B_DogTreeImage_Mother_4" data-toggle="tooltip" data-html="true"
+                                          title="<br><img style='width:150px' src='@Model.B_DogTreeImage_Mother_4'><br>@Model.B_DogTreeTooltip_Mother_4">@Model.B_DogTreeBox_Mother_4</span>
+                                    <div class="family-tree">
+                                        <!--PRADZIADEK C9-->
+                                        <div class="entry">
+                                            <span class="label editBox" id="C_DogTreeBox_Father_9" data-element-name="C_DogTreeBox_Father_9" data-id=@Model.Id
+                                                  data-box-text="@Model.C_DogTreeBox_Father_9" data-box-tooltip="@Model.C_DogTreeTooltip_Father_9" data-box-picture="@Model.C_DogTreeImage_Father_9" data-toggle="tooltip" data-html="true"
+                                                  title="<br><img style='width:150px' src='@Model.C_DogTreeImage_Father_9'><br>@Model.C_DogTreeTooltip_Father_9">@Model.C_DogTreeBox_Father_9</span></div>
+                                        <!--PRABABCIA C10-->
+                                        <div class="entry">
+                                            <span class="label editBox" id="C_DogTreeBox_Mother_10" data-element-name="C_DogTreeBox_Mother_10" data-id=@Model.Id
+                                                  data-box-text="@Model.C_DogTreeBox_Mother_10" data-box-tooltip="@Model.C_DogTreeTooltip_Mother_10" data-box-picture="@Model.C_DogTreeImage_Mother_10" data-toggle="tooltip" data-html="true"
+                                                  title="<br><img style='width:150px' src='@Model.C_DogTreeImage_Mother_10'><br>@Model.C_DogTreeTooltip_Mother_10">@Model.C_DogTreeBox_Mother_10</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="entry">
+                            <!--MATKA A2-->
+                            <span class="label editBox" id="A_DogTreeBox_Mother_2" data-element-name="A_DogTreeBox_Mother_2" data-id=@Model.Id
+                                  data-box-text="@Model.A_DogTreeBox_Mother_2" data-box-tooltip="@Model.A_DogTreeTooltip_Mother_2" data-box-picture="@Model.A_DogTreeImage_Mother_2" data-toggle="tooltip" data-html="true"
+                                  title="<br><img style='width:150px' src='@Model.A_DogTreeImage_Mother_2'><br>@Model.A_DogTreeTooltip_Mother_2">@Model.A_DogTreeBox_Mother_2</span>
+                                <div class="family-tree">
+                                    <div class="entry">
+                                        <!--DZIADEK B5-->
+                                        <span class="label editBox" id="B_DogTreeBox_Father_5" data-element-name="B_DogTreeBox_Father_5" data-id=@Model.Id
+                                              data-box-text="@Model.B_DogTreeBox_Father_5" data-box-tooltip="@Model.B_DogTreeTooltip_Father_5" data-box-picture="@Model.B_DogTreeImage_Father_5" data-toggle="tooltip" data-html="true"
+                                              title="<br><img style='width:150px' src='@Model.B_DogTreeImage_Father_5'><br>@Model.B_DogTreeTooltip_Father_5">@Model.B_DogTreeBox_Father_5</span>
+                                            <div class="family-tree">
+                                                <!--PRADZIADEK C13-->
+                                                    <div class="entry">
+                                                    <span class="label editBox" id="C_DogTreeBox_Father_13" data-element-name="C_DogTreeBox_Father_13" data-id=@Model.Id
+                                                              data-box-text="@Model.C_DogTreeBox_Father_13" data-box-tooltip="@Model.C_DogTreeTooltip_Father_13" data-box-picture="@Model.C_DogTreeImage_Father_13" data-toggle="tooltip" data-html="true"
+                                                              title="<br><img style='width:150px' src='@Model.C_DogTreeImage_Father_13'><br>@Model.C_DogTreeTooltip_Father_13">@Model.C_DogTreeBox_Father_13</span></div>
+                                                    <!--PRABABCIA C14-->
+                                                <div class="entry">
+                                                    <span class="label editBox" id="C_DogTreeBox_Mother_14" data-element-name="C_DogTreeBox_Mother_14" data-id=@Model.Id
+                                                          data-box-text="@Model.C_DogTreeBox_Mother_14" data-box-tooltip="@Model.C_DogTreeTooltip_Mother_14" data-box-picture="@Model.C_DogTreeImage_Mother_14" data-toggle="tooltip" data-html="true"
+                                                          title="<br><img style='width:150px' src='@Model.C_DogTreeImage_Mother_14'><br>@Model.C_DogTreeTooltip_Mother_14">@Model.C_DogTreeBox_Mother_14</span></div>
+                                                </div>
+                                            </div>
+                                            <div class="entry">
+                                                <!--BABCIA B6-->
+                                                <span class="label editBox" id="B_DogTreeBox_Mother_6" data-element-name="B_DogTreeBox_Mother_6" data-id=@Model.Id
+                                                      data-box-text="@Model.B_DogTreeBox_Mother_6" data-box-tooltip="@Model.B_DogTreeTooltip_Mother_6" data-box-picture="@Model.B_DogTreeImage_Mother_6" data-toggle="tooltip" data-html="true"
+                                                      title="<br><img style='width:150px' src='@Model.B_DogTreeImage_Mother_6'><br>@Model.B_DogTreeTooltip_Mother_6">@Model.B_DogTreeBox_Mother_6</span>
+                                                <div class="family-tree">
+                                                    <!--PRADZIADEK C9-->
+                                                    <div class="entry">
+                                                        <span class="label editBox" id="C_DogTreeBox_Father_11" data-element-name="C_DogTreeBox_Father_11" data-id=@Model.Id
+                                                              data-box-text="@Model.C_DogTreeBox_Father_11" data-box-tooltip="@Model.C_DogTreeTooltip_Father_11" data-box-picture="@Model.C_DogTreeImage_Father_11" data-toggle="tooltip" data-html="true"
+                                                              title="<br><img style='width:150px' src='@Model.C_DogTreeImage_Father_11'><br>@Model.C_DogTreeTooltip_Father_11">@Model.C_DogTreeBox_Father_11</span></div>
+                                                        <!--PRABABCIA C10-->
+                                                        <div class="entry">
+                                                            <span class="label editBox" id="C_DogTreeBox_Mother_12" data-element-name="C_DogTreeBox_Mother_12" data-id=@Model.Id
+                                                                  data-box-text="@Model.C_DogTreeBox_Mother_12" data-box-tooltip="@Model.C_DogTreeTooltip_Mother_12" data-box-picture="@Model.C_DogTreeImage_Mother_12" data-toggle="tooltip" data-html="true"
+                                                                  title="<br><img style='width:150px' src='@Model.C_DogTreeImage_Mother_12'><br>@Model.C_DogTreeTooltip_Mother_12">@Model.C_DogTreeBox_Mother_12</span></div>
+                                                </div>
+                                            </div>
+                                </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2"></div>
+            </div>
+        </div>
+    </div>
+
+<div id="editTree" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="modal-title" id="myModalLabel">
+                    <i class="fas fa-cubes"></i> Modyfikowanie
+                    <small>drzewa genealogicznego</small>
+                </h3>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+  
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="col-lg-12">
+                                <label>Opis w box-ie</label>
+                            </div>
+                            <div class="col-lg-12">
+                                <textarea rows="2" class="form-control" id="boxText" required></textarea>
+                                <label id="validateBoxText" class="validate hide"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <br />
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="col-lg-12">
+                                <label>Tekst w dymku po najechaniu kursorem</label>
+                            </div>
+                            <div class="col-lg-12">
+                                @*<button class="btn btn-xs btn-success">Wstaw odstęp</button>*@
+                                <textarea rows="3" class="form-control" id="boxTooltip" required></textarea>
+                                <label id="validateBoxTooltip" class="validate hide"></label>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <br />
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="col-lg-12">
+                                <label>Link do zdjęcia wyświetlanego w dymku</label>
+                            </div>
+                            <div class="col-lg-12">
+                                <input class="form-control" id="boxPicture" required />
+                                <label id="validateBoxPicture" class="validate hide"></label>
+                            </div>
+                        </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <input class="btn btn-primary" type="submit" value="Zapisz" id="saveBtn" disabled>
+                        <a href="#" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close"></i> Zamknij</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>    
+    var id = 0;
+    var elementName = "";
+    var boxTextVal = "";
+    var boxTooltipVal = "";
+    var boxPictureVal = "";
+
+    // kliknięcie jakiegoś box-a
+    $(document).on('click', ".editBox", function () {        
+        var $buttonClicked = $(this);
+        id = $buttonClicked.attr('data-id');
+        // pobieranie id elementu
+        elementName = $buttonClicked.attr('data-element-name');
+
+        var boxText = $buttonClicked.attr('data-box-text');
+        var boxTooltip = $buttonClicked.attr('data-box-tooltip');
+        var boxPicture = $buttonClicked.attr('data-box-picture');
+        $("#boxText").val(boxText);
+        $("#boxTooltip").val(boxTooltip);
+        $("#boxPicture").val(boxPicture);
+        boxTextVal = $("#boxText").val();
+        boxTooltipVal = $("#boxTooltip").val();
+        boxPictureVal = $("#boxPicture").val();
+        $('#editTree').modal('show');
+    });
+
+    // kliknięcie przycisku ZAPISU
+    $("#saveBtn").click(function () {
+        boxTextVal = $("#boxText").val();
+        boxTooltipVal = $("#boxTooltip").val();
+        boxPictureVal = $("#boxPicture").val();
+        $.ajax(
+            {
+                type: "GET",
+                url: "/Tree/UpdateLitterTree",
+                data: { "Id": id, "elementName": elementName, "boxText": boxTextVal, "boxTooltip": boxTooltipVal, "boxPicture": boxPictureVal }
+            }).success(function () {
+
+            }).error(function () {
+
+            });
+        $('#editTree').modal('hide');
+        $("#" + elementName).html(boxTextVal);
+        $("#" + elementName).attr('data-box-text', boxTextVal);
+        $("#" + elementName).attr('data-box-tooltip', boxTooltipVal);
+        $("#" + elementName).attr('data-original-title', '<br><img style="width:150px;" src="' + boxPictureVal + '"/><br>' + boxTooltipVal);
+        $("#" + elementName).attr('data-box-picture', boxPictureVal);
+    });
+
+    $("#modal").click(function () {
+        $('#editTree').modal('show');
+    });
+
+    $(document).ready(function () {
+        //$("#DogTreeBox").tooltip("show");
+        $("#boxText").keyup(function () {
+
+            // walidacja box-a
+            if ($("#boxText").val() != "" && $("#boxText").val() != null) {
+                $("#validateBoxText").addClass("hide");
+                $("#validateBoxText").html("");
+                $("#saveBtn").removeAttr("disabled");
+            } else {
+                $("#validateBoxText").removeClass("hide");
+                $("#validateBoxText").html("To pole nie może być puste!");
+                $("#saveBtn").prop("disabled", true);
+            }   
+        });  
+
+        $("#boxTooltip").keyup(function () {
+
+            // walidacja title-a
+            if ($("#boxTooltip").val() != "" && $("#boxTooltip").val() != null) {
+                $("#validateBoxTooltip").addClass("hide");
+                $("#validateBoxTooltip").html("");
+                $("#saveBtn").removeAttr("disabled");
+            } else {
+                $("#validateBoxTooltip").removeClass("hide");
+                $("#validateBoxTooltip").html("To pole nie może być puste!");
+                $("#saveBtn").prop("disabled", true);
+            }
+        });     
+
+        $("#boxPicture").keyup(function () {
+
+            // walidacja picture-a
+            if ($("#boxPicture").val() != "" && $("#boxPicture").val() != null) {
+                $("#validateBoxPicture").addClass("hide");
+                $("#validateBoxPicture").html("");
+                $("#saveBtn").removeAttr("disabled");
+            } else {
+                $("#validateBoxPicture").removeClass("hide");
+                $("#validateBoxPicture").html("To pole nie może być puste!");
+                $("#saveBtn").prop("disabled", true);
+            }
+        });     
+    });
+</script>

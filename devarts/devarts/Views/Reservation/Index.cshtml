@@ -1,0 +1,90 @@
+﻿@Styles.Render("~/Content/css")
+@Styles.Render("~/Content/DataTables")
+@Styles.Render("~/Content/font-awesome.css")
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/ajaxuntro")
+@Scripts.Render("~/Scripts/AssistantDataTables")
+@Scripts.Render("~/bundles/devarts")
+
+<style>
+    .pbtitle {
+        padding: 0 !important;
+    }
+
+    .gainsboroClass {
+        background-color: gainsboro;
+    }
+</style>
+
+<br />
+<div id="alert-area"></div>
+<div id="alerts">
+</div>
+
+<div class="row">
+    <div class="container">
+        <br />
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="x_panel">
+                    <ol class="breadcrumb">
+                        <li>
+                            @Html.ActionLink("Strona Główna", "Index", "Home")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Panel Administratora", "Index", "Admin")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Asystent Hodowli", "Index", "Admin")
+                        </li>
+                        <li>
+                            <a href="~/Admin/AdminPanel">Rezerwacje szczeniąt</a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="x_panel">
+        <div class="x_title">
+            <h1>@ViewBag.siteName <small>@ViewBag.ownerFirstName @ViewBag.OwnerSurName</small></h1>
+            <h5><strong>@ViewBag.devaArtsCMS</strong></h5>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <h3>Rezerwacje szczeniąt</h3>
+            <p>Moduł zarządzania rezerwacjami szczeniąt<br /><small>Rezerwacje klientów na szczenięta w hodowli.</small></p>
+            <div class="col-lg-12">
+                <hr />
+                <a href="javaScript:void(0)" class="btn btn-app" id="newPosition"><span class="badge bg-dark-alfa-40"></span><i class="fa fa-paw"></i><b>Dodaj...</b></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        @Html.Partial("_reservationsView")
+    </div>
+</div>
+
+<div id="addReservationModal" class="modal fade">
+    @Html.Partial("_addReservation")
+</div>
+
+<div id="editReservationModal" class="modal fade">
+    <div id='editReservationModalContent'>
+        @Html.Partial("_editReservation")
+    </div>
+</div>
+
+<div id="sendEmailModal" class="modal fade">
+    <div id='sendEmailModalContent'>
+        @Html.Partial("_sendEmail")
+    </div>
+</div>
+
+<script type="text/javascript" src="~/ViewsJS/Reservation/Reservation.js"></script>

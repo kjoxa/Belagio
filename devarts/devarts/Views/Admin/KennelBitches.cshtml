@@ -1,0 +1,75 @@
+﻿@Scripts.Render("~/bundles/jquery")
+@Styles.Render("~/Content/font-awesome.css")
+
+@Styles.Render("~/Content/DataTables")
+@Scripts.Render("~/Scripts/KennelDataTables")
+<script src="~/GentelellaAlelaTemplate/vendors/Chart.js/dist/Chart.js" type="text/javascript"></script>
+<div class="row">
+    <div class="container">
+        <br />
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="x_panel">
+                    <ol class="breadcrumb">
+                        <li>
+                            @Html.ActionLink("Strona Główna", "Index", "Home")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Panel Administratora", "Index", "Admin")
+                        </li>
+                        <li>
+                            <a href="~/Admin/AdminPanel">Cieczki</a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*<div class="row">
+    @Html.Partial("_bitchesView")
+</div>*@
+
+<div class="row">
+    <div class="col-md-4">
+        @{
+            const string Canvas = "Cieczki";
+            var complexChart = new LineChart();
+            var data = new FakeComplexChartData();
+            complexChart.ComplexData.Labels.AddRange(data.Labels);
+            complexChart.ComplexData.Datasets.AddRange(data.Datasets);
+        }
+        <h3>@Canvas</h3>
+        <canvas id="@Canvas" width="400" height="400"></canvas>
+        @Html.CreateChart(Canvas, complexChart)
+    </div>
+
+    <div class="col-md-4">
+        @{
+            const string CanvasB = "Wiek";
+            var complexChartB = new BarChart();
+            //var data = new FakeComplexChartData();
+            complexChartB.ComplexData.Labels.AddRange(data.Labels);
+            complexChartB.ComplexData.Datasets.AddRange(data.Datasets);
+        }
+        <h3>Wiek psów w hodowli</h3>
+        <canvas id="@CanvasB" width="400" height="400"></canvas>
+        @Html.CreateChart(CanvasB, complexChartB)
+    </div>
+
+    @*<div class="col-md-4">
+        @{
+            const string CanvasR = "Diagram";
+            var complexChartR = new RadarChart();
+            //var data = new FakeComplexChartData();
+            complexChartR.ComplexData.Labels.AddRange(data.Labels);
+            complexChartR.ComplexData.Datasets.AddRange(data.Datasets);
+        }
+        <h3>@CanvasR</h3>
+        <canvas id="@CanvasR" width="400" height="400"></canvas>
+        @Html.CreateChart(CanvasR, complexChartR)
+    </div>*@
+</div>
+

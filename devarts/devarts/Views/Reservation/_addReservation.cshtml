@@ -1,0 +1,279 @@
+﻿@model devarts.Models.Reservation
+
+<style>
+    .control-label {
+        font-size: 11px;
+    }
+</style>
+
+<div class="modal-dialog" style="width:70%">
+    <div class="modal-content">
+        @using (Ajax.BeginForm("AddReservation", "Reservation", new AjaxOptions
+        {
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "patientList",
+            LoadingElementId = "loader",
+            OnSuccess = "OnSuccessOperations()",
+        }, new { Id = "AddReservationForm" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="modal-title" id="myModalLabel">
+                    <i class="fa fa-paw"></i> Dodawanie
+                    <small>nowej rezerwacji</small>
+                </h3>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12 form-horizontal">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                @Html.ValidationSummary()
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h4><i class="fa fa-check-circle green"></i> Podstawowe dane</h4>
+                                <hr />
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-lg-3" })
+                                    <div class="col-lg-9">
+                                        @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control", @tabindex = "1" })
+                                        @Html.ValidationMessageFor(model => model.FirstName)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label col-lg-3" })
+                                    <div class="col-lg-9">
+                                        @Html.TextBoxFor(model => model.Country, new { @class = "form-control", @tabindex = "3" })
+                                        @Html.ValidationMessageFor(model => model.Country)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-lg-3" })
+                                    <div class="col-lg-9">
+                                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @tabindex = "5" })
+                                        @Html.ValidationMessageFor(model => model.Email)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.SurName, htmlAttributes: new { @class = "control-label col-lg-3" })
+                                    <div class="col-lg-9">
+                                        @Html.TextBoxFor(model => model.SurName, new { @class = "form-control", @tabindex = "2" })
+                                        @Html.ValidationMessageFor(model => model.SurName)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-lg-3" })
+                                    <div class="col-lg-9">
+                                        @Html.TextBoxFor(model => model.City, new { @class = "form-control", @tabindex = "4" })
+                                        @Html.ValidationMessageFor(model => model.City)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label col-lg-3" })
+                                    <div class="col-lg-9">
+                                        @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control", @tabindex = "6" })
+                                        @Html.ValidationMessageFor(model => model.PhoneNumber)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h4><i class="fa fa-check-circle blue"></i> Dane szczenięcia</h4>
+                                <hr />
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Breed, htmlAttributes: new { @class = "control-label col-lg-3" })
+                                    <div class="col-lg-9">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                            @Html.DropDownListFor(m => Model.Breed, new SelectList(@ViewBag.DropdownBreed, "Value", "Text"), new { @class = "form-control", @tabindex = "7" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Breed)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Colour, htmlAttributes: new { @class = "control-label col-lg-3" })
+                                    <div class="col-lg-9">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                            @Html.DropDownListFor(m => Model.Colour, new SelectList(@ViewBag.DropdownColour, "Value", "Text"), new { @class = "form-control", @tabindex = "9" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Colour)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.DogSize, htmlAttributes: new { @class = "control-label col-lg-3" })
+                                    <div class="col-lg-9">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                            @Html.DropDownListFor(m => Model.DogSize, new SelectList(@ViewBag.PrefferedSize, "Value", "Text"), new { @class = "form-control", @tabindex = "11" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.DogSize)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.AdditionalResidents, htmlAttributes: new { @class = "control-label col-lg-3" })
+                                    <div class="col-lg-9">
+                                        @Html.TextBoxFor(model => model.AdditionalResidents, new { @class = "form-control", @tabindex = "13" })
+                                        @Html.ValidationMessageFor(model => model.AdditionalResidents)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.PreferredMother, htmlAttributes: new { @class = "control-label col-lg-3" })
+                                    <div class="col-lg-9">
+                                        @Html.TextBoxFor(model => model.PreferredMother, new { @class = "form-control", @tabindex = "15" })
+                                        @Html.ValidationMessageFor(model => model.PreferredMother)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Sex, htmlAttributes: new { @class = "control-label col-lg-3" })
+                                    <div class="col-lg-9">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                            @Html.DropDownListFor(m => Model.Sex, new SelectList(@ViewBag.DropdownSex, "Value", "Text"), new { @class = "form-control", @tabindex = "8" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Sex)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.EnergyLevel, htmlAttributes: new { @class = "control-label col-lg-3" })
+                                    <div class="col-lg-9">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                            @Html.DropDownListFor(m => Model.EnergyLevel, new SelectList(@ViewBag.PrefferedEnergyLevel, "Value", "Text"), new { @class = "form-control", @tabindex = "10" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.EnergyLevel)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ReadyToDog, htmlAttributes: new { @class = "control-label col-lg-3" })
+                                    <div class="col-lg-9">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                            @Html.DropDownListFor(m => Model.ReadyToDog, new SelectList(@ViewBag.ReadyForDog, "Value", "Text"), new { @class = "form-control", @tabindex = "12" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.ReadyToDog)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Alergies, htmlAttributes: new { @class = "control-label col-lg-3" })
+                                    <div class="col-lg-9">
+                                        @Html.TextBoxFor(model => model.Alergies, new { @class = "form-control", @tabindex = "14" })
+                                        @Html.ValidationMessageFor(model => model.Alergies)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.PreferredFather, htmlAttributes: new { @class = "control-label col-lg-3" })
+                                    <div class="col-lg-9">
+                                        @Html.TextBoxFor(model => model.PreferredFather, new { @class = "form-control", @tabindex = "16" })
+                                        @Html.ValidationMessageFor(model => model.PreferredFather)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <hr />
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="form-group" style="padding-left:10px">
+                                    <label>Przeznaczenie</label>
+                                    <br />
+                                    @Html.CheckBoxFor(model => model.DogForKennel, new { @class = "big-checkbox" })
+                                    <b>
+                                        @Html.LabelFor(model => model.DogForKennel, new { @class = "label-checkbox", @tabindex = "18" })
+                                    </b>
+                                    <br />
+                                    @Html.CheckBoxFor(model => model.DogForSport, new { @class = "big-checkbox", @tabindex = "19" })
+                                    <b>
+                                        @Html.LabelFor(model => model.DogForSport, new { @class = "label-checkbox" })
+                                    </b>
+                                </div>
+                            </div>
+                            <div class="col-lg-10">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ClientComments, htmlAttributes: new { @class = "text-center" })
+                                    <br />
+                                    <div class="col-lg-12">
+                                        @Html.TextAreaFor(model => model.ClientComments, new { @class = "form-control", @rows = "3", @tabindex = "17" })
+                                        @Html.ValidationMessageFor(model => model.ClientComments)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h4><i class="fa fa-check-circle red"></i> Moje pola <small>niewidoczne dla internautów</small></h4>
+                                <hr />
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Priority, htmlAttributes: new { @class = "control-label col-lg-3" })
+                                    <div class="col-lg-9">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                            @Html.DropDownListFor(m => Model.Priority, new SelectList(@ViewBag.PriorityLevel, "Value", "Text"), new { @class = "form-control", @tabindex = "20" })
+                                        </div>                                        
+                                        @Html.ValidationMessageFor(model => model.Priority)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.DeliveryMethod, htmlAttributes: new { @class = "control-label col-lg-3" })
+                                    <div class="col-lg-9">
+                                        @Html.TextBoxFor(model => model.DeliveryMethod, new { @class = "form-control", @tabindex = "22" })
+                                        @Html.ValidationMessageFor(model => model.DeliveryMethod)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.PaymentStatus, htmlAttributes: new { @class = "control-label col-lg-3" })
+                                    <div class="col-lg-9">
+                                        @Html.TextBoxFor(model => model.PaymentStatus, new { @class = "form-control", @tabindex = "21" })
+                                        @Html.ValidationMessageFor(model => model.PaymentStatus)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.BackendComments, htmlAttributes: new { @class = "control-label col-lg-3" })
+                                    <div class="col-lg-9">
+                                        @Html.TextBoxFor(model => model.BackendComments, new { @class = "form-control", @tabindex = "23" })
+                                        @Html.ValidationMessageFor(model => model.BackendComments)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <input class="btn btn-danger" type="submit" value="Zapisz">
+                        <a href="#" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close"></i> Zamknij</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script type="text/javascript">
+    (function ($) {
+        $.validator.unobtrusive.adapters.addBool("checkboxrequired", "required");
+    }(jQuery));
+</script>

@@ -1,0 +1,32 @@
+﻿@model devarts.Models.Post
+
+<div>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 class="modal-title" id="myModalLabel"><i class="fa fa-pencil-square-o"></i> @Model.PostName <small>@Model.AuthorName</small></h3>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-lg-12">
+                <a href="blog-single-sidebar-right.html"><img style="width:100%" src="~/Posts/@Model.PostLink/@Model.MainPicture" alt="img"></a>
+            </div>
+            <div class="col-lg-12">
+                <h5><i class="fa fa-calendar"></i> @Model.PostDate</h5>
+            </div>
+            <div class="col-lg-12">
+                <h2>@Html.Raw(Model.PostContentShort)</h2>
+                <hr />
+                <h2>@Html.Raw(Model.PostContent)</h2>
+            </div>
+        </div>        
+    </div>
+    <div class="modal-footer">
+        <div class="row">
+            <div class="col-lg-12">
+                <a href="@Url.Action("EditPost", "Admin", new { postLink = Model.PostLink })" class="btn btn-success"><i class="fa fa-edit"></i> Edytuj</a>
+                <a href="#" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close"></i> Zamknij</a>
+            </div>
+        </div>
+    </div>
+</div>
+

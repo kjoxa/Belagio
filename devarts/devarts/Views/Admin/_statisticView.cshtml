@@ -1,0 +1,95 @@
+﻿<div class="panel panel-default">
+    <div class="panel-heading">
+        <i class="fa fa-bar-chart-o fa-fw"></i> Wizyty na stronie
+        <div class="pull-right">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                    Czyszczenie
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu pull-right" role="menu">
+                    <li>
+                        <a id="btnRemoveStatistics"><i class="fa fa-remove"></i> Wyczyść listę odwiedzin strony</a>
+                    </li>
+                    <li>
+                        <a id="btnRemoveTracing"><i class="fa fa-remove"></i> Wyczyść listę kliknięć użytkowników</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div id="morris-area-chart"></div>
+
+        <!-- /.panel-body -->
+        <ul class="nav small dashboard nav-tabs" id="statisticTab">
+            @*
+            <li class="active"><a href="#sectionAA"><i class="glyphicon glyphicon-tag"></i> ZERO SEMESTER / PREPARATORY</a></li>*@
+            <li class="active"><a href="#sectionA"><i class="glyphicon glyphicon-import"></i> Wyświetlenia</a></li>
+            <li><a href="#sectionB"><i class="glyphicon glyphicon-export"></i> Kliknięcia</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="sectionA" class="tab-pane fade in active">
+                <table id="statisticDataTable" class="table small table-striped table-hover" width="100%" cellspacing="0">
+                    <tfoot>
+                        <tr>
+                            <th>Id</th>
+                            <th>Czas</th>
+                            <th>Adres IP</th>
+                            <th>Nazwa hosta</th>
+                            <th>Urządzenie</th>
+                            <th>Kontynent</th>
+                            <th>Kraj</th>
+                            <th>Długość Geo</th>
+                            <th>Szerokość Geo</th>
+                            <th>Akcje</th>
+                        </tr>
+                    </tfoot>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Czas</th>
+                            <th>Adres IP</th>
+                            <th>Nazwa hosta</th>
+                            <th>Urządzenie</th>
+                            <th>Kontynent</th>
+                            <th>Kraj</th>
+                            <th>Długość Geo</th>
+                            <th>Szerokość Geo</th>
+                            <th>Akcje</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div id="sectionB" class="tab-pane fade">
+                <table id="tracingDataTable" class="table small table-striped table-hover" style="width:100%">
+                    <tfoot>
+                        <tr>
+                            <th>Id</th>
+                            <th>Scieżka</th>
+                            <th>Hist i IP</th>
+                            <th>Czas</th>
+                            <th>Urządzenie</th>
+                        </tr>
+                    </tfoot>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Scieżka</th>
+                            <th>Hist i IP</th>
+                            <th>Czas</th>
+                            <th>Urządzenie</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        <h5>Łączna liczba odwiedzin: <span class="label label-primary">@ViewBag.CountOfViews</span></h5>
+    </div>
+</div>

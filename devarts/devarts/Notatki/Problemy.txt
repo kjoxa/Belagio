@@ -1,0 +1,6 @@
+﻿1. PODWÓJNIE DODAWANE REKORDY Z FORMULARZY
+
+ODP. Sprawdz czy takie coś nie jest dodane podwójnie w załadowanej stronie (np. z widoków częściowych)
+bundles.Add(new ScriptBundle("~/bundles/ajaxuntro").Include("~/Scripts/jquery.unobtrusive-ajax.js"));
+
+Jak będzie podwójnie, to będzie submitował oba formularze.

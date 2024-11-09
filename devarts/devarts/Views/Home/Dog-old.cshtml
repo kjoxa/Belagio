@@ -1,0 +1,372 @@
+﻿@model devarts.Models.DogWithImages
+
+@{
+    var Dog = Model.dog;
+}
+
+@section metatags
+{
+    <meta property="og:title" content="@Dog.DogName">
+    <meta property="og:image" content="@System.Web.Configuration.WebConfigurationManager.AppSettings["webDomainName"]/Posts/@Dog.BreedLink/@Dog.DogLink/@Dog.MainPicture">
+    <meta property="og:url" content="@System.Web.Configuration.WebConfigurationManager.AppSettings["webDomainName"]/Dog/@Dog.DogLink">
+    <meta property="og:description" content="@Html.Raw(Dog.DogPetName)">
+    <meta property="og:type" content="article">
+    <meta name="robots" content="noodp">
+    @Styles.Render("~/MAGallery/css")
+    @Scripts.Render("~/MAGallery/js")
+}
+
+<script src="@Url.Content("~/js/myscripts.js")"></script>
+<link href="@Url.Content("~/css/pedigreeViews.css")" rel="stylesheet" type="text/css" />
+
+<script>
+    $(document).ready(function () {
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    });
+</script>
+
+<div class="container">
+    <div class="row">
+        <div class="box">
+            <div class="col-lg-12">
+                <hr>
+                <h2 class="text-center orange"><i class="fa fa-paw"></i></h2>
+                <h2 class="intro-text text-center">
+                    <strong>@Dog.DogName</strong> @Dog.BreedName<br />
+                </h2>
+                <hr>
+            </div>
+            <div class="col-md-6">
+                <img alt="" src="/Dogs/@Dog.BreedLink/@Dog.DogLink/@Dog.MainPicture" class="img-responsive img-border-left">
+            </div>
+            <div class="col-md-6">
+                <h6>
+                    <strong>@Html.Raw(Dog.DegreeDescription)</strong>
+                </h6>
+
+                <h5>
+                    <i class="fa fa-heart gold"></i> @Dog.BornDate
+                    @{
+                        var _age = new AgeHelper();
+                    }
+                    @if (string.IsNullOrEmpty(Dog.DeathDate))
+                    {
+                        <br />
+                        <strong>@_age.HowOld(Dog.BornDate, null)</strong>
+                    }
+                    else
+                    {
+                        <br />
+                        <strong>@_age.HowOld(Dog.BornDate, Dog.DeathDate)</strong>
+                    }
+                </h5>
+                <br />
+                <h5><small>Hodowca / Breeder</small><br />@Dog.OwnerName</h5>
+                <h5><small>Ojciec / Father</small><br />@Dog.DogFatherName <strong>@Dog.DogFatherBreedName</strong></h5>
+                <h5><small>Matka / Mother</small><br />@Dog.DogMotherName <strong>@Dog.DogMotherBreedName</strong></h5>
+                <h5><small>Umaszczenie / Colour</small><br />@Dog.DogColour </h5>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a href="@Url.Action("EditDog", "Kennel", new { id = Dog.Id })" class="btn btn-default" target="_blank"><i class="fa fa-edit"></i> Edytuj</a>
+                }
+                <br />
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="box">
+            <div class="col-lg-12">
+                <div class="bs-example">
+                    <ul class="nav nav-tabs" id="myTab">
+                        <li class="active"><a style="padding:10px;" href="#images"><strong>ZDJĘCIA & OPIS</strong><br /><small>IMAGES & DESCRIPTION</small></a></li>
+                        <li><a style="padding:10px;" href="#degree"><strong>OSIĄGNIĘCIA</strong><br /><small>ACHIEVEMENTS</small></a></li>
+                        <li><a style="padding:10px;" href="#health"><strong>BADANIA</strong><br /><small>HEALTH</small></a></li>
+                        <li><a style="padding:10px;" href="#tree"><strong>DRZEWO GENEALOGICZNE</strong><br /><small>FAMILY TREE</small></a></li>
+                        <li><a style="padding:10px;" href="#litters"><strong>MIOTY</strong><br /><small>LITTERS</small></a></li>
+                        <li><a style="padding:10px;" href="#puppies"><strong>SZCZENIĘTA</strong><br /><small>PUPPIES</small></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="tab-content">
+                    <div id="images" class="tab-pane fade in active">
+                        <div class="crop">
+                            <div class="row">
+                                <div class="box-x">
+                                    <div class="col-lg-12">
+                                        <div class="col-lg-12">
+                                            @*<h2 class="text-center orange"><i class="fa fa-sticky-note"></i></h2>*@
+                                            <h2 class="intro-text text-center">
+                                                Opis <small>DESCRIPTION</small>
+                                            </h2>
+                                            <hr />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        @Html.Raw(Dog.DogDescription)
+                                        <br />
+                                    </div>
+                                </div>
+                                <div class="box-x">
+                                    <div class="col-lg-12">
+                                        @*<h2 class="text-center orange"><i class="fa fa-sticky-note"></i></h2>*@
+                                        <h2 class="intro-text text-center">
+                                            ZDJĘCIA <small>PHOTOS</small>
+                                        </h2>
+                                        <hr>
+                                    </div>
+                                    <div class="row" id="img-container">
+                                        <div class="box-x">
+                                            <ul id="myGallery" class="gallery col-xs-12">
+                                                @foreach (var photo in Model.images)
+                                                {
+                                                    @*<div class="col-lg-3 col-sm-4 col-xs-6"><a title="Image 1" href="#"><img class="thumbnail img-responsive" src="/Dogs/@Dog.BreedLink/@Dog.DogLink/@photo.ImageFileName"></a></div>*@
+                                                    <li class="col-xs-6 col-sm-3"><span><img src="/Dogs/@Dog.BreedLink/@Dog.DogLink/@photo.ImageFileName" /></span></li>
+                                                }
+                                            </ul>
+                                        </div>
+                                        <script type="text/javascript">
+                                            MAgallery("myGallery");
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="degree" class="tab-pane fade">
+                        <div class="crop">
+                            @Html.Raw(Dog.AchievementsDescription)
+                        </div>
+                    </div>
+                    <div id="health" class="tab-pane fade">
+                        <div class="crop">
+                            @Html.Raw(Dog.DogMedicalDescription)
+                        </div>
+                    </div>
+                    <div id="tree" class="tab-pane fade">
+                        <div class="crop">
+                            <div class="row">
+                                @*I pozycja*@
+
+                                <div class="box-x">
+
+                                    <div class="supercharty">
+
+                                        <div class="row">
+                                            @*<h2 class="text-center orange"><i class="fa fa-tree"></i></h2>*@
+                                            <h4 class="text-center">Drzewo genealogiczne<span class="under_flat"> FAMILY TREE</span></h4>
+                                            <h5 class="text-center">@Dog.DogName</h5>
+                                            <hr />
+                                            <div class="col-md-12 list text-center">
+                                                <div class="first" data-toggle="tooltip" data-html="true" title="<b>LEA<br> Z OCHOCZEJ</b><br><br>PL CH<br>Blue, POL 2012">
+                                                    <div class="inside_first">
+                                                        <p>Lea</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 list text-center">
+                                                <div class="vertical-one"></div>
+                                            </div>
+                                            <div class="col-md-12 list text-center">
+                                                <div class="first-line"></div>
+                                            </div>
+                                        </div>
+
+                                        @*II pozycja*@
+
+                                        <div class="row">
+                                            <div class="col-md-12 list text-center">
+                                                <div class="first" style="background-image:url('https://italiangreyhound.breedarchive.com/photo/download/5117')" data-toggle="tooltip" data-html="true" title="<b>LIONEL<br>FERRITE BUGSY</b><br><br>PL JCH, PL CH<br><br>Blue, CZE 2007">
+                                                    <div class="inside_first">
+                                                        <p>Lionel</p>
+                                                    </div>
+                                                </div>
+                                                <div class="first" style="background: none; height:0;">
+                                                </div>
+                                                <div class="first" style="background-image:url('https://italiangreyhound.breedarchive.com/photo/download/4527')" data-toggle="tooltip" data-html="true" title="<b>KEYSI<br>GORZOWSKA PANORAMA</b><br><br>PL JCH, PL CH<br><br>Blue, CZE 2006">
+                                                    <div class="inside_first">
+                                                        <p>Keysi</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 list" style="height:15px;">
+                                                <div class="vertical-two" style="margin-left:28.5%"></div>
+                                                <div class="vertical-two" style="margin-left:42.5%"></div>
+                                            </div>
+
+                                            <div class="col-md-12 list text-center">
+                                                <div class="second-line">
+                                                </div>
+                                                <div class="second-line" style="background: none; border:none; height:0;">
+                                                </div>
+                                                <div class="second-line">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        @*III pozycja*@
+
+                                        <div class="row">
+                                            <div class="col-md-12 list text-center">
+                                                <div class="first" style="background-image:url('https://italiangreyhound.breedarchive.com/photo/download/4224')" data-toggle="tooltip" data-html="true" title="<b>UNFORGETTABLE<br>DOGCASTLE</b><br><br>C.I.B., NORD CH, FI CH, LU CH, LV CH, EE CH, NO W 2000, NO W 2002, NORD W 2002<br><br>Blue, NOR 2006">
+                                                    <div class="inside_first">
+                                                        <p>Unforgettable</p>
+                                                    </div>
+                                                </div>
+                                                <div class="first" style="background-image:url('https://italiangreyhound.breedarchive.com/photo/download/4538')" data-toggle="tooltip" data-html="true" title="<b>HOLLY<br>DI BRANCO PICOLLO</b><br><br>C.I.B., CZ CH, CZ JCH, MK CH, SK CH, BG CH, BG GR CH<br><br>Blue, CZE 2002">
+                                                    <div class="inside_first">
+                                                        <p>Holly</p>
+                                                    </div>
+                                                </div>
+                                                <div class="first" style="background-image:url('https://italiangreyhound.breedarchive.com/photo/download/4636')" data-toggle="tooltip" data-html="true" title="<b>VITTORIO<br>VINCI LI SLAVIA</b><br><br>PL CH<br><br>Fawn, POL 2000">
+                                                    <div class="inside_first">
+                                                        <p>Vittorio</p>
+                                                    </div>
+                                                </div>
+                                                <div class="first" style="background-image:url('https://italiangreyhound.breedarchive.com/photo/download/12135')" data-toggle="tooltip" data-html="true" title="<b>DAISY<br>GORZOWSKA PANORAMA</b><br><br>Blue, POL">
+                                                    <div class="inside_first">
+                                                        <p>Daisy</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="col-lg-12 text-center">
+                                        <a href="https://italiangreyhound.breedarchive.com/animal/view/lea-z-ochoczej-f5b2bce7-1d85-43bf-a922-ce4aa9f7c9dd" target="_blank">Pełne drzewo genealogiczne <span class="under_flat"> Full family tree</span><br /> www.italiangreyhound.breedarchive.com</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="litters" class="tab-pane fade">
+                        <div class="crop">
+                            @if (!Model.dog.DogSex)
+                            {
+                                <div class="tab-block" id="tab-4">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <style>
+                                                .gold {
+                                                    color: #967d33
+                                                }
+                                            </style>
+                                            @if (Model.litters.Count() > 0)
+                                            {
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Nazwa<br /><small class="gold">Name</small></th>
+                                                            <th>Ojciec<br /><small class="gold">Father</small></th>
+                                                            <th>Szczenięta<br /><small class="gold">Description</small></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+
+
+                                                        @foreach (var litter in Model.litters)
+                                                        {
+                                                            <tr>
+                                                                <td>
+                                                                    <b><a href="@Url.Action("Litter", "Home", new { litterLink = litter.LitterLink })" target="_blank">@litter.LitterPresentationName</a></b>
+                                                                    @if (!Request.Browser.IsMobileDevice)
+                                                                    {
+                                                                        <img style="max-width:100px;" class="img-responsive" src="~/Litters/@litter.BreedLink/@litter.LitterLink/@litter.MainPicture" alt="@litter.LitterLink" />
+                                                                    }
+                                                                    <br />
+                                                                    <small><i class="fa fa-heart"></i> @litter.BornDate</small>
+                                                                    <br />
+                                                                    <b><b><i class='fa fa-mars'></i>@litter.MaleCount</b> <i class='fa fa-venus'></i>@litter.FemaleCount</b>
+
+                                                                </td>
+                                                                <td><a class="small" target="_blank" href="@litter.DogFatherLink">@litter.DogFather</a></td>
+                                                                <td>
+                                                                    @{
+                                                                        var _litterRepo = new devarts.Repositories.KennelRepository();
+                                                                        var puppies = _litterRepo.GetPuppiesByLitterLink(litter.LitterLink);
+                                                                        foreach (var puppy in puppies)
+                                                                        {
+                                                                            @(puppy.PuppySex == false ? Html.Raw("<b><i class='fa fa-venus'></i></b>") : Html.Raw("<b><i class='fa fa-mars'></i></b>"))
+                                                                            <b><a class="small" href="@Url.Action("Puppy", "Home", new { puppyLink = puppy.PuppyLink })" target="_blank">@puppy.PuppyName</a></b>
+                                                                            <br />
+                                                                        }
+                                                                    }
+                                                                </td>
+                                                            </tr>
+
+                                                        }
+
+                                                    </tbody>
+                                                </table>
+                                            }
+                                            else
+                                            {
+                                                <p>
+                                                    Do tej sekcji nie dodano jeszcze informacji.<br />
+                                                    <small class="gold">Information hasn't been done to this section yet.</small>
+                                                </p>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div id="puppies" class="tab-pane fade">
+                        <div class="crop">
+                            <div class="row">
+                                @if (Model.litters.Count() > 0)
+                                {
+
+                                    foreach (var litters in Model.litters.OrderByDescending(l => l.BornDateOkay))
+                                    {
+                                        <div class="col-lg-12 text-center">
+                                            <hr />
+                                            <h4>@litters.LitterPresentationName</h4>
+                                            <p><small><i class="fa fa-heartbeat gold"></i> @litters.BornDate</small><br /><small class="gold">@_age.HowOld(litters.BornDate, null)</small></p>
+
+                                            <hr />
+                                        </div>
+                                        int i = 0;
+                                        var _litterRepo = new devarts.Repositories.KennelRepository();
+                                        var puppies = _litterRepo.GetPuppiesByLitterLink(litters.LitterLink);
+                                        foreach (var puppy in puppies)
+                                        {
+
+                                            if (i != 0 && i % 4 == 0)
+                                            {
+                                            @:</div>
+                                            @:<div class="row">
+                                            }
+                                            <div class="col-sm-3">
+                                                <a href="@Url.Action("Puppy", "Home", new { puppyLink = puppy.PuppyLink })"><img class="img-responsive" src="~/Puppies/@puppy.BreedLink/@puppy.PuppyLink/@puppy.MainPicture" alt="" /></a>
+                                                @(puppy.PuppySex == false ? Html.Raw("<b><i class='fa fa-venus'></i></b>") : Html.Raw("<b><i class='fa fa-mars'></i></b>"))
+                                                <b><a class="small" href="@Url.Action("Puppy", "Home", new { puppyLink = puppy.PuppyLink })" target="_blank">@puppy.PuppyName</a></b>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            i++;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="col-lg-12">
+                                        <p>
+                                            Do tej sekcji nie dodano jeszcze informacji.<br />
+                                            <small class="gold">Information hasn't been done to this section yet.</small>
+                                        </p>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

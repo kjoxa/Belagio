@@ -1,0 +1,49 @@
+﻿@model devarts.Models.LitterWithImagesAndDog
+<style>
+    .btn {
+        margin: 3px !important;
+    }
+
+    .setImageIndex {
+        max-width: 100px;
+    }
+</style>
+<div class="form-group">
+    <div class="row">
+        <div class="col-lg-4">
+            <h4 class="text-center">Główne</h4>
+            <div>
+                <img alt="" src="/Litters/@Model.litter.BreedLink/@Model.litter.LitterLink/@Model.litter.MainPicture" id="dog" style="width:100%">
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="row">
+                <h4 class="text-center">Przypisane do miotu</h4>
+                @{
+                    int i = 0;
+                }
+                @foreach (var pos in Model.litterImages)
+                {
+                    if (i != 0 && i % 6 == 0)
+                    {
+                    @:</div>
+                    @:<div class="row">
+                    }
+                          <div class="col-lg-2" style="padding-bottom:5px;">
+                              <a href="@Url.Action("SetLitterImageAsMainImage", "Kennel", new { litterLink = Model.litter.LitterLink, mainImageId = pos.Id })" data-placement="top" data-toggle="tooltip" data-original-title="Ustaw jako zdjęcie główne" class="btn btn-xs btn-primary"><i class="fa fa-image"></i></a>
+                              <a href="@Url.Action("RemoveImageFromLitter", "Kennel", new { imgFileName = pos.ImageFileName, litterLink = Model.litter.LitterLink })" data-placement="top" data-toggle="tooltip" data-original-title="Usuń z serwera i bazy danych" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></a>
+                              <a href="@Url.Action("SetFatherLitter", "Kennel", new { litterLink = Model.litter.LitterLink,  mainImageId = pos.Id })" data-placement="top" data-toggle="tooltip" data-original-title="Ustaw jako zdjęcie ojca miotu" class="btn btn-xs btn-success"><i class="fa fa-camera-retro"></i></a>
+                              <img alt="@pos.ImageAlt" src="/Litters/@Model.litter.BreedLink/@Model.litter.LitterLink/@pos.ImageFileName" style="width:100%" />
+                              <span><small>Indeks zdjęcia (enter)</small></span>
+                              @Html.TextBoxFor(model => pos.ImageIndex, new { @class = "setImageIndex", data_image_id = pos.Id })<br />
+                              <span><small>Tekst alternatywny (enter)</small></span>
+                              @Html.TextBoxFor(model => pos.ImageAlt, new { @class = "setAltValue", data_image_id = pos.Id })
+                              <hr />
+                          </div>
+                    i++;
+                }
+            </div>
+        </div>
+    </div>
+</div>
+

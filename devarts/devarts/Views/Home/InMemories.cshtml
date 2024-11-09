@@ -1,0 +1,203 @@
+﻿@section metatags
+{
+    <meta property="og:title" content="Leśna Magia - W pamięci">
+    <meta property="og:image" content="@System.Web.Configuration.WebConfigurationManager.AppSettings["webDomainName"]/Layout/logo_gold.png">
+    <meta property="og:url" content="@System.Web.Configuration.WebConfigurationManager.AppSettings["webDomainName"]/">
+    <meta property="og:description" content="Psy, których już z nami nie ma">
+    <meta property="og:type" content="website">
+    <meta name="robots" content="noodp">
+}
+
+<div class="post-parallax parallax inverse-wrapper parallax2" style="background-image: url(/Layout/1.jpg);">
+    <div class="container inner text-center">
+        <div class="headline text-center">
+            @*<h2>hello! I'm lydia doe, a freelance photographer.</h2>
+                <p class="lead">based in london, I specialize in fashion, wedding, food & drink photography.</p>*@
+        </div>
+        <!-- /.headline -->
+    </div>
+</div>
+
+<style>
+
+    .ribbon {
+        /*-webkit-transform: rotate(-45deg);
+        -moz-transform: rotate(-45deg);
+        -ms-transform: rotate(-45deg);
+        -o-transform: rotate(-45deg);
+        transform: rotate(-45deg);
+        border: 25px solid transparent;
+        border-top: 25px solid #757575;
+        position: absolute;
+        bottom: 20px;
+        right: -46px;
+        padding: 0 10px;
+        width: 180px;
+        color: white;
+        font-family: sans-serif;
+        size: 19px;
+        z-index: 1000;*/
+        -webkit-transform: rotate(-45deg);
+        -moz-transform: rotate(-45deg);
+        -ms-transform: rotate(-45deg);
+        -o-transform: rotate(-45deg);
+        transform: rotate(493deg);
+        border: 37px solid transparent;
+        border-top: 34px solid #3a3a3a;
+        position: absolute;
+        bottom: 175px;
+        right: 184px;
+        padding: 0px 10px;
+        width: 254px;
+        color: white;
+        font-family: sans-serif;
+        size: 19px;
+        z-index: 1000;
+    }
+
+        .ribbon .txt {
+            /*position: absolute;
+            top: -20px;
+            left: 20px;*/
+            position: absolute;
+            top: -27px;
+            left: 58px;
+            transform: rotate(540deg);
+        }
+</style>
+
+<div class="light-wrapper">
+    <div class="container inner">
+        <div class="thin">
+            <h3 class="section-title text-center">W pamięci&nbsp;<small>In memories</small></h3>
+            <hr />
+        </div>
+
+        @*<div class="thin">
+                <h6 style="font-size:small" class="section-title text-center">Psy z hodowli&nbsp;<small>Dogs from breeds</small></h6>
+                <hr />
+            </div>*@
+        <!-- /.thin -->
+        <div class="divide10"></div>
+        @{
+            devarts.Repositories.KennelRepository kennelRepo = new devarts.Repositories.KennelRepository();
+            var dogs = kennelRepo.GetAllDogs().Where(d => !(string.IsNullOrEmpty(d.DeathDate)));
+            int i = 0;
+        }
+        <div class="row">
+            @foreach (var dog in dogs)
+            {
+                if (i != 0 && i % 3 == 0)
+                {
+                @:</div>
+                @:<div class="row">
+                }
+                <div class="col-sm-4">
+                    <div class="caption-overlay">
+                        @*<div class="ribbon">
+                                <div class="txt text-center">
+                                    @dog.DeathDate
+                                </div>
+                            </div>*@
+                        <figure><a href="@Url.Action("Dog", "Home", new { dogLink = dog.DogLink })"><img class="blurImg" src="~/Dogs/@dog.BreedLink/@dog.DogLink/@dog.MainPicture" alt="" /> </a></figure>
+                        <div class="caption bottom-right">
+                            <!--/.title -->
+                        </div>
+                        <!--/.caption -->
+                    </div>
+                    @{
+                        var dogMother = kennelRepo.GetDogByDogLink(dog.DogLink);
+                    }
+                    <div class="row">
+                        <div class="col-md-12">
+                            @{
+                                var _age = new AgeHelper();
+                            }
+                            <h3><small>@dog.DogName</small></h3>
+                            @if (string.IsNullOrEmpty(dog.DeathDate))
+                            {
+                                <h3 data-placement="top" data-toggle="tooltip" data-original-title="Data urodzenia">
+                                    <i class="fa fa-heart" style="color:red"></i> @dog.BornDate
+                                    <br /><small data-placement="top" data-toggle="tooltip" data-original-title="Czas życia"><i class="fa fa-heartbeat" style="color:red"></i> @_age.HowOld(dog.BornDate, null)</small>
+                                </h3>
+                            }
+                            else
+                            {
+                                <h3 data-placement="top" data-toggle="tooltip" data-original-title="Data urodzenia">
+                                    <i class="fa fa-heart" style="color:red"></i> @dog.BornDate - @dog.DeathDate
+                                    <br /><small data-placement="top" data-toggle="tooltip" data-original-title="Czas życia"><i class="fa fa-heartbeat" style="color:red"></i> @_age.HowOld(dog.BornDate, dog.DeathDate)</small>
+                                </h3>
+                            }
+                        </div>
+                        <div class="col-lg-12">
+                            <h6><i class="fa fa-crosshairs"></i> @dog.CauseOfDeath</h6>
+                        </div>
+                    </div>
+                </div>
+                i++;
+            }
+        </div>
+
+        @*<div class="thin">
+                <h6 style="font-size:small" class="section-title text-center">Szczenięta z hodowli&nbsp;<small>Puppies from breeds</small></h6>
+                <hr />
+            </div>
+
+            <div class="divide10"></div>
+            @{
+                var puppies = kennelRepo.GetAllPuppies().Where(d => !(string.IsNullOrEmpty(d.DeathDate)));
+                i = 0;
+            }
+            <div class="row">
+                @foreach (var puppy in puppies)
+                {
+                    var litter = kennelRepo.GetLitterByLitterLink(puppy.LitterLink);
+                    if (i != 0 && i % 3 == 0)
+                    {
+                    @:</div>
+                    @:<div class="row">
+                    }
+                    <div class="col-sm-4">
+                        <div class="caption-overlay">
+                            <div class="ribbon">
+                                <div class="txt text-center">
+                                    @litter.LitterPresentationName<small>\ @litter.LitterLink</small>
+                                </div>
+                            </div>
+                            <figure><a href="@Url.Action("Puppy", "Home", new { puppyLink = puppy.PuppyLink })"><img class="blurImg" src="~/Puppies/@puppy.BreedLink/@puppy.PuppyLink/@puppy.MainPicture" alt="" /> </a></figure>
+                            <div class="caption bottom-right">
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                @{
+                                    var _age = new AgeHelper();
+                                }
+                                <h3><small>@puppy.PuppyName</small></h3>
+                                @if (string.IsNullOrEmpty(puppy.DeathDate))
+                                {
+                                    <h3 data-placement="top" data-toggle="tooltip" data-original-title="Data urodzenia">
+                                        <i class="fa fa-heart" style="color:red"></i> @litter.BornDate
+                                        <br /><small data-placement="top" data-toggle="tooltip" data-original-title="Czas życia"><i class="fa fa-heartbeat" style="color:red"></i> @_age.HowOld(litter.BornDate, null)</small>
+                                    </h3>
+                                }
+                                else
+                                {
+                                    <h3 data-placement="top" data-toggle="tooltip" data-original-title="Data urodzenia">
+                                        <i class="fa fa-heart" style="color:red"></i> @litter.BornDate - @puppy.DeathDate
+                                        <br /><small data-placement="top" data-toggle="tooltip" data-original-title="Czas życia"><i class="fa fa-heartbeat" style="color:red"></i> @_age.HowOld(litter.BornDate, puppy.DeathDate)</small>
+                                    </h3>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    i++;
+                }
+            </div>*@
+
+    </div>
+
+</div>

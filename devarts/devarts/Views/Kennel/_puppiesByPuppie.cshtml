@@ -1,0 +1,48 @@
+﻿@model devarts.Models.PuppyAndImages
+<style>
+    .btn {
+        margin: 3px !important;
+    }
+
+    .setImageIndex {
+        max-width: 100px;
+    }
+</style>
+<div class="form-group">
+    <div class="row">
+        <div class="col-lg-4">
+            <h4 class="text-center">Główne</h4>
+            <div>
+                <img alt="" src="/Puppies/@Model.puppy.BreedLink/@Model.puppy.PuppyLink/@Model.puppy.MainPicture" id="dog" style="width:100%">
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="row">
+                <h4 class="text-center">Przypisane do zwierzęcia</h4>
+                @{
+                    int i = 0;
+                }
+                @foreach (var pos in Model.puppyImages)
+                {
+                    if (i != 0 && i % 6 == 0)
+                    {
+                    @:</div>
+                    @:<div class="row">
+                    }
+                    <div class="col-lg-2" style="padding-bottom:5px;">
+                        <a href="@Url.Action("SetPuppyImageAsMainImage", "Kennel", new { breedLink = Model.puppy.BreedLink, puppyLink = Model.puppy.PuppyLink, mainImageId = pos.Id })" data-placement="top" data-toggle="tooltip" data-original-title="Ustaw jako zdjęcie główne" class="btn btn-xs btn-primary"><i class="fa fa-image"></i></a>
+                        <a href="@Url.Action("RemoveImageFromPuppy", "Kennel", new { imgFileName = pos.ImageFileName, breedLink = Model.puppy.BreedLink, litterLink = Model.puppy.LitterLink, puppyLink = Model.puppy.PuppyLink })" data-placement="top" data-toggle="tooltip" data-original-title="Usuń z serwera i bazy danych" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></a>
+                        <img alt="@pos.ImageAlt" src="/Puppies/@Model.puppy.BreedLink/@Model.puppy.PuppyLink/@pos.ImageFileName" style="width:100%" />
+                        <span><small>Indeks zdjęcia (enter)</small></span>
+                        @Html.TextBoxFor(model => pos.ImageIndex, new { @class = "setPuppyImageIndex", data_image_id = pos.Id })<br />
+                        <span><small>Tekst alternatywny (enter)</small></span>
+                        @Html.TextBoxFor(model => pos.ImageAlt, new { @class= "setAltPuppyValue", data_image_id = pos.Id })
+                        <hr />
+                    </div>
+                    i++;
+                }
+            </div>
+        </div>
+    </div>
+</div>
+

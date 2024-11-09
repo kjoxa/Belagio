@@ -1,0 +1,116 @@
+﻿@Styles.Render("~/Content/css")
+@Styles.Render("~/Content/DataTables")
+@Styles.Render("~/Content/font-awesome.css")
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/ajaxuntro")
+@Scripts.Render("~/Scripts/AssistantDataTables")
+@Scripts.Render("~/bundles/devarts")
+
+@model IEnumerable<devarts.Models.HAV_Dog>
+<style>
+    .pbtitle {
+        padding: 0 !important;
+    }
+
+    .gainsboroClass {
+        background-color: gainsboro;
+    }
+
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+        .row > [class*='col-'] {
+            display: flex;
+            flex-direction: column;
+        }
+</style>
+
+<br />
+<div id="alert-area"></div>
+<div id="alerts">
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="x_panel">
+            <ol class="breadcrumb">
+                <li>
+                    @Html.ActionLink("Strona Główna", "Index", "Home")
+                </li>
+                <li>
+                    @Html.ActionLink("Panel Administratora", "Index", "Admin")
+                </li>
+                <li>
+                    @Html.ActionLink("Asystent Hodowli", "Index", "Admin")
+                </li>
+                <li>
+                    <a href="~/Health/HealthAndVaccines">Badania i szczepienia</a>
+                </li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<ul class="nav small dashboard nav-tabs bar_tabs" id="financeTabs">
+    <li class="active"><a href="#1"><i class="glyphicon glyphicon-import"></i> Ogolne podsumowanie<small> w formie wykresów</small></a></li>
+    <li><a href="#2"><i class="glyphicon glyphicon-import"></i> Lista<small> oraz historia</small></a></li>
+</ul>
+
+<div class="tab-content">
+
+
+    <div id="1" class="tab-pane fade in active">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    @foreach (var position in Model.Where(d => d.Dog.BreedLink == "ItalianGreyhound"))
+                    {
+                        <div class="col-lg-4">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <img style="max-width:130px" alt="" src="/Dogs/@position.Dog.BreedLink/@position.Dog.DogLink/@position.Dog.MainPicture" class="img-responsive img-border-left">
+                                        </div>
+                                        <div class="col-lg-9">
+                                            <h4>@position.Dog.DogName<small><a class="blue pull-right" href="javaScript:void(0)"><b><i class="fa fa-plus"></i> Dodaj...</b></a></small></h4>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+                                    <div class="col-lg-12">
+                                        @if (position.HealthAndVaccinationsForDog.Count() < 1)
+                                        {
+                                            <p>Lista zapisanych badań i szczepień<br /><small></small></p>
+                                            <p>Brak dodanych pozycji</p>
+                                        }
+                                        else
+                                        {
+                                            foreach (var items in position.HealthAndVaccinationsForDog)
+                                            {
+                                                <p><b>@items.Name</b> <small>@items.Description</small></p>
+                                                @Html.Raw(items.ProgressBar)
+                                                if (items.Cathegory == "Szczepienie")
+                                                {
+                                                    <a class="btn btn-xs btn-primary">Odnów szczepienie</a>
+                                                }
+                                                <hr />
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div id="2" class="tab-pane fade">
+
+    </div>
+</div>

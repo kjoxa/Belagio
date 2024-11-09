@@ -1,0 +1,5 @@
+﻿#
+Chodzi mi że Ewentualnie można weterana zamienić na nie hodowlany...i wtedy do wyboru z jakiego powodu.
+
+# Przydomek przed czy po nazwie.
+# Miot ma tylko jedno pole - LitterPresentationName - dodać Litter...NameEng.

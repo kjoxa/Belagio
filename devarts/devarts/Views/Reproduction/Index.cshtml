@@ -1,0 +1,296 @@
+﻿@Styles.Render("~/Content/css")
+@Styles.Render("~/Content/DataTables")
+@Styles.Render("~/Content/font-awesome.css")
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/ajaxuntro")
+@Scripts.Render("~/Scripts/AssistantDataTables")
+@Scripts.Render("~/bundles/devarts")
+
+@model  devarts.Models.ReproductionStatisticView
+
+<style>
+    .pbtitle {
+        padding: 0 !important;
+    }
+
+    .gainsboroClass{
+        background-color:gainsboro;
+    }
+</style>
+
+<br />
+<div id="alert-area"></div>
+<div id="alerts">
+</div>
+
+<div class="row">
+    <div class="container">
+        <br />
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="x_panel">
+                    <ol class="breadcrumb">
+                        <li>
+                            @Html.ActionLink("Strona Główna", "Index", "Home")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Panel Administratora", "Index", "Admin")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Asystent Hodowli", "Index", "Admin")
+                        </li>
+                        <li>
+                            <a href="~/Admin/AdminPanel">Cieczki i rozród</a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="x_panel">
+        <div class="x_title">
+            <h1>@ViewBag.siteName <small>@ViewBag.ownerFirstName @ViewBag.OwnerSurName</small></h1>
+            <h5><strong>@ViewBag.devaArtsCMS</strong></h5>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <h3>Cieczki i rozród</h3>
+            <p>Moduł zarządzania cieczkami oraz rozrodem<br /><small>Zobaczysz tu terminy kryć, porodów i statystyki.</small></p>
+            <div class="col-lg-12">
+                <hr />
+                <a href="javaScript:void(0)" class="btn btn-app" id="newPosition"><span class="badge bg-dark-alfa-40"></span><i class="fa fa-paw"></i><b>Dodaj...</b></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+
+</div>
+
+<ul class="nav small dashboard nav-tabs bar_tabs" id="financeTabs">
+    <li class="active"><a href="#1"><i class="glyphicon glyphicon-import"></i> Lista wszystkich<small> cieczek</small></a></li>
+    <li><a href="#2"><i class="glyphicon glyphicon-import"></i> Szybkie<small> podsumowanie</small></a></li>
+</ul>
+
+<div class="tab-content">
+    <div id="1" class="tab-pane fade in active">
+        <div class="row">
+            <div class="col-lg-12">
+                @Html.Partial("_reproductionView")
+            </div>
+        </div>
+
+    </div>
+    <div id="2" class="tab-pane fade">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Szybkie<small>podsumowanie</small></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">Settings 1</a>
+                                    <a class="dropdown-item" href="#">Settings 2</a>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                @if (Model.ReproductionAndDog.Count < 1)
+                                {
+                                    <p><b>Aktualnie brak dodanych pozycji</b><br />Dodaj pozycję do listy, aby zobaczyć statystyki</p>
+                                }
+                                else
+                                {
+                                    <h4>Obecnie trwające cieczki lub ciąże</h4>
+                                    <hr />
+                                }
+                            </div>
+                        </div>
+                        <div class="row">
+                            @foreach (var item in Model.ReproductionAndDog)
+                            {
+                                <div class="col-lg-10">
+                                    <div class="col-lg-2">
+                                        <img src="~/Dogs/@item.Dog.BreedLink/@item.Dog.DogLink/@item.Dog.MainPicture" style="width:100%; border:3px solid silver;" />
+                                    </div>
+
+                                    <div class="col-lg-8">
+                                        <h5><b>@item.Dog.DogName</b><small> @item.Dog.BreedName</small></h5>
+                                        <hr />
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="col-lg-2 pull-left pbtitle">
+                                                    <p class="pbtitle pull-left"><b>Ciąża od</b> 22.04.2021</p>
+                                                </div>
+                                                <div class="col-lg-2 pull-right pbtitle">
+                                                    <p class="pbtitle pull-right"><b>Poród</b> 22.06.2021</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="progress">
+                                                    <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 74%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <p>Do następnej cieczki</p>
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 5%; background-color: lightslategrey" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <hr />
+                                </div>
+                                <br />
+                            }
+                        </div>
+                        @*<div class="row">
+                                <div class="col-12 text-center">
+                                    <h4>Pozostałe</h4>
+                                    <hr />
+                                </div>
+                            </div>
+                            <div class="row">
+                                @foreach (var item in Model)
+                                {
+                                    <div class="col-lg-4">
+                                        <img src="~/Dogs/@item.Dog.BreedLink/@item.Dog.DogLink/@item.Dog.MainPicture" style="width:100%; border:3px solid silver;" />
+                                        <p>@item.Dog.DogName</p>
+                                        <p>@item.Reproduction.EstimationBornDate</p>
+                                    </div>
+                                }
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Ściąga<small> przedstawiająca szacunkowy poziom progesteronu</small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Settings 1</a>
+                            <a class="dropdown-item" href="#">Settings 2</a>
+                        </div>
+                    </li>
+                    <li>
+                        <a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div id="morris-area-chart"></div>
+                <p class="success text-center"><i class="fa fa-2x fa-info-circle blue"></i><b><br />Dane przedstawione w tabeli są szacunkowe.<br />U różnych osobników czas do krycia może się różnić nieznacznie.</b></p>
+                <hr />
+                <table class="table table-inverse">
+                    <thead>
+                        <tr class="primary">
+                            <th scope="col">Koncentracja progesteronu w nmol/L</th>
+                            <th scope="col">Koncentracja progesteronu w ng/ml</th>
+                            <th scope="col">Owulacja</th>
+                            <th scope="col">Zapłodnienie</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="info">
+                            <th scope="row">0 - 2 nmol/L</th>
+                            <td>0 - 0.63 ng/ml</td>
+                            <td>Stężenie zbyt małe do szacowania</td>
+                            <td>Nie dotyczy</td>
+                        </tr>
+                        <tr class="info">
+                            <th scope="row">3 - 6 nmol/L</th>
+                            <td>0.94 - 1.89 ng/ml</td>
+                            <td>
+                                Co najmniej 2 dni przed spodziewaną owulacją.<br /> Wyniki 3 - 4 nmol/L mogą utrzymywać się przez tydzień lub dłużej
+                            </td>
+                            <td>
+                                Najwcześniejsze szacowane okno rozrodcze za 4 do 6 dni, ale może być później
+                            </td>
+                        </tr>
+                        <tr class="info">
+                            <th scope="row">7 - 12 nmol/L</th>
+                            <td>2.2 - 3.77 ng/ml</td>
+                            <td>Minimum jeden dzień przed spodziewaną owulacją</td>
+                            <td>Najwcześniejsze szacowane okno rozrodcze za 3 do 5 dni, ale może być później</td>
+                        </tr>
+                        <tr class="success">
+                            <th scope="row">13 - 18 nmol/L</th>
+                            <td><b>4.09 - 5.66 ng/ml</b></td>
+                            <td><b>Owulacja rozpocznie się niebawem lub już wystąpiła</b></td>
+                            <td>Najwcześniejsze szacowane okno rozrodcze za 2 do 4 dni</td>
+                        </tr>
+                        <tr class="success">
+                            <th scope="row">19 - 31 nmol/L</th>
+                            <td><b>5.97 - 9.75 ng/ml</b></td>
+                            <td><b>Owulacja rozpoczęła się niedawno</b></td>
+                            <td>Najwcześniejsze szacowane okno rozrodcze za 1 do 3 dni</td>
+                        </tr>
+                        <tr class="danger">
+                            <th scope="row">32 - 64 nmol/L</th>
+                            <td><b>10.06 - 20.13 ng/ml<b /></td>
+                            <td>
+                                <b>Komórki jajowe dojrzałe, optymalne warunki do zapłodnienia</b>
+                            </td>
+                            <td>Najwcześniejsze szacowane okno rozrodcze za 0 do 2 dni</td>
+                        </tr>
+                        <tr class="danger">
+                            <th scope="row">65 - 90 nmol/L</th>
+                            <td>20.44 - 28.30 ng/ml</td>
+                            <td>Komórki jajowe dojrzałe, lecz dalsze oczekiwanie zminiejsza szansę do zapłodnienia</br></td>
+                            <td>Najwcześniejsze szacowane okno rozrodcze za 0 do 1 dnia</td>
+                        </tr>
+                        <tr class="danger">
+                            <th scope="row"> > 90 nmol/L</th>
+                            <td>> 28.30 ng/ml</td>
+                            <td>Za późno lub bardzo mała szansa na zapłodnienie</td>
+                            <td>Nie dotyczy</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="addReproductionModal" class="modal fade">
+    @Html.Partial("_addReproduction", Model.Reproduction)
+</div>
+
+<div id="editReproductionModal" class="modal fade">
+    <div id='editReproductionModalContent'>
+        @Html.Partial("_editReproduction", Model.Reproduction)
+    </div>
+</div>
+
+<script type="text/javascript" src="~/ViewsJS/Reproduction/Reproduction.js"></script>

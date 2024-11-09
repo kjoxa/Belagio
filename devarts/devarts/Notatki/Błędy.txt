@@ -1,0 +1,31 @@
+﻿1. 500 Server Error
+
+NullException - Wartość nie może być zerowa, parametr: source
+
+Rozwiązanie 1:
+W HTMLU i/lub w JS dataTables nie ma kolumny, która ma być odczytana przez kontroler.
+
+Rozwiązanie 2:
+PostMetaData zawiera niespójne typy danych pól.
+
+Rozwiązanie 3:
+W JS ustawione jest sortowanie [0, "desc"], a na liście pierwszym polem jest String, a nie int!
+
+SORTOWANIE:
+Sortowanie nie zadziała, jeśli w parametrze "name" będzie inna wartość niż DogLink:
+{ "data": "DogLink", "name": "XXXXXXXXX", "autoWidth": true },   
+
+ŹLE:
+{ "data": "DogLink", "name": "PieselLink", "autoWidth": true },   
+
+DOBRZE:
+{ "data": "DogLink", "name": "DogLink", "autoWidth": true },   
+
+--------------------------------------------------
+
+2. Sql = The function evaluation requires all threads to run.
+
+W modelu zdefiniowany jest inny typ danych niż stworzony fizycznie w bazie danych (zamiast bit w modelu jest int, a w bazie jest bit)
+
+3. _editFinance.cshtml, editReproduction -> jakiś dziwny błąd podczas edycji
+4. Gosia po dodaniu miotu N nie mogła go edytować, bo nie dodała się pozycja do LitterImages dotycząca tego miotu - dlaczego?

@@ -1,0 +1,88 @@
+﻿<style>
+    .bolded {
+        font-weight: bold;
+    }
+
+    .red-bolded {
+        color: red;
+        font-weight: bold;
+        width: 100px !important;
+        font-size: 12px;
+    }
+
+    .green {
+        color: green;
+        font-weight: bold;
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Lista<small>wszystkich cieczek i kryć</small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Settings 1</a>
+                            <a class="dropdown-item" href="#">Settings 2</a>
+                        </div>
+                    </li>
+                    <li>
+                        <a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <table id="reproductionDataTable" class="table small" width="100%" cellspacing="0">
+                    <tfoot>
+                        <tr>
+                            <th>Id</th>
+                            <th>Suka</th>
+                            <th>Reproduktor</th>
+                            <th>Rozpoczęcie cieczki</th>
+                            <th>Pierwsze krycie</th>
+                            <th>Narodziny</th>
+                            @*<th>Dzień naj. progesteronu</th>
+                                <th>Poziom progesteronu</th>*@
+                            <th>Komentarz</th>
+                            @*<th>Sukces</th>*@
+                            <th>Operacje</th>
+                        </tr>
+                    </tfoot>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Suka</th>
+                            <th>Reproduktor</th>
+                            <th>Rozpoczęcie cieczki</th>
+                            <th>Pierwsze krycie</th>
+                            <th><i class="fa fa-star"></i><br />Narodziny</th>
+                            @*<th>Dzień naj. progesteronu</th>
+                                <th>Poziom progesteronu</th>*@
+                            <th>Komentarz</th>
+                            @*<th>Sukces</th>*@
+                            <th>Operacje</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="morris-area-chart"></div>
+
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" id="myModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>

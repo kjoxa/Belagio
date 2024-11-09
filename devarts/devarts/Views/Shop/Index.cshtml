@@ -1,0 +1,154 @@
+﻿@section metatags
+{
+    <meta property="og:title" content="Super Charty - Sklep">
+    <meta property="og:image" content="@System.Web.Configuration.WebConfigurationManager.AppSettings["webDomainName"]/img/www2.png">
+    <meta property="og:url" content="@System.Web.Configuration.WebConfigurationManager.AppSettings["webDomainName"]/">
+    <meta property="og:description" content="Sklep">
+    <meta property="og:type" content="website">
+    <meta name="robots" content="noodp">
+}
+
+<style>
+    .col-sm-6 {
+        height: 500px;
+    }
+
+/*    #dog {
+        transition: all 1s ease;
+    }
+
+        #dog:hover {
+            transform: scale(1.2, 1.2);
+        }*/
+
+    #img_cnt {
+        overflow: hidden;
+        border: solid 5px white;
+        cursor: pointer;
+    }
+
+    .parent {
+        overflow: hidden; /* required */
+        height: 100% /* some non-zero number */;                
+        position: relative; /* required  for demo*/
+    }
+
+    .ribbon {
+        margin: 0;
+        padding: 0;
+        background: #967d33 !important;
+        color: white;
+        padding: 1em 0;
+        position: absolute;
+        top: 0;
+        right: 0;
+        transform: translateX(30%) translateY(0%) rotate(45deg);
+        transform-origin: top left;
+        font-weight: bold;
+    }
+
+        .ribbon:before,
+        .ribbon:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            margin: 0 -1px; /* tweak */
+            width: 100%;
+            height: 100%;
+            background: #967d33 !important;
+        }
+
+        .ribbon:before {
+            right: 100%;
+        }
+
+        .ribbon:after {
+            left: 100%;
+        }
+
+    .btn-default {
+        background-color: #b39c57;
+        color:white
+    }
+        .btn-default:hover, .btn-default:focus {
+            background-color: #7e7043;
+            color: white
+        }
+</style>
+
+<div class="jumbotron">
+    <div class="container topcontent">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="col-lg-8 col-lg-offset-2 text-center">
+                    <h5 style="color: #b39c57;"><b>SKLEP W BUDOWIE</b></h5>
+                    <hr style="width: 10%; border-top: 1px solid #b39c57;" />
+                    <h2><i class="fa fa-google-wallet"></i> PODUSZKI</h2>
+                    <h4><small>Wysokiej jakości poduszki dla charcików</small></h4>
+                    <hr>
+                </div>
+            </div>
+        </div>
+        <div class="row">                        
+            <div class="col-sm-6">
+                <div class="scol-lg-12" style="margin-bottom:5px">
+                    <a href="javascript:Void(0)" class="btn btn-default"><i class="fa fa-shopping-cart"></i></a>
+                    <a href="javascript:Void(0)" class="btn btn-default"><small><b>KUP TERAZ</b></small></a>
+                </div>
+
+                <div class="parent text-center">
+                    <h5 class="ribbon">199.99 PLN<br /><small style="color:white">&nbsp;+ wysyłka</small></h5>
+                    <div id="img_cnt">
+                        <img alt="" src="/Sklep/Products/Pillows/Nifora/1.jpg" class="img-responsive" id="dog" onclick="window.location='/Dog/dog.DogLink'">
+                    </div>
+                    <h4><b>Nifora</b><small> by A.S.</small></h4>
+                    <hr />
+                    <h5>
+                        <small>Aksamitna tkanina, z któej wykonane jest wnętrze, utula pupila do snu. Pozwól na... dłuższą... chwilę relaksu...</small>
+                    </h5>
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="scol-lg-12" style="margin-bottom:5px">
+                    <a href="javascript:Void(0)" class="btn btn-default"><i class="fa fa-shopping-cart"></i></a>
+                    <a href="javascript:Void(0)" class="btn btn-default"><small><b>KUP TERAZ</b></small></a>
+                </div>
+                <div class="parent text-center">
+                    <h5 class="ribbon">229.99 PLN<br /><small style="color:white">&nbsp;z wysyłką</small></h5>
+                    <div id="img_cnt">
+                        <img alt="" src="/Sklep/Products/Pillows/Fillagra/3.jpg" class="img-responsive" id="dog" onclick="window.location='/Dog/dog.DogLink'">
+                    </div>
+                    <h4><b>Fillagra</b><small> by Super Charty</small></h4>
+                    <hr />
+                    <h5>
+                        <small>Delikatne wypustki pozwalają na lepsze ukrwienie skóry, co przekłada się na większy komfort odpoczynku...</small>
+                    </h5>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <hr />
+            <div class="col-lg-12 text-center">
+                <h5>
+                    <small>Poszczególne modele poduszek mogą różnić się szczegółami lub kolorami. <br />W razie jakichkolwiek pytań, prosimy o kontakt.</small>
+                </h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="jumbotron">
+    <div class="container topcontent">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="col-lg-8 col-lg-offset-2 text-center">
+                    <h2><i class="fa fa-google-wallet"></i> OPASKI <br><small style="font-size:25px;"> DLA SAMCZYKÓW</small></h2>
+                    <h4><small>Wysokiej jakości opaski <b>antymoczowe</b> dla charcików</small></h4>
+                    <hr>
+                    <h4><small>Oferta w trakcie przygotowania</small></h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,301 @@
+﻿@Scripts.Render("~/bundles/jquery")
+@Styles.Render("~/Content/font-awesome.css")
+
+@Styles.Render("~/Content/DataTables")
+@Scripts.Render("~/Scripts/KennelDataTables")
+<script src="~/GentelellaAlelaTemplate/vendors/Chart.js/dist/Chart.js" type="text/javascript"></script>
+
+@model devarts.Helpers.FinanceBarModel
+
+<div class="row">
+    <div class="container">
+        <br />
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="x_panel">
+                    <ol class="breadcrumb">
+                        <li>
+                            @Html.ActionLink("Strona Główna", "Index", "Home")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Panel Administratora", "Index", "Admin")
+                        </li>
+                        <li>
+                            <a href="~/Admin/AdminPanel">Cieczki</a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Bar Graph <small>Sessions</small></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">Settings 1</a>
+                                    <a class="dropdown-item" href="#">Settings 2</a>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content" style="height: 300px !important">
+                        <canvas id="mybarChartek"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Line <small>Chart</small></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">Settings 1</a>
+                                    <a class="dropdown-item" href="#">Settings 2</a>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content" style="height: 300px !important">
+                        <canvas id="lineChartek"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Pie <small>Chart</small></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">Settings 1</a>
+                                    <a class="dropdown-item" href="#">Settings 2</a>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <canvas id="pieChartek"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Donut <small>Chart</small></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">Settings 1</a>
+                                    <a class="dropdown-item" href="#">Settings 2</a>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <canvas id="donut"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        if ($('#mybarChartek').length) {
+
+            var ctx = document.getElementById("mybarChartek");
+            var mybarChartek = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['@Html.Raw(string.Join("','", Model.monthsNames))'],
+                    datasets: [{
+                        label: 'Wydatki',
+                        backgroundColor: "#26B99A",
+                        data: [@Html.Raw(string.Join(",", Model.monthsExpense))]
+                    },
+                    {
+                        label: 'Przychody',
+                        backgroundColor: "#03586A",
+                        data: [@Html.Raw(string.Join(",", Model.monthsIncome))]
+                    }]
+                },
+
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        }
+
+        if ($('#lineChartek').length) {
+
+            var ctx = document.getElementById("lineChartek");
+            var lineChartek = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['@Html.Raw(string.Join("','", Model.monthsNames))'],
+                    datasets: [{
+                        label: "Wydatki",
+                        backgroundColor: "rgba(38, 185, 154, 0.31)",
+                        borderColor: "rgba(38, 185, 154, 0.7)",
+                        pointBorderColor: "rgba(38, 185, 154, 0.7)",
+                        pointBackgroundColor: "rgba(38, 185, 154, 0.7)",
+                        pointHoverBackgroundColor: "#fff",
+                        pointHoverBorderColor: "rgba(220,220,220,1)",
+                        pointBorderWidth: 1,
+                        data: [@Html.Raw(string.Join(",", Model.monthsExpense))]
+                    }, {
+                        label: "Przychody",
+                        backgroundColor: "rgba(3, 88, 106, 0.3)",
+                        borderColor: "rgba(3, 88, 106, 0.70)",
+                        pointBorderColor: "rgba(3, 88, 106, 0.70)",
+                        pointBackgroundColor: "rgba(3, 88, 106, 0.70)",
+                        pointHoverBackgroundColor: "#fff",
+                        pointHoverBorderColor: "rgba(151,187,205,1)",
+                        pointBorderWidth: 1,
+                        data: [@Html.Raw(string.Join(",", Model.monthsIncome))]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+
+        }
+
+        // Pie chart
+        if ($('#pieChartek').length) {
+
+            var ctx = document.getElementById("pieChartek");
+            var data = {
+                datasets: [{
+                    data: [120, 50, 140, 180, 100, 50, 140, 180, 100],
+                    backgroundColor: [
+                        "#455C73",
+                        "#9B59B6",
+                        "#BDC3C7",
+                        "#26B99A",
+                        "#3498DB",
+                        "#9B59B6",
+                        "#BDC3C7",
+                        "#26B99A",
+                        "#3498DB"
+                    ],
+                    label: 'My dataset' // for legend
+                }],
+                labels: [
+                    "Odżywianie",
+                    "Leczenie",
+                    "Profilaktyka",
+                    "Krycia",
+                    "Sprzedaż",
+                    "Akcesoria",
+                    "Wystawy",
+                    "Sport",
+                    "Inne"
+                ]
+            };
+
+            var pieChart = new Chart(ctx, {
+                data: data,
+                type: 'pie',
+                otpions: {
+                    legend: false
+                }
+            });
+        }
+
+        if ($('#donut').length) {
+
+            var ctx = document.getElementById("donut");
+            var data = {
+                labels: [
+                    "Żywienie",
+                    "Zdrowie",
+                    "Hodowla",
+                    "Zawody",
+                    "Krycia"
+                ],
+                datasets: [{
+                    data: [120, 50, 140, 180, 100],
+                    backgroundColor: [
+                        "#455C73",
+                        "#9B59B6",
+                        "#BDC3C7",
+                        "#26B99A",
+                        "#3498DB"
+                    ],
+                    hoverBackgroundColor: [
+                        "#34495E",
+                        "#B370CF",
+                        "#CFD4D8",
+                        "#36CAAB",
+                        "#49A9EA"
+                    ]
+
+                }]
+            };
+
+            var donut = new Chart(ctx, {
+                type: 'doughnut',
+                tooltipFillColor: "rgba(51, 51, 51, 0.55)",
+                data: data
+            });
+        }
+    });
+
+</script>
+
+
+
+

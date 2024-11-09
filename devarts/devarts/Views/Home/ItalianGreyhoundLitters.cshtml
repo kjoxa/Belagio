@@ -1,0 +1,99 @@
+﻿@section metatags
+{
+    <meta property="og:title" content="Super charty - Mioty">
+    <meta property="og:image" content="http://www.supercharty.pl/img/www2.jpg">
+    <meta property="og:url" content="http://www.supercharty.pl/Home/Index/">
+    <meta property="og:description" content="Mioty hodowli Super Charty">
+    <meta property="og:type" content="website">
+    <meta name="robots" content="noodp">
+}
+
+<style>
+    #dog {
+        transition: all 1s ease;
+    }
+
+        #dog:hover {
+            transform: scale(1.2, 1.2);
+        }
+
+    #img_cnt {
+        /*position:absolute;*/
+        overflow: hidden;
+        border: solid 5px white;
+        cursor: pointer;
+        height: 300px;        
+    }
+</style>
+
+<div class="container">
+
+
+    <div class="row">
+        <div class="box">
+            <div class="col-lg-12">
+                <h3 class="section-title text-center">Mioty - Charcik Włoski&nbsp;<small>Litters - Italian Greyhound</small></h3>
+                <hr />
+            </div>
+
+            @{
+                devarts.Repositories.KennelRepository kennelRepo = new devarts.Repositories.KennelRepository();
+                var litters = kennelRepo.GetAllLitters().Where(l => l.BreedLink.Contains("Italian")); ;
+                int i = 0;
+            }
+
+            <div class="row">
+                @foreach (var litter in litters)
+                {
+                    if (i != 0 && i % 4 == 0)
+                    {
+                    @:</div>
+                    @:<div class="row">
+                    }
+                    System.Drawing.Image img = System.Drawing.Image.FromFile(System.Web.Hosting.HostingEnvironment.MapPath("~/Litters/" + litter.BreedLink + "/" + @litter.LitterLink + "/" + litter.MainPicture));
+
+                    int x = img.Width;
+                    int y = img.Height;
+                    string bootstrapColumn;
+
+                    double value = (double)x / y;
+                    if (value > 1.7)
+                    {
+                        bootstrapColumn = "col-lg-12";
+                    }
+                    else
+                    {
+                        bootstrapColumn = "col-lg-3";
+                    }
+
+
+                    <div class="@bootstrapColumn">
+
+                        <div id="img_cnt">
+                            <img style="width:100%; height:100%" alt="" src="~/Litters/@litter.BreedLink/@litter.LitterLink/@litter.MainPicture" onclick="window.location='@Url.Action("Litter", "Home", new { litterLink = litter.LitterLink })'">
+                        </div>
+                        <h5>
+                            @litter.LitterPresentationName, @litter.BornDate
+                        </h5>                        
+
+                        @{
+                            var dogMother = kennelRepo.GetDogByDogLink(litter.DogLink);
+                        }
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h6><small>Ojciec <b>@litter.DogFather</b><br />Matka <b>@dogMother.DogName @dogMother.BreedName</b></small></h6>
+                                <h6><i class="fa fa-mars"></i> <b>@litter.MaleCount</b> <i class="fa fa-venus"></i> <b>@litter.FemaleCount</b></h6>
+                            </div>
+                        </div>
+                    </div>
+
+                    i++;
+                }
+            </div>
+            <!-- /.container -->
+        </div>
+        <!-- /.light-wrapper -->
+    </div>
+</div>
+

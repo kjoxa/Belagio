@@ -1,0 +1,548 @@
+﻿@model devarts.Models.SearchWithNews
+@using PagedList.Mvc;
+
+@section metatags
+{
+    <meta property="og:title" content="Super charty - Aktualności dotyczące hodowli">
+    <meta property="og:image" content="http://www.supercharty.pl/img/www2.jpg">
+    <meta property="og:url" content="http://www.supercharty.pl/Home/Index/">
+    <meta property="og:description" content="Najnowsze informacje dotyczące hodowli Super Charty">
+    <meta property="og:type" content="website">
+    <meta name="robots" content="noodp">
+}
+
+
+<style>
+    #dog {
+        transition: all 1s ease;
+    }
+
+        #dog:hover {
+            transform: scale(1.2, 1.2);
+        }
+
+    #img_cnt {
+        position: relative;
+        overflow: hidden;
+        background-size: cover !important;
+        z-index: 1;
+        margin: 0;
+        background-color: rgba(255,255,255,.7);
+        /*max-height: 290px;*/
+        max-height: 390px;
+        /*border-radius: 5px;*/
+    }
+
+    .img_cnt_master {
+        border: solid 5px rgba(255,255,255,.7);
+        cursor: pointer;
+        background-color: rgba(255,255,255,.7);
+        /*height:560px;*/
+        box-shadow: 2px 2px 2px silver;
+    }
+
+    #opacityDiv {
+        background-color: white;
+        opacity: 0.8;
+        margin: 0;
+        background-color: rgba(255,255,255,.7);
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    #newsContainer h4, h2 {
+        margin-top: 0;
+        font-stretch: condensed;
+    }
+
+    #opacityDiv h3, #opacityDiv h4 {
+        font-stretch: condensed;
+        letter-spacing: 1px;
+    }
+
+    .news-opacity-div {
+        position: absolute;
+        display: table;
+        left: 21%;
+        top: 80%;
+        padding: 5px;
+        width: 60%;
+        background-color: rgba(50,50,50,.5);
+        text-align: center;
+        color: #fff;
+        border-radius: 5px;
+        font-weight: bold;
+        background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(80,80,80,0.1)), to(rgba(50,50,50,0.6)), color-stop(.9,#333333));
+    }
+
+    p {
+        text-align: justify;
+        font-stretch: condensed;
+        padding: 10px;
+        line-height: 1.5;
+    }
+
+    .crop {
+        height: 6em;
+        line-height: 1.4em;
+        overflow: hidden;
+        text-align: justify;
+        margin: 10px 0px 0px 0px;
+        font-size: medium;
+    }
+
+    /*WSZYSTKIE KOLUMNY TEJ SAMEJ WYSOKOŚCI*/
+    .equal {
+        display: flex;
+        display: -webkit-flex;
+        flex-wrap: wrap;
+    }
+
+    .sold {
+        text-align: center;        
+        background: linear-gradient(164deg, #ffa400, #00a0c5)
+    }
+
+        .sold p {
+            text-align: center;
+            padding: 2px;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+        }
+</style>
+<div id="fb-root"></div>
+<script>
+
+    $(document).ready(function () {
+        if (location.hash) {
+            $('a[href="' + location.hash + '"]').tab('show');
+        }
+        $(document.body).on("click", "a[data-toggle]", function (event) {
+            location.hash = this.getAttribute("href");
+        });
+    });
+    $(window).on('popstate', function () {
+        var anchor = location.hash || $("a[data-toggle=tab]").first().attr("href");
+        $('.tab-pane').addClass('fade');
+        $('a[href="' + anchor + '"]').tab('show');
+    });
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/pl_PL/sdk.js#xfbml=1&version=v2.8";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+<style>
+    .fb-livechat, .fb-widget {
+        display: none;
+    }
+
+    .ctrlq.fb-button, .ctrlq.fb-close {
+        position: fixed;
+        right: 24px;
+        cursor: pointer;
+    }
+
+    .ctrlq.fb-button {
+        z-index: 10;
+        background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4nICAnaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkJz48c3ZnIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDEyOCAxMjgiIGhlaWdodD0iMTI4cHgiIGlkPSJMYXllcl8xIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAxMjggMTI4IiB3aWR0aD0iMTI4cHgiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxnPjxyZWN0IGZpbGw9IiMwMDg0RkYiIGhlaWdodD0iMTI4IiB3aWR0aD0iMTI4Ii8+PC9nPjxwYXRoIGQ9Ik02NCwxNy41MzFjLTI1LjQwNSwwLTQ2LDE5LjI1OS00Niw0My4wMTVjMCwxMy41MTUsNi42NjUsMjUuNTc0LDE3LjA4OSwzMy40NnYxNi40NjIgIGwxNS42OTgtOC43MDdjNC4xODYsMS4xNzEsOC42MjEsMS44LDEzLjIxMywxLjhjMjUuNDA1LDAsNDYtMTkuMjU4LDQ2LTQzLjAxNUMxMTAsMzYuNzksODkuNDA1LDE3LjUzMSw2NCwxNy41MzF6IE02OC44NDUsNzUuMjE0ICBMNTYuOTQ3LDYyLjg1NUwzNC4wMzUsNzUuNTI0bDI1LjEyLTI2LjY1N2wxMS44OTgsMTIuMzU5bDIyLjkxLTEyLjY3TDY4Ljg0NSw3NS4yMTR6IiBmaWxsPSIjRkZGRkZGIiBpZD0iQnViYmxlX1NoYXBlIi8+PC9zdmc+) center no-repeat #0084ff;
+        width: 60px;
+        height: 60px;
+        text-align: center;
+        bottom: 24px;
+        border: 0;
+        outline: 0;
+        border-radius: 60px;
+        -webkit-border-radius: 60px;
+        -moz-border-radius: 60px;
+        -ms-border-radius: 60px;
+        -o-border-radius: 60px;
+        box-shadow: 0 1px 6px rgba(0,0,0,.06),0 2px 32px rgba(0,0,0,.16);
+        -webkit-transition: box-shadow .2s ease;
+        background-size: 80%;
+        transition: all .2s ease-in-out;
+    }
+
+        .ctrlq.fb-button:focus, .ctrlq.fb-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,.09),0 4px 40px rgba(0,0,0,.24);
+        }
+
+    .fb-widget {
+        background: #fff;
+        z-index: 2;
+        position: fixed;
+        width: 360px;
+        height: 435px;
+        overflow: hidden;
+        opacity: 0;
+        bottom: 0;
+        right: 24px;
+        border-radius: 6px;
+        -o-border-radius: 6px;
+        -webkit-border-radius: 6px;
+        box-shadow: 0 5px 40px rgba(0,0,0,.16);
+        -webkit-box-shadow: 0 5px 40px rgba(0,0,0,.16);
+        -moz-box-shadow: 0 5px 40px rgba(0,0,0,.16);
+        -o-box-shadow: 0 5px 40px rgba(0,0,0,.16);
+    }
+
+    .fb-credit {
+        text-align: center;
+        margin-top: 8px;
+    }
+
+        .fb-credit a {
+            transition: none;
+            color: #bec2c9;
+            font-family: Helvetica,Arial,sans-serif;
+            font-size: 12px;
+            text-decoration: none;
+            border: 0;
+            font-weight: 400;
+        }
+
+    .ctrlq.fb-overlay {
+        z-index: 0;
+        position: fixed;
+        height: 100vh;
+        width: 100vw;
+        -webkit-transition: opacity .4s,visibility .4s;
+        transition: opacity .4s,visibility .4s;
+        top: 0;
+        left: 0;
+        background: rgba(0,0,0,.05);
+        display: none;
+    }
+
+    .ctrlq.fb-close {
+        z-index: 4;
+        padding: 0 6px;
+        background: #365899;
+        font-weight: 700;
+        font-size: 11px;
+        color: #fff;
+        margin: 8px;
+        border-radius: 3px;
+    }
+
+        .ctrlq.fb-close::after {
+            content: 'x';
+            font-family: sans-serif;
+        }
+
+    .note {
+        border: 10px solid rgba(156, 122, 19, 0.74)
+    }
+
+    /*ANIMOWANY DIV*/
+
+    .animated-box {
+        padding: 30px;
+        text-align: center;
+        border-radius: 4px;
+    }
+
+    /* The animation starts here */
+    .animated-box {
+        position: relative;
+    }
+
+        .animated-box:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 4px;
+            background: linear-gradient(120deg, #839693, #ffffff, #d69607);
+            background-size: 300% 300%;
+            clip-path: polygon(0% 100%, 3px 100%, 3px 3px, calc(100% - 3px) 3px, calc(100% - 3px) calc(100% - 3px), 3px calc(100% - 3px), 3px 100%, 100% 100%, 100% 0%, 0% 0%);
+        }
+
+        .animated-box.in:after {
+            animation: frame-enter 1s forwards ease-in-out reverse, gradient-animation 4s ease-in-out infinite;
+        }
+
+    /* motion */
+    @@keyframes gradient-animation {
+        0% {
+            background-position: 15% 0%;
+        }
+
+        50% {
+            background-position: 85% 100%;
+        }
+
+        100% {
+            background-position: 15% 0%;
+        }
+    }
+
+    @@keyframes frame-enter {
+        0% {
+            clip-path: polygon(0% 100%, 3px 100%, 3px 3px, calc(100% - 3px) 3px, calc(100% - 3px) calc(100% - 3px), 3px calc(100% - 3px), 3px 100%, 100% 100%, 100% 0%, 0% 0%);
+        }
+
+        25% {
+            clip-path: polygon(0% 100%, 3px 100%, 3px 3px, calc(100% - 3px) 3px, calc(100% - 3px) calc(100% - 3px), calc(100% - 3px) calc(100% - 3px), calc(100% - 3px) 100%, 100% 100%, 100% 0%, 0% 0%);
+        }
+
+        50% {
+            clip-path: polygon(0% 100%, 3px 100%, 3px 3px, calc(100% - 3px) 3px, calc(100% - 3px) 3px, calc(100% - 3px) 3px, calc(100% - 3px) 3px, calc(100% - 3px) 3px, 100% 0%, 0% 0%);
+        }
+
+        75% {
+            -webkit-clip-path: polygon(0% 100%, 3px 100%, 3px 3px, 3px 3px, 3px 3px, 3px 3px, 3px 3px, 3px 3px, 3px 0%, 0% 0%);
+        }
+
+        100% {
+            -webkit-clip-path: polygon(0% 100%, 3px 100%, 3px 100%, 3px 100%, 3px 100%, 3px 100%, 3px 100%, 3px 100%, 3px 100%, 0% 100%);
+        }
+    }
+</style>
+
+@*Supercharty ID: 1616386595255225*@
+
+<div class="fb-livechat">
+    <div class="ctrlq fb-overlay"></div>
+    <div class="fb-widget">
+        <div class="ctrlq fb-close"></div>
+        <div class="fb-page" data-href="https://www.facebook.com/supercharty/" data-tabs="messages" data-width="360" data-height="400" data-small-header="false" data-hide-cover="false" data-show-facepile="false">
+            <blockquote cite="https://www.facebook.com/supercharty/" class="fb-xfbml-parse-ignore"> </blockquote>
+        </div>
+
+        <div id="fb-root"></div>
+    </div>
+    <a href="https://m.me/supercharty" title="Send us a message on Facebook" class="ctrlq fb-button"></a>
+</div>
+
+<script src="https://connect.facebook.net/pl_PL/sdk.js#xfbml=1&version=v2.9"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $('#searchBtn').click(function () {
+            var searchString = $('#searchInput').val();
+            var cathegory = $('#cathegoryDropdown').val();
+            var siteRoot = "@(Request.Url.Scheme)://@(Request.Url.Host):@Request.Url.Port";
+
+            if (cathegory == "Wszystko / All") {
+                cathegory = null;
+                window.location.href = siteRoot + '/Home/Index';
+            }
+
+            if (searchString != null && cathegory != null) {
+                window.location.href = siteRoot + '/Home/Index/' + cathegory + '/' + searchString;
+            }
+            else {
+                window.location.href = siteRoot;
+            }
+        });
+
+        $('#searchInput').keypress(function (e) {
+            if (e.which == 13) {//Enter key pressed
+                $('#searchBtn').click();//Trigger search button click event
+            }
+        });
+
+        var t = { delay: 125, overlay: $(".fb-overlay"), widget: $(".fb-widget"), button: $(".fb-button") };
+        setTimeout(function () {
+            $("div.fb-livechat").fadeIn()
+        }, 8 * t.delay),
+            $(".ctrlq").on("click", function (e) { e.preventDefault(), $('._p25m').css('border', 'none'), t.overlay.is(":visible") ? (t.overlay.fadeOut(t.delay), t.widget.stop().animate({ bottom: 0, opacity: 0 }, 2 * t.delay, function () { $(this).hide("slow"), t.button.show() })) : t.button.fadeOut("medium", function () { t.widget.stop().show().animate({ bottom: "30px", opacity: 1 }, 2 * t.delay), t.overlay.fadeIn(t.delay) }) })
+    });
+</script>
+
+
+<div class="container">
+    <div class="row">
+        <div class="box">
+            <div class="animated-box in">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="thin">
+                            <h4 class="section-title text-center">Szczenięta &nbsp;<small>Puppies</small></h4>
+                            <hr />
+                        </div>
+                    </div>
+                </div>
+                <!-- /.thin -->
+                <div class="divide10"></div>
+                @{
+                    int i;
+                    devarts.Repositories.KennelRepository kennelRepo = new devarts.Repositories.KennelRepository();
+                    var puppies = kennelRepo.GetAllPuppies().Where(p => p.IsForSale == true);
+                    i = 0;
+                }
+                <div class="row">
+                    @if (puppies.Count() > 0)
+                    {
+                        foreach (var puppy in puppies)
+                        {
+
+                            if (i != 0 && i % 4 == 0)
+                            {
+                            @:</div>
+                            @:<div class="row">
+                            }
+
+                                  <div class="col-sm-3 text-center">
+                                      <h6><small>@puppy.BreedLink</small></h6>
+                                      <div id="img_cnt">
+                                          <img alt="" style="cursor:pointer" src="~/Puppies/@puppy.BreedLink/@puppy.PuppyLink/@puppy.MainPicture" class="img-responsive" id="dog" onclick="window.location='@Url.Action("Puppy", "Home", new { puppyLink = puppy.PuppyLink } )'">
+                                      </div>
+                                      @if (!string.IsNullOrEmpty(puppy.AvailableStatus))
+                                      {
+                                          <div class="sold"><p>@puppy.AvailableStatus</p></div>
+                                      }
+                                      <h5>
+                                          @puppy.PuppyName
+                                          <small>@puppy.LitterLink</small>
+                                      </h5>
+
+                                  </div>
+
+                            i++;
+
+                        }
+                    }
+                    else
+                    {
+                        <h4 class="text-center">W tym momencie nie posiadamy szczeniąt na sprzedaż.</h4>
+                    }
+                </div>
+                <!-- /.container -->
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        <div class="box">
+            @if (User.IsInRole("Administrator"))
+            {
+                <div class="col-lg-12 text-center">
+                    <a style="margin-bottom:10px !important" class="btn btn-success" href="@Url.Action("CreatePost", "Admin")"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Dodaj nowy wpis</a>
+                </div>
+                <hr />
+            }
+            <h4 class="text-center">Aktualności<span class="under_flat"> NEWS</span></h4>
+            <hr />
+            @{
+                i = 0;
+            }
+            <div class="row">
+                @foreach (var post in Model.Post)
+                {
+                    if (post.IsPublished)
+                    {
+                        if (i != 0 && i % 2 == 0)
+                        {
+                        @:</div>
+                        @:<div class="row">
+                        }
+                        <div class="col-sm-6 text-center" id="newsContainer" style="padding-bottom:20px;">
+                            @if (User.IsInRole("Administrator"))
+                            {
+                                <a class="btn btn-default text-center" href="@Url.Action("EditPost", "Admin", new { postLink = post.PostLink })"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edycja</a><br />
+                            }
+                            <div class="img_cnt_master">
+                                <div id="img_cnt">
+                                    <img alt="" src="~/Posts/@post.PostLink/@post.mainImage" class="img-responsive" id="dog" onclick="window.location='/Home/News/@post.PostLink'">
+                                </div>
+                                <div style="overflow:hidden">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <p class="small">
+                                                <span>@post.AuthorName, @(post.PostDate)</span><span class="pull-right"><i class="fa fa-eye"></i> @post.PostShow</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="opacityDiv">
+                                    <br />
+                                    <hr class="tagline-divider" />
+                                    <h4>
+                                        <a href="@Url.Action("News", "Home", new { postLink = post.PostLink })"><strong style="color:black">@post.PostName</strong><span class="under">@post.PostNameEng</span></a>
+                                    </h4>
+                                    <hr class="tagline-divider" />
+                                    <br />
+                                    @*<hr class="style-seven" />*@
+                                    <div class="bs-example">
+                                        <ul class="nav nav-tabs" id="myTab">
+                                            <li class="active"><a style="padding:10px;" href="#sectionA_@post.Id"><i class="fa fa-comment"></i> Polski</a></li>
+                                            <li><a style="padding:10px;" href="#sectionB_@post.Id"><i class="fa fa-comment-o"></i> English reads</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="tab-content">
+                                        <div id="sectionA_@post.Id" class="tab-pane fade in active">
+                                            <div class="crop">
+                                                @Html.Raw(post.PostContentShort)
+                                            </div>
+                                        </div>
+                                        <div id="sectionB_@post.Id" class="tab-pane fade">
+                                            <div class="crop">
+                                                @Html.Raw(post.PostContentShortEng)
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <br />
+                                    <a class="btn btn-default" href="@Url.Action("News", "Home", new { postLink = post.PostLink })">Czytaj / <span class="under_flat"> READ MORE...</span></a>
+                                    <br /><br />
+                                    @*<div class="fb-share-button text-center" data-href="http://supercharty.mgadziejewski.com/Home/News/@item.EntryLink" data-layout="button_count" data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://supercharty.mgadziejewski.com/Home/News/@item.EntryLink/@item.mainImage?src=sdkpreparse">Udostępnij</a></div>*@
+                                </div>
+                                <h5>#Tagi / #Tags</h5>
+                                <hr />
+                                <h3 style="font-size:smaller;">@(post.Tags)</h3>
+                            </div>
+                        </div>
+                        i++;
+                    }
+                }
+            </div>
+            <div class="col-sm-12 text-center">
+                @*<hr />
+                    <span class="label label-lg label-default">
+                        STRONA / <span class="under_flat">PAGE</span> @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) OF @Model.PageCount
+                    </span>
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))*@
+                @Html.PagedListPager(Model.Post, page => Url.Action("Index", new { page }))
+            </div>
+        </div>
+        <div class="box searchBox" style="position:relative">
+            <h4 class="text-center">Szukaj<span class="under_flat"> SEARCH</span></h4>
+            <hr />
+            <form>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <input class="form-control input-lg" value="@ViewBag.Search" id="searchInput" aria-describedby="search" placeholder="Typing search content here...">
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <select class="form-control input-lg" id="cathegoryDropdown">
+                        <option>Wszystko / All</option>
+                        <option value="Szczenięta">Szczenięta / Puppies</option>
+                        <option value="Sport">Sport / Sport</option>
+                        <option value="Wystawy">Wystawy / Dog show</option>
+                        <option value="Hodowla">Hodowla / Breed</option>
+                        <option value="Wydarzenia">Wydarzenia / Events</option>
+                        <option value="Informacje">Informacje / Informations</option>
+                    </select>
+                </div>
+                <div class="col-lg-2">
+                    <a id="searchBtn" class="btn btn-default btn-lg btn-block">Szukaj<span class="under_flat"> / SEARCH</span></a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

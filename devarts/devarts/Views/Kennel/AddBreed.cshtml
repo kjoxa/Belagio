@@ -1,0 +1,142 @@
+﻿@model devarts.Models.DogBreed
+
+@Scripts.Render("~/bundles/summernote")
+@Styles.Render("~/content/summernote")
+
+<script>
+
+    $(document).ready(function () {
+        $.validator.setDefaults({
+            ignore: []
+        });
+
+        $('#entryContent').summernote({
+            onKeyup: function (e) {
+                $("#entryContent").val($("#entryContent").code());
+            },
+            height: 300,
+        });
+
+        $("#BreedLink").keyup(function () {
+            var val = $("#BreedLink").val();
+                        var mask = "^[A-Za-z0-9-_]+$";
+
+                        $.getJSON("@Url.Action("CheckBreedLinkExists","AjaxKennel")", { breedLink: val }, function (res) {
+                            if (res == true) {
+                                if ($("#BreedLink").val().match(mask)) {
+                                    $("#validateUrl").html("<p style='font-size:larger;'><span class='label label-danger'><i class='fa fa-lock'></i> Taki link już istnieje. Podaj inną wartość.</span></p>");
+                                }
+                            }
+                            else {
+                                if ($("#BreedLink").val().match(mask)) {
+                                    $("#validateUrl").html("<p style='font-size:larger;'><span class='label label-success'><i class='fa fa-check'></i> Link pasuje :)</span></p>");
+                                }
+                                else {
+                                    if ($("#BreedLink").val() != "" && $("#DogLink").val() != null) {
+                                        $("#validateUrl").html("<p style='font-size:larger;'><span class='label label-danger'><i class='fa fa-warning'></i> Błąd - dozwolone litery (bez polskich znaków), myślniki i cyfry.</span><br>"
+                                            + "<span class='label label-default'>Poprawne przykłady</span> - "
+                                            + "<span class='label label-success'>moj-nowy-post-12-03-2018</span> | "
+                                            + "<span class='label label-success'>krotki-artykul-wprowadzajacy</span> | "
+                                            + "<span class='label label-success'>wygrana-01022018</span>"
+                                            + "</p>");
+                                    } else {
+                                        $("#validateUrl").html("<p style='font-size:larger;'><span class='label label-danger'><i class='fa fa-info-circle'></i> Wypełnienie tego pola jest niezbędne - dozwolone litery (bez polskich znaków), myślniki i cyfry/liczby</span></p>");
+                                    }
+                                }
+                            }
+                        });
+                    });
+    });
+</script>
+
+<div class="row">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2><i class="fa fa-bars"></i><small> Dodawanie rasy</small></h2>
+
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <div class="col-lg-12">
+                <p>Dodanie rasy jest wymagane jeśli zamierzasz dodawać psy do swojej hodowli. Po dodaniu rasy, którą hodujesz będziesz w stanie przypisać do niej zwierzę.</p>
+            </div>
+            <div class="col-lg-12">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="x-panel">
+                                @using (@Html.BeginForm("AddBreed", "Kennel", FormMethod.Post, new { @id = "form1", @enctype = "multipart/form-data" }))
+                                {@Html.ValidationSummary()
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.BreedSpeciesName, new { @style = "font-weight: bold;" })
+                                    <div class="cols-sm-10">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                            @Html.TextBoxFor(model => model.BreedSpeciesName, new { @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.BreedSpeciesName)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.BreedSpeciesDisplayName, new { @style = "font-weight: bold;" })
+                                    <div class="cols-sm-10">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                            @Html.TextBoxFor(model => model.BreedSpeciesDisplayName, new { @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.BreedSpeciesDisplayName)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.BreedSpeciesDisplayNameEng, new { @style = "font-weight: bold;" })
+                                    <div class="cols-sm-10">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                            @Html.TextBoxFor(model => model.BreedSpeciesDisplayNameEng, new { @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.BreedSpeciesDisplayNameEng)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.BreedDescription, new { @style = "font-weight: bold;" })
+                                    <div class="cols-sm-10">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                            @Html.TextBoxFor(model => model.BreedDescription, new { @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.BreedDescription)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.BreedLink, new { @style = "font-weight: bold;" })
+                                    <div class="cols-sm-10">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                            @Html.TextBoxFor(model => model.BreedLink, new { @class = "form-control", pattern = "^[A-Za-z0-9-]+$", maxlength = "50", placeholder = "ItalianGreyhound, Borzoi, AiredaleTerrier..." })
+                                        </div>
+                                        <div id="validateUrl" class="primary"><p style='font-size:larger;'><span class='label label-danger'><i class='fa fa-info-circle'></i> Wypełnienie tego pola jest niezbędne - dozwolone litery (bez polskich znaków), myślniki i cyfry/liczby</span></p></div>
+                                    </div>
+                                </div>
+
+                                <div class="x-panel text-center">
+                                    <button type="submit" id="saveAll" class="btn btn-lg btn-primary"><i class="fa fa-check"></i> Dodaj rasę</button>
+                                </div>
+                            }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

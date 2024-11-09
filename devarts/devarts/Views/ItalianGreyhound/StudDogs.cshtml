@@ -1,0 +1,156 @@
+﻿@model List<devarts.Models.Dog>
+
+<style>
+    .col-sm-6 {
+        height: 450px;
+    }
+    #dog {
+        transition: all 1s ease;
+    }
+
+        #dog:hover {
+            transform: scale(1.2, 1.2);
+        }
+
+    #img_cnt {
+        /*position:absolute;*/
+        overflow: hidden;
+        border: solid 5px white;
+        cursor: pointer;
+    }
+</style>
+
+@*<div id="img_cnt">
+        <img alt="" src="/img/dog_photos/Skazka/hoverselect1.jpg" class="img-responsive" id="dog" onclick="window.location='/Borzoi/KniazhnieZolotoSkazka'">
+    </div>*@
+
+<div class="container">
+    @{
+        var maleDogs = Model;
+    }
+
+    <div class="row">
+        <div class="box">
+            <div class="col-lg-12">
+                <hr>
+                <h2 class="intro-text text-center">
+                    <small><b>Sires living in our kennel</b></small><br />
+                    CHARCIKI <strong>Włoskie</strong> - REPRODUKTORY W HODOWLI
+                </h2>
+                <hr>
+            </div>
+            @foreach (var dog in maleDogs)
+            {
+                if (maleDogs.Last() != dog)
+                {
+                    <div class="col-sm-6 text-center">
+                        <div id="img_cnt">
+                            <img alt="" src="/Dogs/@dog.BreedLink/@dog.DogLink/@dog.MainPicture" class="img-responsive" id="dog" onclick="window.location='/Dog/@dog.DogLink'">
+                        </div>
+                        <h4>
+                            @dog.DogName
+                            <small>@dog.BreedName</small>
+                        </h4>
+                    </div>
+                }
+                else
+                {
+                    // jeśli jest nieparzysta liczba, to ostatnie zdjęcie ma być na col-..-12
+                    if (maleDogs.Count() / 2 != 0)
+                    {
+                        <div class="col-sm-12 text-center">
+                            <div id="img_cnt">
+                                <img alt="" src="/Dogs/@dog.BreedLink/@dog.DogLink/@dog.MainPicture" class="img-responsive" id="dog" onclick="window.location='/Dog/@dog.DogLink'">
+                            </div>
+                            <h4>
+                                @dog.DogName
+                                <small>@dog.BreedName</small>
+                            </h4>
+
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-sm-6 text-center">
+                            <div id="img_cnt">
+                                <img alt="" src="/Dogs/@dog.BreedLink/@dog.DogLink/@dog.MainPicture" class="img-responsive" id="dog" onclick="window.location='/Dog/@dog.DogLink'">
+                            </div>
+                            <h4>
+                                @dog.DogName
+                                <small>@dog.BreedName</small>
+                            </h4>
+
+                        </div>
+                    }
+
+                }
+            }
+
+            <div class="clearfix"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="box">
+            <div class="col-lg-12">
+                <hr>
+                <h2 class="intro-text text-center">
+                    <small><b>Sires born in our kennel</b></small><br />
+                    REPRODUKTORY <strong> URODZONE W HODOWLI</strong>
+                </h2>
+                <hr>
+            </div>
+            @{ 
+                devarts.Repositories.KennelRepository _kennelRepo = new devarts.Repositories.KennelRepository();
+                List<devarts.Models.Puppy> studPuppiesList = _kennelRepo.GetAllPuppies().Where(p => p.IsReproductor).OrderByDescending(p => p.BornDate).ToList();
+            }
+            @foreach (var dog in studPuppiesList)
+            {
+                if (studPuppiesList.Last() != dog)
+                {
+                    <div class="col-sm-6 text-center">
+                        <div id="img_cnt">
+                            <img alt="" src="/Puppies/@dog.BreedLink/@dog.PuppyLink/@dog.MainPicture" class="img-responsive" id="dog" onclick="window.location='/Puppy/@dog.PuppyLink'">
+                        </div>
+                        <h4>
+                            @dog.PuppyName
+                            <small>@dog.City</small>
+                        </h4>
+                    </div>
+                }
+                else
+                {
+                    // jeśli jest nieparzysta liczba, to ostatnie zdjęcie ma być na col-..-12
+                    if (studPuppiesList.Count() / 2 != 0)
+                    {
+                        <div class="col-sm-12 text-center">
+                            <div id="img_cnt">
+                                <img alt="" src="/Puppies/@dog.BreedLink/@dog.PuppyLink/@dog.MainPicture" class="img-responsive" id="dog" onclick="window.location='/Puppy/@dog.PuppyLink'">
+                            </div>
+                            <h4>
+                                @dog.PuppyName
+                                <small>@dog.City</small>
+                            </h4>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-sm-6 text-center">
+                            <div id="img_cnt">
+                                <img alt="" src="/Puppies/@dog.BreedLink/@dog.PuppyLink/@dog.MainPicture" class="img-responsive" id="dog" onclick="window.location='/Puppy/@dog.PuppyLink'">
+                            </div>
+                            <h4>
+                                @dog.PuppyName
+                                <small>@dog.City</small>
+                            </h4>
+
+                        </div>
+                    }
+
+                }
+            }
+
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>

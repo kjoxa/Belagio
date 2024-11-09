@@ -1,0 +1,45 @@
+﻿@*<link rel="stylesheet" href="~/MAGallery/css/MAgallery.css">*@
+@*<style>
+        #myGallery {
+            min-height: 300px;
+        }
+
+        .container {
+            margin: 70px auto;
+        }
+
+        h1 {
+            text-align: center;
+        }
+    </style>*@
+
+
+<div class="container">
+    <div class="box">
+        <h1>MAgallery jQuery Plugin Demo</h1>
+
+        <div class="row">
+            <ul id="myGallery" class="gallery col-xs-12">
+                <li class="col-xs-6 col-sm-3"><span><img src="https://unsplash.it/800/600?image=557" /></span></li>
+                <li class="col-xs-6 col-sm-3"><span><img src="https://unsplash.it/800/600?image=548" /></span></li>
+                <li class="col-xs-6 col-sm-3"><span><img src="https://unsplash.it/960/720?image=541" /></span></li>
+                <li class="col-xs-6 col-sm-3"><span><img src="https://unsplash.it/960/720?image=433" /></span></li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+
+
+@*<script type="text/javascript" src="~/MAGallery/js/MAgallery.js"></script>*@
+<script type="text/javascript">
+    MAgallery("myGallery");
+</script>
+@section metatags
+{
+    @Styles.Render("~/MAGallery/css")
+    @Scripts.Render("~/MAGallery/js")
+}
+
+

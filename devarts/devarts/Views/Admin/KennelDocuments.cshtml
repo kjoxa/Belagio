@@ -1,0 +1,177 @@
+﻿@Scripts.Render("~/bundles/jquery")
+@Styles.Render("~/Content/font-awesome.css")
+
+@Styles.Render("~/Content/DataTables")
+@Scripts.Render("~/Scripts/AdminDataTables")
+
+<div class="row">
+    <div class="container">
+        <br />
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="x_panel">
+                    <ol class="breadcrumb">
+                        <li>
+                            @Html.ActionLink("Strona Główna", "Index", "Home")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Panel Administratora", "Index", "Admin")
+                        </li>
+                        <li>
+                            <a href="~/Admin/AdminPanel">Wzory dokumentów</a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Dokumenty <small>Hodowcy</small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="#">Settings 1</a>
+                            </li>
+                            <li>
+                                <a href="#">Settings 2</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <ul class="list-unstyled timeline">
+                    <li>
+                        <div class="block">
+                            <div class="tags">
+                                <a href="" class="tag">
+                                    <span>Problem</span>
+                                </a>
+                            </div>
+                            <div class="block_content">
+                                <h2 class="title">
+                                    <a>Po co mi ta funkcjonalność?</a>
+                                </h2>
+                                <div class="byline">
+                                    <span>13 hours ago</span> by <a>Jane Smith</a>
+                                </div>
+                                <p class="excerpt">
+                                    Jednym z podstawowych problemów hodowcy jest wyszukiwanie wzorów umów.
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="block">
+                            <div class="tags">
+                                <a href="" class="tag">
+                                    <span>Cel</span>
+                                </a>
+                            </div>
+                            <div class="block_content">
+                                <h2 class="title">
+                                    <a>Czyli jak jest teraz?</a>
+                                </h2>
+                                <div class="byline">
+                                    <span>13 hours ago</span> by <a>Jane Smith</a>
+                                </div>
+                                <p class="excerpt">
+                                    Możliwość wyszukania wzoru na liście i pobrania go lub wydrukowania.
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="block">
+                            <div class="tags">
+                                <a href="" class="tag">
+                                    <span>Wkrótce</span>
+                                </a>
+                            </div>
+                            <div class="block_content">
+                                <h2 class="title">
+                                    <a>Funkcjonalności niebawem...</a>
+                                </h2>
+                                <div class="byline">
+                                    <span>13 hours ago</span> by <a>Jane Smith</a>
+                                </div>
+                                <p class="excerpt">
+                                    Wygenerujesz sobie swój własny, uzupełniony wniosek na podstawie danych wprowadzonych w panelu głównym. Będziesz też w stanie dodać swój własny plik, który pojawi się na liście.
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Czynności <small>Do wykonania w tym module</small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="#">Settings 1</a>
+                            </li>
+                            <li>
+                                <a href="#">Settings 2</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <p>Dodawaj wzory, pliki i wyszukuj na liście poniżej.</p>
+                <!-- start pop-over -->
+                <div class="bs-example-popovers">
+                    <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="left" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-original-title="" title="">
+                        Dodaj plik
+                    </button>
+                    <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-original-title="" title="">
+                        Dodaj wzór
+                    </button>
+                    <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="bottom" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
+                        Inne 1
+                    </button>
+                    <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="right" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
+                        Inne 2
+                    </button>
+                </div>
+                <!-- end pop-over -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+   
+</div>
+
+<div class="row">
+    @Html.Partial("_documentsView")
+</div>
+

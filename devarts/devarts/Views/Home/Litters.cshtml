@@ -1,0 +1,59 @@
+﻿@section metatags
+{
+    <meta property="og:title" content="Leśna Magia - Mioty">
+    <meta property="og:image" content="@System.Web.Configuration.WebConfigurationManager.AppSettings["webDomainName"]/Layout/logo_gold.png">
+    <meta property="og:url" content="@System.Web.Configuration.WebConfigurationManager.AppSettings["webDomainName"]/">
+    <meta property="og:description" content="Mioty hodowli Leśna Magia">
+    <meta property="og:type" content="website">
+    <meta name="robots" content="noodp">
+}
+
+<section class="content background-grey">
+    <div class="container">
+        <div class="belagio_container">
+            <div class="row">
+                
+                <div class="col-lg-12">
+                    <div class="title text-center">
+                        <hr class="hr-text" data-content=" MIOTY \ Litters ">
+                        <span class="lead">
+                            Wszystkie mioty
+                            <br />
+                            <small style="color: rgba(170, 150, 91)"> All litters</small>
+                        </span>
+                        <hr />
+                    </div>
+                </div>
+
+                <div class="col-lg-12">
+                    @{
+                        devarts.Repositories.KennelRepository kennelRepo = new devarts.Repositories.KennelRepository();
+                        var litters = kennelRepo.GetAllLitters();
+                        int i = 0;
+                    }
+
+                    <div class="grid-layout grid-3-columns" data-margin="20" data-item="grid-item" data-lightbox="gallery">
+                        @foreach (var litter in litters.Where(m => m.Visibility == false))
+                        {                            
+                            <div class="grid-item">
+                                <h5 class="text-center"></h5>
+                                @if (User.IsInRole("Administrator"))
+                                {
+                                <a class="btn btn-xs btn-danger" target="_blank" href="@Url.Action("EditLitter", "Kennel", new { id = litter.Id })"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edytuj miot</a><br />
+                                <hr />
+                                }
+                                <a class="image-hover-zoom" href="@Url.Action("Litter", "Home", new { litterLink = litter.LitterLink })">
+                                    <img class="pointer picture-border" src="~/Litters/@litter.BreedLink/@litter.LitterLink/@litter.MainPicture">
+                                </a>
+                                <div class="title text-center">
+                                    <hr class="hr-text" data-content=" @litter.LitterPresentationName ">
+                                </div>
+                            </div>
+                            i++;
+                        }
+                    </div>
+                </div>                
+            </div>
+        </div>
+    </div>
+</section>

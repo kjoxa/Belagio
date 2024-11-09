@@ -1,0 +1,328 @@
+﻿@Styles.Render("~/Content/Features/Pedigree/pedigree.css")
+@model devarts.Models.DogWithImages
+@{
+    var Dog = Model.dog;
+}
+
+@section metatags
+{
+    <meta property="og:title" content="@Dog.DogName">
+    <meta property="og:image" content="@System.Web.Configuration.WebConfigurationManager.AppSettings["webDomainName"]/Posts/@Dog.BreedLink/@Dog.DogLink/@Dog.MainPicture">
+    <meta property="og:url" content="@System.Web.Configuration.WebConfigurationManager.AppSettings["webDomainName"]/Dog/@Dog.DogLink">
+    <meta property="og:description" content="@Html.Raw(Dog.DogPetName)">
+    <meta property="og:type" content="article">
+    <meta name="robots" content="noodp">
+}
+
+<!-- OGÓLNE -->
+<section class="content background-grey" style="padding: 30px 0 10px 0">
+    <div class="container">
+        <div class="belagio_container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="title text-center">
+                        <hr class="hr-text" data-content=" OGÓLNE \ General ">
+                    </div>
+                </div>
+
+                @if (User.IsInRole("Administrator"))
+                {
+                    <div class="col-lg-12">
+                        <hr />
+                        <a class="btn btn-xs btn-danger" target="_blank" href="@Url.Action("EditDog", "Kennel", new { id = Model.dog.Id })"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edytuj dane psa</a><br />
+                        <hr />
+                    </div>
+                }
+
+                <div class="col-lg-6">
+                    <img class="picture-border" src="/Dogs/@Dog.BreedLink/@Dog.DogLink/@Dog.MainPicture" style="width:100%;" />
+                </div>
+
+                <div class="col-lg-6">
+                    <h5><i class="fa fa-heart"></i> @Dog.BornDate</h5>
+                    @if (Dog.DogKennelNameFirst)
+                    {
+                        <h3 style="color: rgba(170, 150, 91)">@Dog.BreedName <strong>@Dog.DogName</strong></h3>
+                    }
+                    else
+                    {
+                        <h3 style="color: rgba(170, 150, 91)"><strong>@Dog.DogName</strong> @Dog.BreedName</h3>
+                    }
+
+                    @if (Dog.DogFatherKennelNameFirst)
+                    {
+                        <h5>Ojciec / father: <strong>@Dog.DogFatherBreedName</strong> <b>@Dog.DogFatherName</b></h5>
+                    }
+                    else
+                    {
+                        <h5>Ojciec / father: <b>@Dog.DogFatherName</b> <strong>@Dog.DogFatherBreedName</strong></h5>
+                    }
+
+                    @if (Dog.DogMotherKennelNameFirst)
+                    {
+                        <h5>Matka / mother: <strong>@Dog.DogMotherBreedName</strong> <b>@Dog.DogMotherName</b></h5>
+                    }
+                    else
+                    {
+                        <h5>Matka / mother: <b>@Dog.DogMotherName</b> <strong>@Dog.DogMotherBreedName</strong></h5>
+                    }
+                    <hr style="color: rgba(170, 150, 91); border: 1px solid" />
+                    <h5>Kolor / colour: <b style="color: rgba(170, 150, 91)">@Dog.DogColour</b></h5>
+                    <h5>Wzrost / height: <b style="color: rgba(170, 150, 91)">@Dog.Height  cm</b></h5>
+                    <h5>Waga / weight: <b style="color: rgba(170, 150, 91)">@Dog.Weight kg</b></h5>
+
+                </div>
+                <div class="col-lg-12">
+                    <div class="space"></div>
+                    <div class="tabs tabs-vertical">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <ul class="nav flex-column nav-tabs" id="myTab4" role="tablist"
+                                    aria-orientation="vertical">
+                                    <li class="nav-item">
+                                        <a style="color: rgba(170, 150, 91)" class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile4"
+                                           role="tab" aria-controls="profile" aria-selected="false">Osiągnięcia / achievements</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a style="color: rgba(170, 150, 91)" class="nav-link" id="contact-tab" data-toggle="tab" href="#contact4"
+                                           role="tab" aria-controls="contact" aria-selected="false">Badania / health</a>
+                                    </li>
+                                    @if (Dog.DogSex == false)
+                                    {
+                                        <li class="nav-item">
+                                            <a style="color: rgba(170, 150, 91)" class="nav-link" id="profile-tab" data-toggle="tab" href="#litters"
+                                               role="tab" aria-controls="profile" aria-selected="false">Mioty / litters</a>
+                                        </li>
+                                    }
+
+                                </ul>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="tab-content" id="v-pills-tabContent">
+                                    <div class="tab-pane fade active" id="v-pills-profile" role="tabpanel"
+                                         aria-labelledby="v-pills-profile-tab">...</div>
+                                    <div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
+                                         aria-labelledby="v-pills-messages-tab">...</div>
+                                    <div class="tab-pane fade" id="v-pills-settings" role="tabpanel"
+                                         aria-labelledby="v-pills-settings-tab">...</div>
+                                </div>
+                                <div class="tab-content" id="myTabContent4">
+                                    <div class="tab-pane fade show active" id="profile4" role="tabpanel"
+                                         aria-labelledby="profile-tab">
+                                        @Html.Raw(Dog.AchievementsDescription)
+                                    </div>
+                                    <div class="tab-pane fade" id="contact4" role="tabpanel"
+                                         aria-labelledby="contact-tab">
+                                        @Html.Raw(Dog.DogMedicalDescription)
+                                    </div>
+                                    <div class="tab-pane fade" id="litters" role="tabpanel"
+                                         aria-labelledby="profile-tab">
+                                        @foreach (var litter in Model.litters)
+                                        {
+                                            <a href="@Url.Action("Litter", "Home", new { litterLink = litter.LitterLink })"
+                                               target="_blank"><b><i class="fa fa-paw"></i> @litter.LitterPresentationName</b><br />(szczegóły / more information...)</a>
+                                            <hr class="hr-text" style="margin:1px; padding: 1px" />
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- RODOWÓD -->
+<section class="content background-grey" style="padding: 30px 0 10px 0">
+    <div class="container">
+        <div class="belagio_container">
+            <div class="col-lg-12">
+                <div class="title text-center">
+                    <hr class="hr-text" data-content=" RODOWÓD \ Pedigree ">
+                </div>
+            </div>
+
+            <div class="col-lg-12">
+                @if (User.IsInRole("Administrator"))
+                {
+                    <div class="col-lg-12">
+                        <hr />
+                        <a class="btn btn-xs btn-danger" target="_blank" href="@Url.Action("EditTree", "Tree", new { id = Model.tree.Id })"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edytuj drzewo genealogiczne</a><br />
+                        <hr />
+                    </div>
+                }
+
+                @if (Request.Browser.IsMobileDevice)
+                {
+                    <div id="wrapper">
+                        <!--PIES W HODOWLI-->
+                        <a style="color: #ffffff;" href="javascript:void(0);" class="label editBox" id="DogTreeBox" data-element-name="DogTreeBox" data-id=@Model.tree.Id
+                           data-box-text="@Model.tree.DogTreeBox" data-box-tooltip="@Model.tree.DogTreeTooltip" data-box-picture="@Model.tree.DogTreeTooltip_Image" data-toggle="tooltip" data-html="true"
+                           title="<br><img class='tltip' src='@Model.tree.DogTreeTooltip_Image'><br>@Model.tree.DogTreeTooltip">@Html.Raw(Model.tree.DogTreeBox)</a>
+                        <div class="family-tree">
+                            <div class="entry">
+                                <!--OJCIEC A1-->
+                                <span class="label editBox" id="A_DogTreeBox_Father_1" data-element-name="A_DogTreeBox_Father_1" data-id=@Model.tree.Id
+                                      data-box-text="@Model.tree.A_DogTreeBox_Father_1" data-box-tooltip="@Model.tree.A_DogTreeTooltip_Father_1" data-box-picture="@Model.tree.A_DogTreeImage_Father_1" data-toggle="tooltip" data-html="true"
+                                      title="<br><img class='tltip' src='@Model.tree.A_DogTreeImage_Father_1'><br>@Model.tree.A_DogTreeTooltip_Father_1">@Html.Raw(Model.tree.A_DogTreeBox_Father_1)</span>
+
+                                </div>
+
+                                <div class="entry">
+                                    <!--MATKA A2-->
+                                    <span class="label editBox" id="A_DogTreeBox_Mother_2" data-element-name="A_DogTreeBox_Mother_2" data-id=@Model.tree.Id
+                                          data-box-text="@Model.tree.A_DogTreeBox_Mother_2" data-box-tooltip="@Model.tree.A_DogTreeTooltip_Mother_2" data-box-picture="@Model.tree.A_DogTreeImage_Mother_2" data-toggle="tooltip" data-html="true"
+                                          title="<br><img class='tltip' src='@Model.tree.A_DogTreeImage_Mother_2'><br>@Model.tree.A_DogTreeTooltip_Mother_2">@Model.tree.A_DogTreeBox_Mother_2</span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div id="wrapper">
+                                <!--PIES W HODOWLI-->
+                                <a style="color: #ffffff;" href="javascript:void(0);" class="label editBox" id="DogTreeBox" data-element-name="DogTreeBox" data-id=@Model.tree.Id
+                                   data-box-text="@Model.tree.DogTreeBox" data-box-tooltip="@Model.tree.DogTreeTooltip" data-box-picture="@Model.tree.DogTreeTooltip_Image" data-toggle="tooltip" data-html="true"
+                                   title="<br><img class='tltip' src='@Model.tree.DogTreeTooltip_Image'><br>@Model.tree.DogTreeTooltip">@Html.Raw(Model.tree.DogTreeBox)</a>
+                                <div class="family-tree">
+                                    <div class="entry">
+                                        <!--OJCIEC A1-->
+                                        <span class="label editBox" id="A_DogTreeBox_Father_1" data-element-name="A_DogTreeBox_Father_1" data-id=@Model.tree.Id
+                                              data-box-text="@Model.tree.A_DogTreeBox_Father_1" data-box-tooltip="@Model.tree.A_DogTreeTooltip_Father_1" data-box-picture="@Model.tree.A_DogTreeImage_Father_1" data-toggle="tooltip" data-html="true"
+                                              title="<br><img class='tltip' src='@Model.tree.A_DogTreeImage_Father_1'><br>@Model.tree.A_DogTreeTooltip_Father_1">@Html.Raw(Model.tree.A_DogTreeBox_Father_1)</span>
+                                            <div class="family-tree">
+                                                <div class="entry">
+                                                    <!--DZIADEK B3-->
+                                                    <span class="label editBox" id="B_DogTreeBox_Father_3" data-element-name="B_DogTreeBox_Father_3" data-id=@Model.tree.Id
+                                                          data-box-text="@Model.tree.B_DogTreeBox_Father_3" data-box-tooltip="@Model.tree.B_DogTreeTooltip_Father_3" data-box-picture="@Model.tree.B_DogTreeImage_Father_3" data-toggle="tooltip" data-html="true"
+                                                          title="<br><img class='tltip' src='@Model.tree.B_DogTreeImage_Father_3'><br>@Model.tree.B_DogTreeTooltip_Father_3">@Model.tree.B_DogTreeBox_Father_3</span>
+                                                        <div class="family-tree">
+                                                            <!--PRADZIADEK C7-->
+                                                            <div class="entry">
+                                                                <span class="label editBox" id="C_DogTreeBox_Father_7" data-element-name="C_DogTreeBox_Father_7" data-id=@Model.tree.Id
+                                                                      data-box-text="@Model.tree.C_DogTreeBox_Father_7" data-box-tooltip="@Model.tree.C_DogTreeTooltip_Father_7" data-box-picture="@Model.tree.C_DogTreeImage_Father_7" data-toggle="tooltip" data-html="true"
+                                                                      title="<br><img class='tltip' src='@Model.tree.C_DogTreeImage_Father_7'><br>@Model.tree.C_DogTreeTooltip_Father_7">@Model.tree.C_DogTreeBox_Father_7</span>
+                                                                </div>
+                                                                <!--PRABABCIA C8-->
+                                                                <div class="entry">
+                                                                    <span class="label editBox" id="C_DogTreeBox_Mother_8" data-element-name="C_DogTreeBox_Mother_8" data-id=@Model.tree.Id
+                                                                          data-box-text="@Model.tree.C_DogTreeBox_Mother_8" data-box-tooltip="@Model.tree.C_DogTreeTooltip_Mother_8" data-box-picture="@Model.tree.C_DogTreeImage_Mother_8" data-toggle="tooltip" data-html="true"
+                                                                          title="<br><img class='tltip' src='@Model.tree.C_DogTreeImage_Mother_8'><br>@Model.tree.C_DogTreeTooltip_Mother_8">@Model.tree.C_DogTreeBox_Mother_8</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="entry">
+                                                                <!--BABCIA B4-->
+                                                                <span class="label editBox" id="B_DogTreeBox_Mother_4" data-element-name="B_DogTreeBox_Mother_4" data-id=@Model.tree.Id
+                                                                      data-box-text="@Model.tree.B_DogTreeBox_Mother_4" data-box-tooltip="@Model.tree.B_DogTreeTooltip_Mother_4" data-box-picture="@Model.tree.B_DogTreeImage_Mother_4" data-toggle="tooltip" data-html="true"
+                                                                      title="<br><img class='tltip' src='@Model.tree.B_DogTreeImage_Mother_4'><br>@Model.tree.B_DogTreeTooltip_Mother_4">@Model.tree.B_DogTreeBox_Mother_4</span>
+                                                                    <div class="family-tree">
+                                                                        <!--PRADZIADEK C9-->
+                                                                        <div class="entry">
+                                                                            <span class="label editBox" id="C_DogTreeBox_Father_9" data-element-name="C_DogTreeBox_Father_9" data-id=@Model.tree.Id
+                                                                                  data-box-text="@Model.tree.C_DogTreeBox_Father_9" data-box-tooltip="@Model.tree.C_DogTreeTooltip_Father_9" data-box-picture="@Model.tree.C_DogTreeImage_Father_9" data-toggle="tooltip" data-html="true"
+                                                                                  title="<br><img class='tltip' src='@Model.tree.C_DogTreeImage_Father_9'><br>@Model.tree.C_DogTreeTooltip_Father_9">@Model.tree.C_DogTreeBox_Father_9</span>
+                                                                            </div>
+                                                                            <!--PRABABCIA C10-->
+                                                                            <div class="entry">
+                                                                                <span class="label editBox" id="C_DogTreeBox_Mother_10" data-element-name="C_DogTreeBox_Mother_10" data-id=@Model.tree.Id
+                                                                                      data-box-text="@Model.tree.C_DogTreeBox_Mother_10" data-box-tooltip="@Model.tree.C_DogTreeTooltip_Mother_10" data-box-picture="@Model.tree.C_DogTreeImage_Mother_10" data-toggle="tooltip" data-html="true"
+                                                                                      title="<br><img class='tltip' src='@Model.tree.C_DogTreeImage_Mother_10'><br>@Model.tree.C_DogTreeTooltip_Mother_10">@Model.tree.C_DogTreeBox_Mother_10</span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="entry">
+                                                                    <!--MATKA A2-->
+                                                                    <span class="label editBox" id="A_DogTreeBox_Mother_2" data-element-name="A_DogTreeBox_Mother_2" data-id=@Model.tree.Id
+                                                                          data-box-text="@Model.tree.A_DogTreeBox_Mother_2" data-box-tooltip="@Model.tree.A_DogTreeTooltip_Mother_2" data-box-picture="@Model.tree.A_DogTreeImage_Mother_2" data-toggle="tooltip" data-html="true"
+                                                                          title="<br><img class='tltip' src='@Model.tree.A_DogTreeImage_Mother_2'><br>@Model.tree.A_DogTreeTooltip_Mother_2">@Model.tree.A_DogTreeBox_Mother_2</span>
+                                                                        <div class="family-tree">
+                                                                            <div class="entry">
+                                                                                <!--DZIADEK B5-->
+                                                                                <span class="label editBox" id="B_DogTreeBox_Father_5" data-element-name="B_DogTreeBox_Father_5" data-id=@Model.tree.Id
+                                                                                      data-box-text="@Model.tree.B_DogTreeBox_Father_5" data-box-tooltip="@Model.tree.B_DogTreeTooltip_Father_5" data-box-picture="@Model.tree.B_DogTreeImage_Father_5" data-toggle="tooltip" data-html="true"
+                                                                                      title="<br><img class='tltip' src='@Model.tree.B_DogTreeImage_Father_5'><br>@Model.tree.B_DogTreeTooltip_Father_5">@Model.tree.B_DogTreeBox_Father_5</span>
+                                                                                    <div class="family-tree">
+                                                                                        <!--PRADZIADEK C13-->
+                                                                                        <div class="entry">
+                                                                                            <span class="label editBox" id="C_DogTreeBox_Father_13" data-element-name="C_DogTreeBox_Father_13" data-id=@Model.tree.Id
+                                                                                                  data-box-text="@Model.tree.C_DogTreeBox_Father_13" data-box-tooltip="@Model.tree.C_DogTreeTooltip_Father_13" data-box-picture="@Model.tree.C_DogTreeImage_Father_13" data-toggle="tooltip" data-html="true"
+                                                                                                  title="<br><img class='tltip' src='@Model.tree.C_DogTreeImage_Father_13'><br>@Model.tree.C_DogTreeTooltip_Father_13">@Model.tree.C_DogTreeBox_Father_13</span>
+                                                                                            </div>
+                                                                                            <!--PRABABCIA C14-->
+                                                                                            <div class="entry">
+                                                                                                <span class="label editBox" id="C_DogTreeBox_Mother_14" data-element-name="C_DogTreeBox_Mother_14" data-id=@Model.tree.Id
+                                                                                                      data-box-text="@Model.tree.C_DogTreeBox_Mother_14" data-box-tooltip="@Model.tree.C_DogTreeTooltip_Mother_14" data-box-picture="@Model.tree.C_DogTreeImage_Mother_14" data-toggle="tooltip" data-html="true"
+                                                                                                      title="<br><img class='tltip' src='@Model.tree.C_DogTreeImage_Mother_14'><br>@Model.tree.C_DogTreeTooltip_Mother_14">@Model.tree.C_DogTreeBox_Mother_14</span>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="entry">
+                                                                                            <!--BABCIA B6-->
+                                                                                            <span class="label editBox" id="B_DogTreeBox_Mother_6" data-element-name="B_DogTreeBox_Mother_6" data-id=@Model.tree.Id
+                                                                                                  data-box-text="@Model.tree.B_DogTreeBox_Mother_6" data-box-tooltip="@Model.tree.B_DogTreeTooltip_Mother_6" data-box-picture="@Model.tree.B_DogTreeImage_Mother_6" data-toggle="tooltip" data-html="true"
+                                                                                                  title="<br><img class='tltip' src='@Model.tree.B_DogTreeImage_Mother_6'><br>@Model.tree.B_DogTreeTooltip_Mother_6">@Model.tree.B_DogTreeBox_Mother_6</span>
+                                                                                                <div class="family-tree">
+                                                                                                    <!--PRADZIADEK C9-->
+                                                                                                    <div class="entry">
+                                                                                                        <span class="label editBox" id="C_DogTreeBox_Father_11" data-element-name="C_DogTreeBox_Father_11" data-id=@Model.tree.Id
+                                                                                                              data-box-text="@Model.tree.C_DogTreeBox_Father_11" data-box-tooltip="@Model.tree.C_DogTreeTooltip_Father_11" data-box-picture="@Model.tree.C_DogTreeImage_Father_11" data-toggle="tooltip" data-html="true"
+                                                                                                              title="<br><img class='tltip' src='@Model.tree.C_DogTreeImage_Father_11'><br>@Model.tree.C_DogTreeTooltip_Father_11">@Model.tree.C_DogTreeBox_Father_11</span>
+                                                                                                        </div>
+                                                                                                        <!--PRABABCIA C10-->
+                                                                                                        <div class="entry">
+                                                                                                            <span class="label editBox" id="C_DogTreeBox_Mother_12" data-element-name="C_DogTreeBox_Mother_12" data-id=@Model.tree.Id
+                                                                                                                  data-box-text="@Model.tree.C_DogTreeBox_Mother_12" data-box-tooltip="@Model.tree.C_DogTreeTooltip_Mother_12" data-box-picture="@Model.tree.C_DogTreeImage_Mother_12" data-toggle="tooltip" data-html="true"
+                                                                                                                  title="<br><img class='tltip' src='@Model.tree.C_DogTreeImage_Mother_12'><br>@Model.tree.C_DogTreeTooltip_Mother_12">@Model.tree.C_DogTreeBox_Mother_12</span>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                }
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+
+<!-- GALERIA -->
+<section class="content background-grey" style="padding: 30px 0 30px 0">
+    <div class="container">
+        <div class="belagio_container">
+            <div class="col-lg-12">
+                <div class="title text-center">
+                    <hr class="hr-text" data-content=" ZDJĘCIA \ Gallery ">
+                </div>
+            </div>
+
+            <div class="col-lg-12">
+                <section id="page-content" class="belagio-gallery">
+                    <div class="container">
+                        <div class="grid-layout grid-4-columns" data-margin="20" data-item="grid-item" data-lightbox="gallery">
+                            @foreach (var photo in Model.images)
+                            {
+                                @*<div class="col-lg-3 col-sm-4 col-xs-6"><a title="Image 1" href="#"><img class="thumbnail img-responsive" src="/Dogs/@Dog.BreedLink/@Dog.DogLink/@photo.ImageFileName"></a></div>*@
+                                @*<li class="col-xs-6 col-sm-3"><span><img src="/Dogs/@Dog.BreedLink/@Dog.DogLink/@photo.ImageFileName" /></span></li>*@
+                                <div class="grid-item">
+                                    <a class="image-hover-zoom" href="/Dogs/@Dog.BreedLink/@Dog.DogLink/@photo.ImageFileName" data-lightbox="gallery-image">
+                                        <img src="/Dogs/@Dog.BreedLink/@Dog.DogLink/@photo.ImageFileName">
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</section>
+

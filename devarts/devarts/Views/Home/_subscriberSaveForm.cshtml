@@ -1,0 +1,33 @@
+﻿
+@model devarts.Models.Subscriber
+
+<script type="text/javascript" src="~/Scripts/jquery-1.12.4.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery.validate.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<!-- NEWS LETTER -->
+<div class="page-section nl-cont pull-right">
+    <div class="container">
+        <div class="relative">
+            <div id="mc_embed_signup" class="nl-form-container clearfix">
+                <div id="mc_embed_signup" class="nl-form-container clearfix">
+                    <div id="formOuter">
+                        @using (Ajax.BeginForm("SubmitNewsletter", null, new AjaxOptions
+                        {
+                            HttpMethod = "POST",
+                            InsertionMode = InsertionMode.Replace,
+                            UpdateTargetId = "formOuter"
+                        }, new { @class = "newsletterform validate" }))
+                        {
+                            @Html.TextBoxFor(x => x.Email, new { @class = "email nl-email-input", @id = "mce-EMAIL", placeholder = "Enter your email" })
+                            <input type="submit" class="button medium gray use-ajax" value="Zapisz">
+                            <br />
+                            @Html.ValidationMessageFor(model => model.Email)
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

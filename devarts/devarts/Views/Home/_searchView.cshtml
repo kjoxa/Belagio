@@ -1,0 +1,59 @@
+﻿@model devarts.Models.Search
+
+<style>
+    .input-group-addon {
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1;
+    color: #555;
+    text-align: center;
+    background-color: #eee;
+    border: none !important; 
+    border-radius: initial !important; 
+}
+    .form-control{
+        background-color:white !important;
+    }
+
+    select{
+        height:40px !important;
+    }
+</style>
+
+<div class="col-lg-12 text-center">
+    @using (Html.BeginForm("Index", "Home", FormMethod.Get))
+    {
+        @*<div class="col-lg-2">
+
+        </div>*@
+        <div class="col-lg-4">
+            <div class="form-group">
+                <div class="cols-sm-10">
+                    <div class="input-group">
+                        @Html.DropDownListFor(m => Model.cathegory, new SelectList(@ViewBag.Cathegory, "Value", "Text"), new { @class = "form-control" })
+                        <span class="input-group-addon"><i class="fa fa-arrow-down" aria-hidden="true"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="form-group">
+                <div class="cols-sm-10">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+                        @Html.TextBoxFor(model => model.content, new { @class = "form-control", placeholder = "Szukana fraza" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <input type="submit" value="Szukaj" class="btn" style="width:100% !important;" />
+        </div>
+        @*<div class="col-lg-2">
+
+        </div>*@
+
+    }
+</div>

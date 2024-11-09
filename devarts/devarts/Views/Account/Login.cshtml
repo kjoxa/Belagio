@@ -1,0 +1,71 @@
+﻿@using devarts.Models
+@model LoginViewModel
+
+@{
+    Layout = "~/Views/Shared/_loginLayout.cshtml";
+}
+
+@Scripts.Render("~/bundles/jquery")
+@Styles.Render("~/Content/font-awesome.css")
+
+<script>
+    $(document).ready(function () {
+        $(".tp-fullscreen-container").hide();
+        $("footer").hide();
+        $("nav").hide();
+    });
+</script>
+
+<style>
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0 30px white inset !important;
+    }
+</style>
+
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100 p-t-85 p-b-20">
+            @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "login100-form validate-form", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+                <span class="login100-form-avatar">
+                    <img src="~/LoginLayout/images/DA_czerwiennapis.png" alt="AVATAR">
+                </span>
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <h2>Pure<b>breed FCI</b></h2>
+                        <p>KENNEL MANAGEMENT SYSTEM <br /><small><b>Belagio</b> Version: 2.00</small></p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="wrap-input100 validate-input m-t-85 m-b-35">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "input100", @placeholder = "" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="wrap-input100 validate-input m-b-50">
+                        @Html.PasswordFor(m => m.Password, new { @class = "input100", @placeholder = "" })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+                <hr />
+                <div class="container-login100-form-btn">
+                    <input type="submit" value="ZALOGUJ" class="login100-form-btn" data-loading-text="Loading..." style="text-align:center !important; display:initial !important">
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

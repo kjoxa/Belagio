@@ -1,0 +1,12 @@
+﻿Modyfikacje:
+
+- DogModels
+- Breed_Dogs.sql
+- Dodanie do bazy danych nowych pól Coownerowych
+- Dodanie do bazy pola narodzin BornDateDateTime
+- przekonwertowanie wszystkich dat psów ze string na DateTime do nowego pola
+- AddDog (widok/kontroler zapisywanie właściwości nowych)
+- EditDog (==||==||==)
+- Kennel/Index (czyli panel główny)
+
+-- FRONT

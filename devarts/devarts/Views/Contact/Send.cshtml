@@ -1,0 +1,111 @@
+﻿@model devarts.Models.Contact
+@Styles.Render("~/Content/font-awesome.css")
+
+<section class="content background-grey" style="padding: 30px 0 10px 0">
+    <div class="container">
+        <div class="belagio_container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="heading-text heading-section text-center">
+                        <hr class="hr-text" data-content=" BELAGIO ">
+                        <span class="lead">
+                            Hodowla Hiszpańskich Psów Dowodnych <br /><small>Spanish Water Dog Kennel</small>
+                        </span>
+                    </div>
+                    <hr />
+                </div>
+
+                <div class="col-lg-6 text-center">
+                    <img class="picture-border" src="~/Web/images/belagio/contact.jpg" style="width:100%;" />
+                </div>
+                <div class="col-lg-6">
+                    <h4>Małgorzata & Dominika Kania</h4>
+                    <h5>Sułkowice</h5>
+                    <h5><i class="fa fa-2x fa-mobile-phone"></i> +48 886-614-215</h5>
+                    <h5><i class="fa fa-2x fa-mobile-phone"></i> +48 784-943-133</h5>
+                </div>
+                <div class="col-lg-12">
+                    <br />
+                    <p style="color:white">
+                        Jesteśmy domową hodowlą psów rasy Hiszpański pies dowodny.
+                        Posiadamy dwie sunie, które przyjechały do nas z Włoch oraz Chorwacji. 
+                        Czynnie bierzemy udział w wystawach organizowanych przez FCI w Polsce oraz za granicą. 
+                        Wszystkie nasze psy żyją z nami w domu i są pełnoprawnymi członkami naszej rodziny. 
+                        Takich też rodzin poszukujemy dla każdego szczeniaka z naszym przydomkiem.
+                        <br />
+                        <br />
+                        We are home kennel of Spanish water dogs located in Poland. 
+                        Currently, we own two SWDs females, who were imported from Italy and Croatia. 
+                        We often take parts in dog shows organised by the FCi in Poland and other countries as well. 
+                        All our dogs live with us in the house and are considered members of our family. 
+                        We want our puppies to go to homes where they will be treated in the same way - as members of a family.
+                    </p>
+                </div>                
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content background-grey" style="padding: 10px 0 30px 0">
+    <div class="container">
+        <div class="belagio_container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="heading-text heading-section text-center">
+                        <hr class="hr-text" data-content=" KONTAKT \ Contact form ">
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <br />
+                    <!-- TITLE -->
+                    <h4>Wyślij wiadomość</h4>
+                    <div class="contact-form-container">
+                        @using (Html.BeginForm("Send", "Contact", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            @*<div class="form-horizontal">*@
+
+                            @Html.ValidationSummary(true)
+
+                            <div class="row">
+                                <div class="form-group col-lg-6">
+
+                                    @Html.TextBoxFor(model => model.Subject, htmlAttributes: new { @class = "form-control controled", placeholder = "TOPIC" })
+                                    @Html.ValidationMessageFor(model => model.Subject)
+                                </div>
+                                <div class="form-group col-lg-6">
+
+                                    @Html.TextBoxFor(model => model.Email, htmlAttributes: new { @class = "form-control controled", placeholder = "E-MAIL" })
+                                    @Html.ValidationMessageFor(model => model.Email)
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="form-group col-lg-12">
+                                    @*<label>Treść wiadomości</label>*@
+                                    @Html.TextAreaFor(model => model.Content, htmlAttributes: new { @class = "form-control controled", @rows = "13", placeholder = "MESSAGE" })
+                                    @Html.ValidationMessageFor(model => model.Content)
+                                </div>
+                                <div class="form-group col-lg-12 text-center">
+                                    <input type="hidden" value="contact" name="save">
+                                    <button class="btn btn-default" type="submit"> WYŚLIJ WIADOMOŚĆ<br /><span class="under">SEND MESSAGE</span></button>
+                                </div>
+                            </div>
+                            @*</div>*@
+                        }
+
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d21809.224945248476!2d19.780674460190973!3d49.839716366476154!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47166573a03e7ddb%3A0xb1bcbc0d33f3d8d0!2s32-440%20Su%C5%82kowice!5e0!3m2!1spl!2spl!4v1669269132080!5m2!1spl!2spl"
+                            width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

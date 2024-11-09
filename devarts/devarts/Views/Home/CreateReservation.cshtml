@@ -1,0 +1,146 @@
+﻿@model devarts.Models.Reservation
+
+@section metatags
+{
+    <meta property="og:title" content="Belagio - Hodowla Hiszpańskich Psów Dowodnych">
+    <meta property="og:image" content="https://www.spanishwaterdog.pl/Web/images/belagio/facebook_thumb.jpg">
+    <meta property="og:url" content="https://www.spanishwaterdog.pl/Home/CreateReservation/">
+    <meta property="og:description" content="Formularz rezerwacji">
+    <meta property="og:type" content="article">
+    <meta name="robots" content="noodp">
+}
+@Styles.Render("~/Content/font-awesome.css")
+
+<section class="content background-grey">
+    <div class="container">
+        <div class="belagio_container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="heading-text heading-section text-center">
+                        <hr class="hr-text" data-content=" REZERWACJA \ Reservation ">
+                    </div>
+                    <p class="text-center" style="color:white">Jesli jestescie Państwo zainteresowani szczenięciem z naszej hodowli prosimy o wypelnienie poniższego formularza.<br />
+                        <strong>If you are interested in a puppy, please fill the form in.</strong></p>
+                </div>
+
+                <div class="col-lg-12">
+                    <br />
+                    <div class="contact-form-container">
+                        @using (Html.BeginForm("CreateReservation", "Home", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true)
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <h4 class="intro-text text-center"><small>DANE PODSTAWOWE / BASIC INFORMATION</small></h4>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-lg-6">
+                                    @Html.TextBoxFor(model => model.FirstName, htmlAttributes: new { @class = "form-control controled", placeholder = "Imię / First name" })
+                                    @Html.ValidationMessageFor(model => model.FirstName)
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    @Html.TextBoxFor(model => model.SurName, htmlAttributes: new { @class = "form-control controled", placeholder = "Nazwisko / Surname" })
+                                    @Html.ValidationMessageFor(model => model.SurName)
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    @Html.TextBoxFor(model => model.Country, htmlAttributes: new { @class = "form-control controled", placeholder = "Kraj / Country" })
+                                    @Html.ValidationMessageFor(model => model.Country)
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    @Html.TextBoxFor(model => model.City, htmlAttributes: new { @class = "form-control controled", placeholder = "Miasto / City" })
+                                    @Html.ValidationMessageFor(model => model.City)
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    @Html.TextBoxFor(model => model.Email, htmlAttributes: new { @class = "form-control controled", placeholder = "E-mail" })
+                                    @Html.ValidationMessageFor(model => model.Email)
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    @Html.TextBoxFor(model => model.PhoneNumber, htmlAttributes: new { @class = "form-control controled", placeholder = "Numer telefonu / Phone number" })
+                                    @Html.ValidationMessageFor(model => model.PhoneNumber)
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <h4 class="intro-text text-center"><small>DANE SZCZENIĘCIA / PUPPY INFORMATION</small></h4>
+                                    <hr />
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    @Html.DropDownListFor(model => model.Sex, new SelectList(@ViewBag.DropdownSex, "Value", "Text"), new { @class = "form-control", @tabindex = "7" })
+                                    @Html.ValidationMessageFor(model => model.Sex)
+                                </div>
+                                <div class="form-group col-lg-6">
+                                    @Html.DropDownListFor(model => model.Colour, new SelectList(@ViewBag.DropdownColour, "Value", "Text"), new { @class = "form-control", @tabindex = "7" })
+                                    @Html.ValidationMessageFor(model => model.Colour)
+                                </div>
+
+                                <div class="form-group col-lg-6">
+                                    @Html.DropDownListFor(model => model.ReadyToDog, new SelectList(@ViewBag.ReadyForDog, "Value", "Text"), new { @class = "form-control", @tabindex = "7" })
+                                    @Html.ValidationMessageFor(model => model.ReadyToDog)
+                                </div>
+
+                                <div class="form-group col-lg-6">
+                                    @Html.TextBoxFor(model => model.PreferredMother, htmlAttributes: new { @class = "form-control controled", placeholder = "Preferred mother?" })
+                                    @Html.ValidationMessageFor(model => model.PreferredMother)
+                                </div>
+
+                                <div class="form-group col-lg-6">
+                                    @Html.DropDownListFor(model => model.TailLength, new SelectList(@ViewBag.Taillen, "Value", "Text"), new { @class = "form-control", @tabindex = "7" })
+                                    @Html.ValidationMessageFor(model => model.TailLength)
+                                </div>
+
+                                <div class="col-lg-12">
+                                    @Html.TextAreaFor(model => model.ClientComments, new { @class = "form-control", @rows = "3", @tabindex = "17", placeholder = "Proszę napisać kilka zdań o sobie, rodzinie, stylu życia, itp.\nPlease write a few sentences about yourself, family, lifestyle, etc." })
+                                    @Html.ValidationMessageFor(model => model.ClientComments)
+                                </div>
+                                <div class="col-lg-12">
+                                    @*<h4 class="intro-text text-center"><small>PRZEZNACZENIE / PUPPY DESTINATION</small></h4>*@
+                                    <hr />
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <h4 class="intro-text text-center"><small>DO HODOWLI / FOR THE BREEDING</small></h4>
+                                    <hr />
+                                </div>
+
+                                <div class="form-group col-lg-12">
+                                    <div class="row">
+                                        <div class="col-lg-4"></div>
+                                        <div class="col-lg-4">
+                                            @Html.DropDownListFor(model => model.AdditionalResidents, new SelectList(@ViewBag.ForBreeding, "Value", "Text"), new { @class = "form-control", @tabindex = "7" })
+                                        </div>
+                                        <div class="col-lg-4"></div>
+                                    </div>                                                              
+                                </div>
+
+                                @*<div class="col-lg-12">
+            <br />
+            <div class="text-center">
+                @Html.CheckBoxFor(model => model.DogForKennel, new { @class = "big-checkbox" })
+                <b>
+                    <span class="intro-text text-center" style="color:silver; vertical-align:super; font-size: 12px"><small>DO HODOWLI / FOR THE BREEDING</small></span>
+                </b>
+            </div>
+        </div>*@
+
+                                <div class="clearfix"></div>
+                                <hr />
+                                <div class="form-group col-lg-12 text-center">
+                                    <hr />
+                                    <input type="hidden" value="contact" name="save">
+                                    <button class="btn btn-default" type="submit"> WYŚLIJ FORMULARZ<br /><span class="under">SEND RESERVATION</span></button>
+                                </div>
+                            </div>
+                            @*</div>*@
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

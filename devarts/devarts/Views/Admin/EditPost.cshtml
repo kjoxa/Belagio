@@ -1,0 +1,567 @@
+﻿@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/fileUpload")
+@Styles.Render("~/Content/font-awesome.css")
+@Styles.Render("~/Content/DataTables")
+@Scripts.Render("~/Scripts/PostDataTables")
+@Scripts.Render("~/bundles/devarts")
+@Styles.Render("~/Content/css")
+
+<style>
+    .breadcrumb {
+        padding: 20px !important;
+        margin: 10px !important;
+    }
+
+    .thumb {
+        height: 200px;
+        border: 1px solid #000;
+        margin: 10px 5px 0 10px;
+    }
+
+    .bar {
+        height: 20px;
+    }   
+    
+</style>
+
+<div class="row">
+    <div class="container">
+        <br />
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="x_panel">
+                    <ol class="breadcrumb">
+                        <li>
+                            @Html.ActionLink("Strona Główna", "Index", "Home")
+                        </li>
+                        <li>
+                            <a href="~/Admin/Index">Panel administratora</a>
+                        </li>
+                        <li class="active">Tworzenie nowej treści</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2><i class="fa fa-bars"></i> @Model.Post.PostName<small> Ustawienia</small></h2>
+
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <div class="col-lg-12">
+                <p>Powrót do listy wpisów</p>
+                <a href="@Url.Action("Posts","Admin")" target="_blank" class="btn btn-app btn-default"><i class="fa fa-angle-left"></i> Powrót</a>
+                @if (Model.Post.IsPublished)
+                {
+                    <a href="@Url.Action("SetPostVisibilityRender","Admin", new { id= Model.Post.Id })" class="btn btn-app"> <span class="badge bg-green"><i class="fa fa-check"></i>Widoczny </span><i class="fa fa-toggle-on"></i> Ukryj post</a>
+                }
+                else
+                {
+                    <a href="@Url.Action("SetPostVisibilityRender","Admin", new { id= Model.Post.Id })" class="btn btn-app"><span class="badge bg-red"><i class="fa fa-remove"></i>Ukryty </span><i class="fa fa-toggle-off"></i> Opublikuj post</a>
+                }
+                <a href="@Url.Action("Single", "Portfolio", new { postLink = Model.Post.PostLink })" target="_blank" class="btn btn-app"><span class="badge bg-dark-alfa-40"><i class="fa fa-folder-open"></i></span><i class="fa fa-eye"></i> Podgląd</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2><i class="fa fa-bars"></i> Tworzenie treści <small>Tworzenie wpisu i nowej treści</small></h2>
+            <ul class="nav navbar-right panel_toolbox">
+                <li>
+                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a href="#">Usawienia 1</a>
+                        </li>
+                        <li>
+                            <a href="#">Ustawienia 2</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="close-link"><i class="fa fa-close"></i></a>
+                </li>
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            @model devarts.Models.PostWithAllImages
+
+            @Scripts.Render("~/bundles/summernote")
+            @Styles.Render("~/content/summernote")
+            <script>
+                $(document).ready(function () {
+
+                    // walidowanie nawet ukrytych pól (jak jest otwarta zakładka po ang. a ukryta po pl to też ma walidować a standardowo tego nie robi)
+                    $.validator.setDefaults({
+                        ignore: []
+                    });
+                    
+                    $('#Post_PostDate').datepicker({
+                        //comment the beforeShow handler if you want to see the ugly overlay
+                        beforeShow: function () {
+                            setTimeout(function () {
+                                $('.ui-datepicker').css('z-index', 1000);
+                            }, 0);
+                        }
+                    });
+
+                    // Tabs
+                    $(document).ready(function () {
+                        if (location.hash) {
+                            $('a[href="' + location.hash + '"]').tab('show');
+                        }
+                        $(document.body).on("click", "a[data-toggle]", function (event) {
+                            location.hash = this.getAttribute("href");
+                        });
+                    });
+                    $(window).on('popstate', function () {
+                        var anchor = location.hash || $("a[data-toggle=tab]").first().attr("href");
+                        $('.tab-pane').addClass('fade');
+                        $('a[href="' + anchor + '"]').tab('show');
+                    });
+
+                    // ustawianie edytowalnych (summernote) pól
+                    $('#entryContentShort').summernote({ height: 150 });
+                    $('#entryContentShortEng').summernote({ height: 150 });
+
+                    $('#entryContent').summernote({ height: 300 });
+                    $('#entryContentEng').summernote({ height: 300 });
+
+                    // Summernote, edit enter key
+                    //$.summernote.addPlugin({
+                    //    name: 'myenter',
+                    //    events: {
+                    //        // redefine insertParagraph
+                    //        'insertParagraph': function (event, editor, layoutInfo) {
+
+                    //            // custom enter key
+                    //            var newLine = '<br />';
+                    //            pasteHtmlAtCaret(newLine);
+
+                    //            // to stop default event
+                    //            // event.preventDefault();
+                    //        }
+                    //    }
+                    //});
+
+                    // summernote edit enterkey cd...
+                    function pasteHtmlAtCaret(html) {
+                        var sel, range;
+                        if (window.getSelection) {
+                            // IE9 and non-IE
+                            sel = window.getSelection();
+                            if (sel.getRangeAt && sel.rangeCount) {
+                                range = sel.getRangeAt(0);
+                                range.deleteContents();
+
+                                // Range.createContextualFragment() would be useful here but is
+                                // only relatively recently standardized and is not supported in
+                                // some browsers (IE9, for one)
+                                var el = document.createElement("div");
+                                el.innerHTML = html;
+                                var frag = document.createDocumentFragment(), node, lastNode;
+                                while ((node = el.firstChild)) {
+                                    lastNode = frag.appendChild(node);
+                                }
+                                range.insertNode(frag);
+
+                                // Preserve the selection
+                                if (lastNode) {
+                                    range = range.cloneRange();
+                                    range.setStartAfter(lastNode);
+                                    range.collapse(true);
+                                    sel.removeAllRanges();
+                                    sel.addRange(range);
+                                }
+                            }
+                        } else if (document.selection && document.selection.type != "Control") {
+                            // IE < 9
+                            document.selection.createRange().pasteHTML(html);
+                        }
+                    };
+
+                    // upload zdjęć
+                    $(function () {
+                        var directoryName = $('#PostLink').val();
+                        $('#fileupload').fileupload({
+                            dataType: "json",
+                            //url: "/api/upload",
+                            limitConcurrentUploads: 1,
+                            sequentialUploads: true,
+                            progressInterval: 100,
+                            //maxChunkSize: 20000000,
+                            //maxFileSize: 10000000,
+                            add: function (e, data) {
+                                $('#filelistholder').removeClass('hide');
+                                directoryName = $('#Post_PostLink').val();
+                                data.url = "/api/upload/post/" + directoryName + "/";
+                                data.context = $('<div />').text(data.files[0].name).appendTo('#filelistholder');
+                                $('</div><div class="progress"><div class="bar" style="width:0%"></div></div>').appendTo(data.context);
+                                // pokazywanie i ukrywanie odpowiedniego przycisku
+                                $("#savePost").hide();
+                                $("#saveAll").show();
+
+                                $('#saveAll').click(function (e) {
+                                    if ($("#addPost").valid()) {
+                                        //e.preventDefault();
+                                        data.submit();
+                                    }
+                                    else {
+                                        e.preventDefault();
+                                    }
+                                });
+                                if (data.files.length > 0) {
+                                    $("#saveAll").removeAttr("disabled");
+                                    $("#saveAll").html("<i class='fa fa-save'></i> Zapisz post");
+                                    //console.log('sdasdasd');
+                                } else {
+                                    $("#saveAll").val("Zanim zapiszesz post musisz dodać przynajmniej jedno zdjęcie.");
+                                }
+                                handleFileSelect(data);
+                            },
+                            done: function (e, data) {
+                                data.context.text(data.files[0].name + '... przesłano :)');
+                                $('</div><div class="progress"><div class="bar" style="width:100%"></div></div>').appendTo(data.context);
+                            },
+                            progressall: function (e, data) {
+                                var progress = parseInt(data.loaded / data.total * 100, 10);
+                                $('#overallbar').css('width', progress + '%');
+                            },
+                            progress: function (e, data) {
+                                var progress = parseInt(data.loaded / data.total * 100, 10);
+                                data.context.find('.bar').css('width', progress + '%');
+                            },
+                            stop: function (e, data) {
+                                $('#addPost').submit();
+                            }
+                        });
+                    });
+
+                    // thumbnailsy w FileUpload
+                    function handleFileSelect(evt) {
+                        var files = evt.files; // FileList object
+
+                        // Loop through the FileList and render image files as thumbnails.
+                        for (var i = 0, f; f = files[i]; i++) {
+
+                            // Only process image files.
+                            if (!f.type.match('image.*')) {
+                                continue;
+                            }
+
+                            var reader = new FileReader();
+
+                            // Closure to capture the file information.
+                            reader.onload = (function (theFile) {
+                                return function (e) {
+                                    // Render thumbnail.
+                                    var span = document.createElement('span');
+                                    span.innerHTML = ['<img class="thumb" src="', e.target.result,
+                                        '" title="', escape(theFile.name), '"/>'].join('');
+                                    document.getElementById('list').insertBefore(span, null);
+                                };
+                            })(f);
+
+                            // Read in the image file as a data URL.
+                            reader.readAsDataURL(f);
+                        }
+                    }
+
+                    $("#savePost").click(function (e) {
+                        if ($("#addPost").valid())
+                        {
+                            if (document.getElementById("fileupload").files.length == 0) {
+                                $("#addPost").submit();
+                            };
+                        }
+                    });
+
+                    // walidacja bez submitu
+                    $("#checkValidation").submit(function (e) {
+                        if (!$("#addPost").valid()) {
+                            //alert('An Error has been detected on the page. Please correct and resubmit.');
+                            e.preventDefault();
+                        }
+                    });
+
+                    //sprawdzanie czy nie ma już wpisu o podanym url-u
+                    $("#PostLink").keyup(function () {
+                        var val = $("#PostLink").val();
+                        var mask = "^[A-Za-z0-9-]+$";
+
+                        $.getJSON("@Url.Action("CheckPostLinkExists","AjaxPost")", { postLink: val }, function (res) {
+                            if (res == true) {
+                                if ($("#PostLink").val().match(mask)) {
+                                    $("#validateUrl").html("<p style='font-size:larger;'><span class='label label-danger'><i class='fa fa-lock'></i> Taki link już istnieje. Podaj inną wartość.</span></p>");
+                                }
+                            }
+                            else {
+                                if ($("#PostLink").val().match(mask)) {
+                                    $("#validateUrl").html("<p style='font-size:larger;'><span class='label label-success'><i class='fa fa-check'></i> Link pasuje :)</span></p>");
+                                }
+                                else {
+                                    if ($("#PostLink").val() != "" && $("#PostLink").val() != null) {
+                                        $("#validateUrl").html("<p style='font-size:larger;'><span class='label label-danger'><i class='fa fa-warning'></i> Błąd - dozwolone litery (bez polskich znaków), myślniki i cyfry.</span><br>"
+                                            + "<span class='label label-default'>Poprawne przykłady</span> - "
+                                            + "<span class='label label-success'>moj-nowy-post-12-03-2018</span> | "
+                                            + "<span class='label label-success'>krotki-artykul-wprowadzajacy</span> | "
+                                            + "<span class='label label-success'>wygrana-01022018</span>"
+                                            + "</p>");
+                                    } else {
+                                        $("#validateUrl").html("<p style='font-size:larger;'><span class='label label-danger'><i class='fa fa-info-circle'></i> Wypełnienie tego pola jest niezbędne - dozwolone litery (bez polskich znaków), myślniki i cyfry/liczby</span></p>");
+                                    }
+                                }
+                            }
+                        });
+                    });
+                });
+
+                // dodawanie elementu do treści
+                function appendListItem(elem) {
+                    //var htmlStr = "<p>#"+id+"</p>";
+                    var id = $(elem).attr("htmlImg");
+                    $("#entryContent").summernote("pasteHTML", id);
+                }
+            </script>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="x-panel">
+                            @using (@Html.BeginForm("EditPost", "Admin", FormMethod.Post, new { @id = "addPost", @enctype = "multipart/form-data" }))
+                            {@Html.ValidationSummary()
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Post.AuthorName, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.Post.AuthorName, new { @class = "form-control", @placeholder = "" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Post.AuthorName)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Post.PostName, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.Post.PostName, new { @class = "form-control" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Post.PostName)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Post.PostNameEng, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.Post.PostNameEng, new { @class = "form-control", @placeholder = "" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Post.PostNameEng)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Post.Type, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @*@Html.TextBoxFor(model => model.Type, new { @class = "form-control" })*@
+                                        @Html.DropDownListFor(m => Model.Post.Type, new SelectList(@ViewBag.PostType, "Value", "Text"), new { @class = "form-control" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Post.Type)
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Post.CategoryName, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @*@Html.TextBoxFor(model => model.Type, new { @class = "form-control" })*@
+                                        @Html.DropDownListFor(m => Model.Post.CategoryName, new SelectList(@ViewBag.PostCathegories, "Value", "Text"), new { @class = "form-control" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Post.Type)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Post.Tags, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.Post.Tags, new { @class = "form-control", @placeholder = "" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Post.Tags)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Post.PostDate, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.Post.PostDate, new { @class = "form-control", @placeholder = "" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Post.PostDate)
+                                </div>
+                            </div>
+                            @*<div class="form-group">
+            @Html.LabelFor(model => model.Post.PostLink, new { @style = "font-weight: bold;" })
+            <div class="cols-sm-10">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                    @Html.TextBoxFor(model => model.Post.PostLink, new { @class = "form-control", @id = "postLink", pattern = "^[A-Za-z0-9-]+$", maxlength = "50", placeholder = "najnowszy-wpis-12-04-2018 / witaj-na-mojej-stronie / poczatek-bloga  -  dzięki temu link będzie miał postać www.myweb.pl/Blog/poczatek-bloga", @readonly = "readonly" })
+                </div>
+                <div id="validateUrl" class="primary"><p style='font-size:larger;'><span class='label label-danger'><i class='fa fa-info-circle'></i> Wypełnienie tego pola jest niezbędne - dozwolone litery (bez polskich znaków), myślniki i cyfry/liczby</span></p></div>
+            </div>
+        </div>*@
+                            <hr />
+                            <br />
+                            <ul class="nav small dashboard nav-tabs bar_tabs" id="languagesTab">
+                                <li class="active"><a href="#sectionPL"><i class="fa fa-language"></i> Treść w języku polskim</a></li>
+                                <li><a href="#sectionEN"><i class="fa fa-language"></i> Treść w języku angielskim</a></li>
+                            </ul>
+
+                            <div class="tab-content">
+                                <!-- Post po polsku -->
+                                <div id="sectionPL" class="tab-pane fade in active">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Post.PostContentShort, new { @style = "font-weight: bold;" })
+                                        <div class="cols-sm-10">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-edit fa" aria-hidden="true"></i></span>
+                                                @Html.TextAreaFor(model => model.Post.PostContentShort, new { @class = "form-control", @id = "entryContentShort" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Post.PostContentShort)
+                                        </div>
+                                    </div>
+
+                                    @Html.Partial("_imagesByPost", Model)
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Post.PostContent, new { @style = "font-weight: bold;" })
+                                        <div class="cols-sm-10">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-edit fa" aria-hidden="true"></i></span>
+                                                @Html.TextAreaFor(model => model.Post.PostContent, new { @class = "form-control", @id = "entryContent" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Post.PostContent)
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Post po angielsku -->
+                                <div id="sectionEN" class="tab-pane fade">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Post.PostContentShortEng, new { @style = "font-weight: bold;" })
+                                        <div class="cols-sm-10">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-edit fa" aria-hidden="true"></i></span>
+                                                @Html.TextAreaFor(model => model.Post.PostContentShortEng, new { @class = "form-control", @id = "entryContentShortEng" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Post.PostContentShortEng)
+                                        </div>
+                                    </div>
+
+                                    @Html.Partial("_imagesByPost", Model)
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Post.PostContentEng, new { @style = "font-weight: bold;" })
+                                        <div class="cols-sm-10">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-edit fa" aria-hidden="true"></i></span>
+                                                @Html.TextAreaFor(model => model.Post.PostContentEng, new { @class = "form-control", @id = "entryContentEng" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Post.PostContentEng)
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12"><br /><br /></div>
+                                <div class="col-lg-12 ">
+                                    <h3><i class="fa fa-folder"></i> Katalogi na serwerze</h3>
+                                    <hr />
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Post.PostLink, new { @style = "font-weight: bold;" })
+                                        <div class="cols-sm-10">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                                @Html.TextBoxFor(model => model.Post.PostLink, new { @class = "form-control", pattern = "^[A-Za-z0-9-]+$", maxlength = "50", placeholder = "wystawa-krajowa-2019, nowy-miot-09-03-2019...", @readonly = "readonly" })
+                                            </div>
+                                            <div id="validateUrl" class="primary"><p style='font-size:larger;'><span class='label label-success'><i class='fa fa-info-circle'></i> Tego pola nie można już edytować.</span></p></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                            <div class="x-panel">
+                                <div class="form-group" id="imagesForm">
+                                    <div class="col-md-12 text-center">
+                                        <form action="/api/upload/entry" enctype="multipart/form-data">
+                                            <div class="row fileupload-buttonbar">
+                                                <div class="span7">
+                                                    <div class="well">
+                                                        <i class="fa fa-image"></i><span>&nbsp;&nbsp;Dodaj zdjęcia...</span>
+                                                        <input type="file" id="fileupload" name="fileupload" accept="image/*" multiple="multiple">
+                                                        @*<button style="margin:5px;" id="btnUploadAll" class="btn btn-xs btn-danger pull-right" type="button">
+                                        Załaduj wszystkie
+                                    </button>*@
+                                                        <output id="list"></output>
+                                                        <div class="clearfix">
+                                                        </div>
+                                                        <div class="progress">
+                                                            <div class="bar" id="overallbar" style="width: 0%">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="span7">
+                                                    <div class="well hide" id="filelistholder">
+                                                    </div>
+                                                </div>
+                                                <div class="span7">
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <hr />
+                                </div>
+                            </div>
+
+                            <div class="x-panel text-center">
+                                <button id="saveAll" class="btn btn-lg btn-default" style="display:none"><i class="fa fa-check"></i> Zapisz zmiany</button>
+                                <button id="savePost" class="btn btn-lg btn-default"><i class="fa fa-check"></i> Zapisz zmiany</button>
+                            </div>
+
+                            @section Scripts {
+                                @Scripts.Render("~/bundles/jqueryval")
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

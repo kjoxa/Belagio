@@ -1,0 +1,14 @@
+﻿DevArts
+
+Początek pracy: 08.2018
+-----------------------
+
+1. Dodawane pozycje
+	a) Rasa
+		- kenneldb.sdf
+	b) Pies
+		- "/Dogs/{BreedLink}/{DogLink}/*.jpg"
+	c) Miot
+		- "/Litters/{LitterLink}/zapowiedź.jpg"
+	d) Szczenię
+		- "/Puppies/{PuppyLink}/*.jpg"

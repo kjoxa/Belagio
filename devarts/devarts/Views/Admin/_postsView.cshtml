@@ -1,0 +1,263 @@
+﻿@Styles.Render("~/Content/DataTables")
+@Scripts.Render("~/Scripts/AdminDataTables")
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <i class="fa fa-bar-chart-o fa-fw"></i> Posty
+        <div class="pull-right">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                    Operacje
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu pull-right" role="menu">
+                    <li>
+                        <a id="btnRemoveStatistics"><i class="fa fa-remove"></i> Dodaj wpis do aktualności</a>
+                    </li>
+                    <li>
+                        <a id="btnRemoveStatistics"><i class="fa fa-remove"></i> Dodaj wpis do bloga</a>
+                    </li>
+                    <li>
+                        <a id="btnRemoveStatistics"><i class="fa fa-remove"></i> Dodaj wpis do portfolio</a>
+                    </li>
+                    <li>
+                        <a id="btnRemoveStatistics"><i class="fa fa-remove"></i> Dodaj wpis do wywiadów</a>
+                    </li>
+                    <li>
+                        <a id="btnRemoveTracing"><i class="fa fa-remove"></i> Wyczyść listę kliknięć użytkowników</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div id="morris-area-chart"></div>
+
+        <!-- /.panel-body -->
+        <ul class="nav small dashboard nav-tabs bar_tabs" id="postsTab">
+            <li class="active"><a href="#sectionAll"><i class="glyphicon glyphicon-import"></i> Wszystkie posty</a></li>
+            <li><a href="#sectionA"><i class="glyphicon glyphicon-import"></i> Aktualności (newsy)</a></li>
+            <li><a href="#sectionB"><i class="glyphicon glyphicon-import"></i> Blog</a></li>
+            <li><a href="#sectionC"><i class="glyphicon glyphicon-import"></i> Portfolio</a></li>
+            <li><a href="#sectionD"><i class="glyphicon glyphicon-import"></i> Wywiady</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <!-- AKTUALNOŚCI -->
+            <div id="sectionAll" class="tab-pane fade in active">
+                <table id="postDataTable" class="table small table-striped table-hover" width="100%" cellspacing="0">
+                    <tfoot>
+                        <tr>
+                            <th>Główne</th>
+                            <th>Nazwa</th>
+                            <th>Kategoria</th>
+                            <th>Link</th>
+                            <th>Dodano</th>
+                            <th>Ocena</th>
+                            <th>Odsłon</th>
+                            <th>Kom. włączone</th>
+                            <th>Opublikowany</th>
+                            <th>Akcje</th>
+                        </tr>
+                    </tfoot>
+                    <thead>
+                        <tr>
+                            <th>Główne</th>
+                            <th>Nazwa wpisu</th>
+                            <th>Kategoria</th>
+                            <th>Link</th>
+                            <th>Dodano</th>
+                            <th>Ocena</th>
+                            <th>Odsłon</th>
+                            <th>Kom. włączone</th>
+                            <th>Opublikowany</th>
+                            <th>Akcje</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div id="sectionA" class="tab-pane fade">
+                <table id="postNewsDataTable" class="table small table-striped table-hover" width="100%" cellspacing="0">
+                    <tfoot>
+                        <tr>
+                            <th>Główne</th>
+                            <th>Nazwa</th>
+                            <th>Kategoria</th>
+                            <th>Link</th>
+                            <th>Dodano</th>
+                            <th>Ocena</th>
+                            <th>Odsłon</th>
+                            <th>Kom. włączone</th>
+                            <th>Opublikowany</th>
+                            <th>Akcje</th>
+                        </tr>
+                    </tfoot>
+                    <thead>
+                        <tr>
+                            <th>Główne</th>
+                            <th>Nazwa wpisu</th>
+                            <th>Kategoria</th>
+                            <th>Link</th>
+                            <th>Dodano</th>
+                            <th>Ocena</th>
+                            <th>Odsłon</th>
+                            <th>Kom. włączone</th>
+                            <th>Opublikowany</th>
+                            <th>Akcje</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <!-- BLOG -->
+            <div id="sectionB" class="tab-pane fade">
+                <table id="postBlogDataTable" class="table small table-striped table-hover" width="100%" cellspacing="0">
+                    <tfoot>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nazwa wpisu</th>
+                            <th>Typ</th>
+                            <th>Link</th>
+                            <th>Data dodania</th>
+                            <th>Ocena</th>
+                            <th>Wyświetleń</th>
+                            <th>Kom. włączone</th>
+                            <th>Opublikowany</th>
+                            <th>Akcje</th>
+                        </tr>
+                    </tfoot>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nazwa wpisu</th>
+                            <th>Typ</th>
+                            <th>Link</th>
+                            <th>Data dodania</th>
+                            <th>Ocena</th>
+                            <th>Wyświetleń</th>
+                            <th>Kom. włączone</th>
+                            <th>Opublikowany</th>
+                            <th>Akcje</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <!-- PORTFOLIO -->
+            <div id="sectionC" class="tab-pane fade">
+                <table id="postPortfolioDataTable" class="table small table-striped table-hover" width="100%" cellspacing="0">
+                    <tfoot>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nazwa wpisu</th>
+                            <th>Typ</th>
+                            <th>Link</th>
+                            <th>Data dodania</th>
+                            <th>Ocena</th>
+                            <th>Wyświetleń</th>
+                            <th>Kom. włączone</th>
+                            <th>Opublikowany</th>
+                            <th>Akcje</th>
+                        </tr>
+                    </tfoot>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nazwa wpisu</th>
+                            <th>Typ</th>
+                            <th>Link</th>
+                            <th>Data dodania</th>
+                            <th>Ocena</th>
+                            <th>Wyświetleń</th>
+                            <th>Kom. włączone</th>
+                            <th>Opublikowany</th>
+                            <th>Akcje</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <!-- WYWIADY -->
+            <div id="sectionD" class="tab-pane fade">
+                <table id="postWywiadyDataTable" class="table small table-striped table-hover" width="100%" cellspacing="0">
+                    <tfoot>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nazwa wpisu</th>
+                            <th>Typ</th>
+                            <th>Link</th>
+                            <th>Data dodania</th>
+                            <th>Ocena</th>
+                            <th>Wyświetleń</th>
+                            <th>Kom. włączone</th>
+                            <th>Opublikowany</th>
+                            <th>Akcje</th>
+                        </tr>
+                    </tfoot>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nazwa wpisu</th>
+                            <th>Typ</th>
+                            <th>Link</th>
+                            <th>Data dodania</th>
+                            <th>Ocena</th>
+                            <th>Wyświetleń</th>
+                            <th>Kom. włączone</th>
+                            <th>Opublikowany</th>
+                            <th>Akcje</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var TeamDetailPostBackURL = '/Admin/PreviewPost';
+    $(document).ready(function () {
+        $(document).on('click', ".previewPost", function () {
+            //debugger;
+            var $buttonClicked = $(this);
+            var id = $buttonClicked.attr('data-id');
+            //console.log("Klik");
+            var options = { "backdrop": "static", keyboard: true };
+            $.ajax({
+                type: "GET",
+                url: TeamDetailPostBackURL,
+                contentType: "application/json; charset=utf-8",
+                data: { "Id": id },
+                datatype: "json",
+                success: function (data) {
+                    //debugger;
+                    $('#myModalContent').html(data);
+                    $('#myModal').modal(options);
+                    
+                },
+                error: function () {
+                    alert("Błąd ładowania danych.");
+                }
+            });
+        });
+    });
+</script>
+
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" id="myModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+    
+
+

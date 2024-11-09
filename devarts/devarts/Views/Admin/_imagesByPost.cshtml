@@ -1,0 +1,40 @@
+﻿@model devarts.Models.PostWithAllImages
+<style>
+    .btn {
+        margin: 3px !important;
+    }
+</style>
+<div class="form-group">
+    <div class="row">
+        <div class="col-lg-4">
+            <h4 class="text-center">Główne</h4>
+            <div>
+                <img alt="" src="/Posts/@Model.Post.PostLink/@ViewBag.MainImage" id="dog" style="width:100%">
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="row">
+                <h4 class="text-center">Przypisane do wpisu</h4>
+                @{
+                    int i = 0;
+                }
+                @foreach (var pos in Model.imgFiles)
+                {
+                    if (i != 0 && i % 6 == 0)
+                    {
+                    @:</div>
+                    @:<div class="row">
+                    }
+                    <div class="col-lg-2" style="padding-bottom:5px;">
+                        <a href="@Url.Action("SetAsMainImage", "Admin", new { postLink = Model.Post.PostLink, mainImageId = pos.Id })" class="btn btn-xs btn-default"><i class="fa fa-cog"></i> Główne</a>
+                        <a htmlImg="<img src='/Posts/@Model.Post.PostLink/@pos.ImageFileName' style='width:20%; margin-top:5px; !important'>" onclick="appendListItem(this)" class="btn btn-xs btn-default"><i class="fa fa-check"></i> Dodaj</a>
+                        <a href="@Url.Action("RemoveImageFromNews", "Admin", new { imgFileName = pos.ImageFileName, postLink = Model.Post.PostLink })" class="btn btn-xs btn-default"><i class="fa fa-remove"></i> Usuń</a>
+                        <img alt="" src="/Posts/@Model.Post.PostLink/@pos.ImageFileName" style="width:100%" />
+                    </div>
+                    i++;
+                }
+            </div>
+        </div>
+    </div>
+</div>
+

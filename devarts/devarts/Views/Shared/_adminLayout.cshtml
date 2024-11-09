@@ -1,0 +1,415 @@
+﻿@*@{Layout = null;}*@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>DevArts - Zarządzanie witryną</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    @*<link rel="icon" href="images/favicon.ico" type="image/ico" />*@
+    <title>Zarządzanie witryną</title>
+    <!-- Bootstrap -->
+    <link href="~/GentelellaAlelaTemplate/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="~/GentelellaAlelaTemplate/vendors/font-awesome/css/all.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="~/GentelellaAlelaTemplate/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- iCheck -->
+    <link href="~/GentelellaAlelaTemplate/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+
+    <!-- bootstrap-progressbar -->
+    <link href="~/GentelellaAlelaTemplate/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
+    <!-- JQVMap -->
+    <link href="~/GentelellaAlelaTemplate/vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet" />
+    <!-- bootstrap-daterangepicker -->
+    <link href="~/GentelellaAlelaTemplate/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    <!-- Custom Theme Style -->
+    <link href="~/GentelellaAlelaTemplate/build/css/custom.min.css" rel="stylesheet">
+
+    @*@Scripts.Render("~/bundles/jquery")
+        @Styles.Render("~/Content/font-awesome.css")*@
+
+    <!-- jQuery -->
+    <script src="~/GentelellaAlelaTemplate/vendors/jquery/dist/jquery.min.js"></script>    
+
+</head>
+<body class="nav-md">
+    <style>
+        .alert {
+            margin-top: 60px !important;
+        }
+
+        .breadcrumb {
+            margin: 0;
+        }
+    </style>
+    <div class="container body">
+        <div class="main_container">
+            <div class="col-md-3 left_col">
+                <div class="left_col scroll-view">
+                    <div class="navbar nav_title" style="border: 0;">
+                        <a href="/Admin/Index" class="site_title"><i class="fa fa-paw"></i>&nbsp;&nbsp;<span>Pure<b>Breed</b> FCI</span></a>
+                    </div>
+                    <div class="clearfix"></div>
+                    <!-- menu profile quick info -->
+                    <!-- /menu profile quick info -->
+                    <br />
+                    <!-- sidebar menu -->
+                    <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                        <div class="menu_section">
+                            <div class="menu_section">
+                                <h3>Prezentacja</h3>
+                                <ul class="nav side-menu">
+                                    <li>
+                                        <a href="@Url.Action("Index", "Home")" target="_blank"><i class="fa fa-eye"></i> <small><b>PODGLĄD STRONY</b></small></a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <h3>Zarządzanie</h3>
+                            <ul class="nav side-menu">
+                                @if (User.IsInRole("SuperAdmin"))
+                                {
+                                    <li>
+                                        <a><i class="fa fa-home"></i> Super admin <span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li><a href="~/Admin/RegistersAndLogons">Panel super admina</a></li>
+                                            <li><a href="~/Admin/RegistersAndLogons">Zarządzaj użytkownikami EKA</a></li>
+                                            <li><a href="~/Admin/RegistersAndLogons">Importowanie danych z MojaPG</a></li>
+                                        </ul>
+                                    </li>
+                                }
+                                <li>
+                                    <a><i class="fa fa-home"></i><small><b>MOJA STRONA</b></small><span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href="~/Admin/Index">Podsumowanie</a></li>
+                                        <li><a href="~/Admin/Licence">Dowód zakupu Layoutu</a></li>
+                                        <li><a href="@Url.Action("ImageAlts","SEO")">Pozycjonowanie / SEO</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="menu_section">
+                            <h3>Publikowanie</h3>
+                            <ul class="nav side-menu">
+                                <li>
+                                    <a><i class="fa fa-users"></i> <small><b>AKTUALNOŚCI I BLOG</b></small><span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href="~/Admin/CreatePost">Stwórz wpis</a></li>
+                                        <li><a href="~/Admin/Posts">Zarządzaj wpisami</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="menu_section">
+                            <h3>Hodowla</h3>
+                            <ul class="nav side-menu">
+                                <li>
+                                    <a><i class="fa fa-paw"></i><small><b>HODOWLA</b></small><span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href="@Url.Action("Index", "Kennel")"><i class="fa fa-home"></i>Panel główny</a>
+                                        <li>
+                                            <a><i class="fas fa-dog"></i> Moje psy<span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu">
+                                                <li class="sub_menu">
+                                                    <a href="@Url.Action("Index", "Kennel")">Lista psów</a>
+                                                </li>
+                                                <li class="sub_menu">
+                                                    <a href="@Url.Action("EditDog", "Kennel")">Edycja psa</a>
+                                                </li>
+                                                <li class="sub_menu">
+                                                    <a href="@Url.Action("Index", "Tree")">Rodowody</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a><i class="fas fa-picture-o"></i> Mioty<span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu">
+                                                <li class="sub_menu">
+                                                    <a href="@Url.Action("AddLitter", "Kennel")">Dodaj miot</a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("Litters", "Kennel")">Lista miotów</a>
+                                                </li>
+                                                <li class="sub_menu">
+                                                    <a href="@Url.Action("EditLitter", "Kennel")">Edycja miotu</a>
+                                                </li>
+                                                <li class="sub_menu">
+                                                    <a href="@Url.Action("LittersTrees", "Tree")">Rodowody</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a><i class="fas fa-baby"></i> Szczenięta<span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu">
+                                                <li class="sub_menu">
+                                                    <a href="@Url.Action("AddPuppy", "Kennel")">Dodaj szczenię</a>
+                                                </li>
+                                                <li class="sub_menu">
+                                                    <a href="@Url.Action("EditPuppy", "Kennel")">Edycja szczenięcia</a>
+                                                </li>
+                                                <li>
+                                                    <a href="@Url.Action("Puppies", "Kennel")">Lista szczeniąt</a>
+                                                </li>
+                                            </ul>
+                                        </li>                                        
+                                        @*<li>
+            <a>Mapa psów<span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+                <li class="sub_menu">
+                    <a href="#">Zarządzaj mapą</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a>Drzewa genealogiczne<span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+                <li class="sub_menu">
+                    <a href="javascript:void(0)">Zarządzaj drzewami</a>
+                </li>
+            </ul>
+        </li>*@
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a><i class="fa fa-table"></i><small><b>ASYSTENT HODOWLI</b></small><span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+
+                                        @*<li><a href="@Url.Action("Index", "Reproduction")"><i class="fas fa-baby"></i><b> Rozród</b> <span class="label label-success pull-right">Nowość</span></a></li>*@
+                                        @*<li><a href="@Url.Action("HealthAndVaccines", "Health")"><i class="fas fa-bacteria"></i> Badania i szczepienia</a></li>*@
+                                        <li><a href="@Url.Action("Index", "Finance")"><i class="fas fa-coins"></i><b> Finanse hodowli</b></a></li>
+                                        <li><a href="@Url.Action("Index", "Reservation")"><i class="fas fa-phone-volume"></i> <b>Rezerwacje szczeniąt</b></a></li>
+                                        <!-- Na później
+                                        <li><a href="javascript:void(0)"><i class="fas fa-mars"></i> Reproduktory</a></li>
+                                        <li><a href="@Url.Action("KennelDocuments", "Admin")"><i class="fas fa-file-signature"></i> Wzory dokumentów</a></li>
+                                        <li><a href="@Url.Action("Index", "Genetic")"><i class="fas fa-dna" aria-hidden="true"></i> Genetyka</a></li>
+                                        <li><a href="@Url.Action("Index", "Reservations")"><i class="fas fa-globe"></i> Mapa psów</a></li>
+                                        <li><a href="@Url.Action("Index", "Reservations")"><i class="fas fa-tree"></i> Drzewa genealogiczne</a></li>
+                                        <li><a href="javascript:void(0)"><i class="fas fa-sticky-note"></i> Notatnik</a></li>
+                                        <li><a href="javascript:void(0)"><i class="fas fa-calendar-plus"></i> Wydarzenia</a></li>
+                                        <li><a href="@Url.Action("Index", "Charts")">Wykresy <span class="label label-danger pull-right">x</span></a></li>
+                                            -->
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        @*<div class="menu_section">
+                            <h3>Social Media & Kontakt</h3>
+                            <ul class="nav side-menu">
+                                <li>
+                                    <a><i class="fa fa-envelope"></i><small><b>NEWSLETTER</b></small><span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href="~/Admin/Newsletter">Zarządzaj</a></li>
+                                        <li><a href="~/Newsletter/Send">Wyślij newsletter</a></li>
+                                    </ul>
+                                </li>
+
+                                <li>
+                                        <a><i class="fa fa-bar-chart-o"></i> Statystyki <span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li><a href="@Url.Action("KennelBitches", "Admin")">Przykładowe wykresy</a></li>
+                                            <li><a href="javascript:void(0)">Chart JS2</a></li>
+                                            <li><a href="javascript:void(0)">Moris JS</a></li>
+                                            <li><a href="javascript:void(0)">ECharts</a></li>
+                                            <li><a href="javascript:void(0)">Other Charts</a></li>
+                                        </ul>
+                                    </li>
+                            </ul>
+                        </div>*@
+
+                        @*<div class="menu_section">
+                                <h3>Dodatkowe</h3>
+                                <ul class="nav side-menu">
+                                    <li>
+                                        <a><i class="fa fa-shopping-cart"></i> Sklep <span class="label label-success pull-right">Wkrótce</span></a>
+                                        <ul class="nav child_menu">
+                                            <li><a href="javascript:void(0)">Stan serwera</a></li>
+                                            <li><a href="javascript:void(0)">Aktualizacje</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <li><a href="javascript:void(0)"><i class="fa fa-laptop"></i> Instrukcja obsługi <span class="label label-danger pull-right">Wkrótce</span></a></li>
+                                </ul>
+                            </div>*@
+                    </div>
+                    <!-- /sidebar menu -->
+                    <!-- /menu footer buttons -->
+                    <div class="sidebar-footer hidden-small">
+                        @*<a data-toggle="tooltip" data-placement="top" title="Ustawienia">
+                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                        </a>
+                        <a data-toggle="tooltip" data-placement="top" title="Pełny ekran">
+                            <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+                        </a>
+                        <a data-toggle="tooltip" data-placement="top" title="Zablokuj">
+                            <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+                        </a>*@
+                        <a data-toggle="tooltip" data-placement="top" title="Wyloguj" href="@Url.Action("Logoff", "Account")">
+                            <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                        </a>
+                    </div>
+                    <!-- /menu footer buttons -->
+                </div>
+            </div>
+            <!-- top navigation -->
+            <div class="top_nav">
+                <div class="nav_menu">
+                    <nav>
+                        <div class="nav toggle">
+                            <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                        </div>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="">
+                                <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa fa-user"></i> @User.Identity.Name
+                                    <span class=" fa fa-angle-down"></span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                    <li><a href="~/Admin/Index"> Panel Administratora</a></li>
+                                    <li>
+                                        <a href="javascript:;" onclick="passwordChange()">
+                                            <span class="badge bg-red pull-right">!</span>
+                                            <span>Zmień hasło</span>
+                                        </a>
+                                    </li>
+                                    <li><a href="~/Account/LogOff"><i class="fa fa-sign-out pull-right"></i> Wyloguj</a></li>
+                                </ul>
+                            </li>
+                            @*<li role="presentation" class="dropdown">
+                                <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa fa-envelope-o"></i>
+                                    <span class="badge bg-green">6</span>
+                                </a>
+                                <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+                                    <li>
+                                        <a>
+                                            <span class="image"><i class="fa fa-user"></i></span>
+                                            <span>
+                                                <span>Anna Modrzejewska</span>
+                                                <span class="time">2 minuty temu</span>
+                                            </span>
+                                            <span class="message">
+                                                Udostępniono link szczenięcia: Taiga.
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a>
+                                            <span class="image"><i class="fa fa-user"></i></span>
+                                            <span>
+                                                <span>Weronika Lange</span>
+                                                <span class="time">13 minut temu</span>
+                                            </span>
+                                            <span class="message">
+                                                Dodano komentarz do wpisu w aktualnościach.
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a>
+                                            <span class="image"><i class="fa fa-user"></i></span>
+                                            <span>
+                                                <span>Karol Pruszyński</span>
+                                                <span class="time">26 minut temu</span>
+                                            </span>
+                                            <span class="message">
+                                                Polubiono wpis "Karmy dla psów rasowych"
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a>
+                                            <span class="image"><i class="fa fa-user"></i></span>
+                                            <span>
+                                                <span>Magda Algiert</span>
+                                                <span class="time">30 minut temu</span>
+                                            </span>
+                                            <span class="message">
+                                                Udostępniła Twój profil w mediach społecznościowych.
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <div class="text-center">
+                                            <a>
+                                                <strong>Wszystkie powiadomienia</strong>
+                                                <i class="fa fa-angle-right"></i>
+                                            </a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>*@
+                            <li><a href="@Url.Action("Index", "Home")" class="blue"><i class="fa fa-2x fa-angle-left"></i> <b>Przejdź do mojej strony</b></a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- /top navigation -->
+            <!-- page content -->
+            <div class="right_col" role="main">
+                <div class="">
+                    @Html.RenderAlert()
+                    @RenderBody()
+                </div>
+            </div>
+            <!-- /page content -->
+            <!-- footer content -->
+            <footer>
+                <div class="pull-right">
+                    DogKennel by <a href="https://devarts.pl">DevArts</a>
+                </div>
+                <div class="clearfix"></div>
+            </footer>
+            <!-- /footer content -->
+        </div>
+    </div>
+
+    <!-- Bootstrap -->
+    <script src="~/GentelellaAlelaTemplate/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- FastClick -->
+    <script src="~/GentelellaAlelaTemplate/vendors/fastclick/lib/fastclick.js"></script>
+    <!-- NProgress -->
+    <script src="~/GentelellaAlelaTemplate/vendors/nprogress/nprogress.js"></script>
+    <!-- Chart.js -->
+    <script src="~/GentelellaAlelaTemplate/vendors/Chart.js/dist/Chart.min.js"></script>
+    <!-- gauge.js -->
+    <script src="~/GentelellaAlelaTemplate/vendors/gauge.js/dist/gauge.min.js"></script>
+    <!-- bootstrap-progressbar -->
+    <script src="~/GentelellaAlelaTemplate/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+    <!-- iCheck -->
+    <script src="~/GentelellaAlelaTemplate/vendors/iCheck/icheck.min.js"></script>
+    <!-- Skycons -->
+    <script src="~/GentelellaAlelaTemplate/vendors/skycons/skycons.js"></script>
+    <!-- Flot -->
+    <script src="~/GentelellaAlelaTemplate/vendors/Flot/jquery.flot.js"></script>
+    <script src="~/GentelellaAlelaTemplate/vendors/Flot/jquery.flot.pie.js"></script>
+    <script src="~/GentelellaAlelaTemplate/vendors/Flot/jquery.flot.time.js"></script>
+    <script src="~/GentelellaAlelaTemplate/vendors/Flot/jquery.flot.stack.js"></script>
+    <script src="~/GentelellaAlelaTemplate/vendors/Flot/jquery.flot.resize.js"></script>
+    <!-- Flot plugins -->
+    <script src="~/GentelellaAlelaTemplate/vendors/flot.orderbars/js/jquery.flot.orderBars.js"></script>
+    <script src="~/GentelellaAlelaTemplate/vendors/flot-spline/js/jquery.flot.spline.min.js"></script>
+    <script src="~/GentelellaAlelaTemplate/vendors/flot.curvedlines/curvedLines.js"></script>
+    <!-- DateJS -->
+    <script src="~/GentelellaAlelaTemplate/vendors/DateJS/build/date.js"></script>
+    <!-- JQVMap -->
+    <script src="~/GentelellaAlelaTemplate/vendors/jqvmap/dist/jquery.vmap.js"></script>
+    <script src="~/GentelellaAlelaTemplate/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+    <script src="~/GentelellaAlelaTemplate/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script src="~/GentelellaAlelaTemplate/vendors/moment/min/moment.min.js"></script>
+    <script src="~/GentelellaAlelaTemplate/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <!-- Custom Theme Scripts -->
+    <script src="~/GentelellaAlelaTemplate/build/js/custom.min.js"></script>
+
+    @*<script src="@Url.Content("/js/bootstrap.js")"></script>*@
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

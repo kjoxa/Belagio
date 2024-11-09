@@ -1,0 +1,158 @@
+﻿@model devarts.Models.PuppyAndImages
+
+@section metatags
+{
+    <meta property="og:title" content="@Model.puppy.PuppyName">
+    <meta property="og:image" content="@System.Web.Configuration.WebConfigurationManager.AppSettings["webDomainName"]/Puppies/@Model.puppy.BreedLink/@Model.puppy.DogLink/@Model.puppy.MainPicture">
+    <meta property="og:url" content="@System.Web.Configuration.WebConfigurationManager.AppSettings["webDomainName"]/Puppies/@Model.puppy.DogLink">
+    <meta property="og:description" content="@Html.Raw(Model.puppy.Description)">
+    <meta property="og:type" content="article">
+    <meta name="robots" content="noodp">
+}
+
+<div class="post-parallax parallax inverse-wrapper parallax2" style="background-image: url(/Layout/1.jpg);">
+    <div class="container inner text-center">
+        <div class="headline text-center">
+        </div>
+        <!-- /.headline -->
+    </div>
+</div>
+
+<section id="conceptual" class="light-wrapper">
+    <div class="container inner">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="cbp-panel">
+                    <div class="cbp cbp-onepage-grid">
+                        <div class="cbp-item">
+                            <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Puppies/@Model.puppy.BreedLink/@Model.puppy.PuppyLink/@Model.puppy.MainPicture">
+                                <div class="cbp-caption-defaultWrap"> <img src="~/Puppies/@Model.puppy.BreedLink/@Model.puppy.PuppyLink/@Model.puppy.MainPicture" alt="" /></div>
+                                <div class="cbp-caption-activeWrap">
+                                    <div class="cbp-l-caption-alignCenter">
+                                        <div class="cbp-l-caption-body">
+                                            <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/.cbp-caption-activeWrap -->
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <h3 class="section-title">
+                    @(Model.puppy.PuppySex ? Html.Raw("<i class='fa fa-mars'></i>") : Html.Raw("<i class='fa fa-venus'></i>"))
+                @Model.puppy.PuppyName <small>@Model.litter.LitterPresentationName</small>
+                </h3>
+                @{
+                    var _age = new AgeHelper();
+                }
+                @if (string.IsNullOrEmpty(Model.puppy.DeathDate))
+                {
+                    <h3 data-placement="top" data-toggle="tooltip" data-original-title="Data urodzenia">
+                        <i class="fa fa-heart" style="color:red"></i> @Model.litter.BornDate
+                        <br /><small data-placement="top" data-toggle="tooltip" data-original-title="Czas życia"><i class="fa fa-heartbeat" style="color:red"></i> @_age.HowOld(Model.litter.BornDate, null)</small>
+                    </h3>
+                }
+                else
+                {
+                    <h3 data-placement="top" data-toggle="tooltip" data-original-title="Data urodzenia">
+                        <i class="fa fa-heart" style="color:red"></i> @Model.litter.BornDate - @Model.puppy.DeathDate
+                        <br /><small data-placement="top" data-toggle="tooltip" data-original-title="Czas życia"><i class="fa fa-heartbeat" style="color:red"></i> @_age.HowOld(Model.litter.BornDate, Model.puppy.DeathDate)</small>
+                    </h3>
+                }
+                <hr />
+                <p>@Html.Raw(Model.puppy.Description)</p>
+            </div>
+        </div>
+        <div class="divide50"></div>
+        <div class="row">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-6 text-center">
+                <h4>Galeria <br /><small>Gallery</small></h4>
+                <hr />
+            </div>
+            <div class="col-lg-3"></div>
+        </div>
+        <div class="divide20"></div>
+        <div class="cbp-panel">
+            <div class="cbp cbp-onepage-grid">
+
+                @foreach (var image in Model.puppyImages)
+                {
+                    <div class="cbp-item col-lg-4">
+                        <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Puppies/@Model.puppy.BreedLink/@image.PuppyLink/@image.ImageFileName">
+                            <div class="cbp-caption-defaultWrap"> <img src="~/Puppies/@Model.puppy.BreedLink/@image.PuppyLink/@image.ImageFileName" alt="" /> </div>
+                            <div class="cbp-caption-activeWrap">
+                                <div class="cbp-l-caption-alignCenter">
+                                    <div class="cbp-l-caption-body">
+                                        <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/.cbp-caption-activeWrap -->
+                        </a>
+                    </div>
+                }
+            </div>
+            <!--/.cbp -->
+
+        </div>
+
+        <div class="divide50"></div>
+        <div class="row">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-6 text-center">
+                <h4>Pozostałe szczenięta z miotu <br /><small>More puppies from this litter</small></h4>
+                <hr />
+            </div>
+            <div class="col-lg-3"></div>
+        </div>
+        <div class="divide20"></div>
+        <div class="row">
+            @{
+                devarts.Repositories.KennelRepository kennelRepo = new devarts.Repositories.KennelRepository();
+                var puppies = kennelRepo.GetAllPuppies().Where(puppy => puppy.LitterLink == Model.puppy.LitterLink && puppy.PuppyName != Model.puppy.PuppyName);
+                int i = 0;
+            }
+            @if (puppies.Count() > 0)
+            {
+                foreach (var puppy in puppies)
+                {
+
+                    if (i != 0 && i % 4 == 0)
+                    {
+                    @:</div>
+                    @:<div class="row">
+                    }
+                    <div class="col-sm-3">
+                        <div class="caption-overlay">
+                            <figure><a href="@Url.Action("Puppy", "Home", new { puppyLink = puppy.PuppyLink })"><img src="~/Puppies/@puppy.BreedLink/@puppy.PuppyLink/@puppy.MainPicture" alt="" /> </a></figure>
+                            <div class="caption bottom-right">
+                                <div class="title">
+                                    <h3 class="main-title layer">@puppy.PuppyName, @puppy.LitterLink</h3>
+                                </div>
+                                <!--/.title -->
+                            </div>
+                            <!--/.caption -->
+                        </div>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a href="@Url.Action("EditPuppy", "Kennel", new { id = puppy.Id })" class="btn btn-xs btn-default">Edytuj</a>
+                        }
+                    </div>
+                    i++;
+
+                }
+            }
+            else
+            {
+                <h4 class="text-center">W tym miocie nie ma więcej szczeniąt <small>No more puppies in this litter.</small></h4>
+            }
+        </div>
+        <!--/.cbp-panel -->
+    </div>
+    <!-- /.container -->
+</section>
+<!-- /#conceptual -->

@@ -1,0 +1,50 @@
+﻿@Styles.Render("~/Content/css")
+@Styles.Render("~/Content/DataTables")
+@Styles.Render("~/Content/font-awesome.css")
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/ajaxuntro")
+@Scripts.Render("~/Scripts/KennelDataTables")
+@Scripts.Render("~/bundles/devarts")
+
+<style>
+    .pbtitle {
+        padding: 0 !important;
+    }
+
+    .gainsboroClass {
+        background-color: gainsboro;
+    }
+</style>
+
+<br />
+<div id="alert-area"></div>
+<div id="alerts">
+</div>
+
+<div class="row">
+    <div class="container">
+        <br />
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="x_panel">
+                    <ol class="breadcrumb">
+                        <li>
+                            @Html.ActionLink("Strona Główna", "Index", "Home")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Panel Administratora", "Index", "Admin")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Hodowla", "Index", "Admin")
+                        </li>
+                        <li>
+                            <a href="~/Admin/AdminPanel">Drzewa genealogiczne miotów</a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("_treesLitterView")

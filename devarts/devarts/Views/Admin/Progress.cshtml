@@ -1,0 +1,261 @@
+﻿@Scripts.Render("~/bundles/jquery")
+@Styles.Render("~/Content/font-awesome.css")
+
+@Styles.Render("~/Content/DataTables")
+@Scripts.Render("~/Scripts/AdminDataTables")
+
+@model devarts.Models.OperationsStatus
+
+
+<style>
+    /*styl pozycjonujący rodzaj urządzenia*/
+    .dt-body-center {
+        text-align: center;
+    }
+
+    #alert-area {
+        display: none;
+    }
+</style>
+<br />
+<div id="alert-area"></div>
+<div id="alerts">
+</div>
+<div class="row">
+    <div class="container">
+        <br />
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="x_panel">
+                    <ol class="breadcrumb">
+                        <li>
+                            @Html.ActionLink("Strona Główna", "Index", "Home")
+                        </li>
+                        <li>
+                            <a href="~/Admin/AdminPanel">Postęp pracy</a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="x_panel">
+        <div class="x_title">
+            <h1>@ViewBag.siteName <small>@ViewBag.ownerFirstName @ViewBag.OwnerSurName</small></h1>
+            <h5><strong>@ViewBag.devaArtsCMS</strong></h5>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="x-panel">
+                            @using (@Html.BeginForm("EditPost", "Admin", FormMethod.Post, new { @id = "addPost", @enctype = "multipart/form-data" }))
+                            {@Html.ValidationSummary()
+
+                            <div class="col-lg-12">
+                                <hr />
+                                <h4>Dzień 1 - <b class="green">Zaczynamy</b></h4>
+                                <hr />
+                            </div>
+
+                            <div class="col-lg-12">
+                                @Html.CheckBoxFor(model => model.Operation1, new { @class = "big-checkbox" })
+                                <label class="label-checkbox">
+                                    1. Prezentacja systemu na stronie purebreed.devarts.pl => Administrator / PureBreed2022!
+                                </label>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <hr />
+                                <h4>Dzień 2 - <b class="red">Poszukiwanie koncepcji</b></h4>
+                                <hr />
+                            </div>
+
+                            <div class="col-lg-12">
+                                @Html.CheckBoxFor(model => model.Operation2, new { @class = "big-checkbox" })
+                                <label class="label-checkbox">
+                                    2. Wyszukanie layoutu i zaprezentowanie wraz z MENU (HTTrack)
+                                </label>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <hr />
+                                <h4>Dzień 3 - <b class="green">Przygotowania do prezentacji</b></h4>
+                                <hr />
+                            </div>
+
+                            <div class="col-lg-12">
+                                @Html.CheckBoxFor(model => model.Operation3, new { @class = "big-checkbox" })
+                                <label class="label-checkbox">
+                                    3. Zakup DOMENY i HOSTINGU
+                                </label>
+                            </div>
+
+                            <div class="col-lg-12">
+                                @Html.CheckBoxFor(model => model.Operation4, new { @class = "big-checkbox" })
+                                <label class="label-checkbox">
+                                    4. Wgranie plików i instalacja certyfikatu SSL
+                                </label>
+                            </div>
+
+                            <div class="col-lg-12">
+                                @Html.CheckBoxFor(model => model.Operation5, new { @class = "big-checkbox" })
+                                <label class="label-checkbox">
+                                    5. Zaprezentowanie strony na kupionej domenie
+                                </label>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <hr />
+                                <h4>Dzień 4 - <b class="blue">Widoki hodowlane</b></h4>
+                                <hr />
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="col-lg-12">
+                                    @Html.CheckBoxFor(model => model.Operation6, new { @class = "big-checkbox" })
+                                    <label class="label-checkbox">
+                                        6. PIES W HODOWLI (Informacje, Opis, Badania, Mioty)
+                                    </label>
+                                </div>
+
+                                <div class="col-lg-12">
+                                    @Html.CheckBoxFor(model => model.Operation7, new { @class = "big-checkbox" })
+                                    <label class="label-checkbox">
+                                        7. MIOT - DESIGN
+                                    </label>
+                                </div>
+
+                                <div class="col-lg-12">
+                                    @Html.CheckBoxFor(model => model.Operation8, new { @class = "big-checkbox", disabled = "disabled" })
+                                    <label class="label-checkbox" style="text-decoration:line-through">
+                                        8. SZCZENIĘ - Design
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <hr />
+                                <h4>Dzień 5 - <b class="blue">Community Design</b></h4>
+                                <hr />
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="col-lg-12">
+                                    @Html.CheckBoxFor(model => model.Operation9, new { @class = "big-checkbox" })
+                                    <label class="label-checkbox">
+                                        9. POSTY NA GŁÓWNEJ - Design
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    @Html.CheckBoxFor(model => model.Operation10, new { @class = "big-checkbox" })
+                                    <label class="label-checkbox">
+                                        10. WIDOK POSTU - Design
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    @Html.CheckBoxFor(model => model.Operation11, new { @class = "big-checkbox" })
+                                    <label class="label-checkbox">
+                                        11. O NAS - Design
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    @Html.CheckBoxFor(model => model.Operation12, new { @class = "big-checkbox" })
+                                    <label class="label-checkbox">
+                                        12. FORMULARZ KONTAKTOWY - Design
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    @Html.CheckBoxFor(model => model.Operation13, new { @class = "big-checkbox" })
+                                    <label class="label-checkbox">
+                                        13. REZERWACJE SZCZENIĄT - Design
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <hr />
+                                <h4>Dzień 6 - <b class="green">Rzeczywiste dane</b></h4>
+                                <hr />
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="col-lg-12">
+                                    @Html.CheckBoxFor(model => model.Operation14, new { @class = "big-checkbox" })
+                                    <label class="label-checkbox">
+                                        14. Podpięcie PureBreed-a do strony
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    @Html.CheckBoxFor(model => model.Operation15, new { @class = "big-checkbox" })
+                                    <label class="label-checkbox">
+                                        15. Wyczyszczenie i przygotowanie Bazy Danych
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    @Html.CheckBoxFor(model => model.Operation16, new { @class = "big-checkbox" })
+                                    <label class="label-checkbox">
+                                        16. Wstawienie rzeczywistych danych klienta
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <hr />
+                                <h4>Dzień 7 - <b class="blue">Płatność i finalizacja</b></h4>
+                                <hr />
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="col-lg-12">
+                                    @Html.CheckBoxFor(model => model.Operation18, new { @class = "big-checkbox" })
+                                    <label class="label-checkbox">
+                                        18. Zakup layoutu i wgranie licencji oraz danych do PB
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    @Html.CheckBoxFor(model => model.Operation19, new { @class = "big-checkbox" })
+                                    <label class="label-checkbox">
+                                        19. Płatność - 68 1160 2202 0000 0002 3929 4409
+                                    </label>
+                                </div>
+                                <div class="col-lg-12">
+                                    @Html.CheckBoxFor(model => model.Operation20, new { @class = "big-checkbox" })
+                                    <label class="label-checkbox">
+                                        20. Dodanie nowego projektu do portfolio
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <hr />
+                                <h4>Dzień 8 - <b class="blue">Wielojęzyczność</b></h4>
+                                <hr />
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="col-lg-12">
+                                    @Html.CheckBoxFor(model => model.Operation17, new { @class = "big-checkbox" })
+                                    <label class="label-checkbox">
+                                        21. Dodanie obsługi języka angielskiego
+                                    </label>
+                                </div>
+                            </div>
+
+                            @*<div class="x-panel text-center">
+            <button id="saveAll" class="btn btn-lg btn-default" style="display:none"><i class="fa fa-check"></i> Zapisz zmiany</button>
+            <button id="savePost" class="btn btn-lg btn-default"><i class="fa fa-check"></i> Zapisz zmiany</button>
+        </div>*@
+                        }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

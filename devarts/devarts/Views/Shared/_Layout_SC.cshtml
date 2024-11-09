@@ -1,0 +1,259 @@
+﻿@usage devarts.Helpers
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Supercharty.pl - Hodowla charcików włoskich i chartów rosyjskich Borzoj">
+    <meta name="author" content="Marcin Gadziejewski">
+    <meta name="theme-color" content="#000000">
+    <meta name="msapplication-navbutton-color" content="#000000">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#000000">
+    <title>Super charty - Hodowla charcików włoskich i chartów rosyjskich borzoj</title>
+    <link rel="favicon.ico" type="image/x-icon" href="~/favicon.ico" />
+    <meta property="og:site_name" content="www.supercharty.pl">
+    @RenderSection("metatags", false)
+
+    <!-- Bootstrap core CSS -->
+    <link href="@Url.Content("~/css/bootstrap.css")" rel="stylesheet">
+    <link href="@Url.Content("~/css/business-casual.css")" rel="stylesheet">
+    @Styles.Render("~/Content/font-awesome.css")
+
+    @Scripts.Render("~/bundles/jquery")
+    <link href="~/GentelellaAlelaTemplate/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">    
+</head>
+
+<body>
+    <style>
+        .bigimg {
+            cursor: pointer
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            $('.container.body-content').fadeIn();
+            $('.bigimg').click(function () {
+                window.location.href = 'http://supercharty.pl';
+            });
+        });
+    </script>
+    <div id="fb-root"></div>
+    <script>
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/pl_PL/sdk.js#xfbml=1&version=v2.8";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+    <div class="container" style="text-align: center;">
+        <img class="bigimg" alt="" src="/img/logos_new/logo1min.png" style="padding: 10px; max-width: 300px; object-fit: contain" />
+    </div>
+
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">SUPER CHARTY</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="@Url.Action("Index", "Home")"> Główna<br /><span class="under">Main</span> </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Blog", "Home")"> Blog<br /><span class="under">Articles</span> </a>
+                    </li>
+
+                    <li>
+                        <a href="@Url.Action("ItalianGreyhoundWorld", "Home")" style="font-weight:bold"> URODZINY CHARTÓW<br /><span class="under"> Birthdays</span> </a>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Charcik włoski <b class="caret"></b><br /><span class="under">Italian Greyhound</span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="@Url.Action("Index", "ItalianGreyhound")"> Psy / <span class="under_dropdown">Dogs</span></a></li>
+                            <li class="divider"></li>
+                            <li><a href="@Url.Action("AllPuppies", "Home", new { breedLink = "ItalianGreyhound" })"> Szczenięta / <span class="under_dropdown">Puppies</span></a></li>
+                            <li><a href="@Url.Action("StudDogs", "ItalianGreyhound")"> Reproduktory / <span class="under_dropdown">Sires</span></a></li>
+                            <li class="divider"></li>
+                            <li><a href="@Url.Action("ItalianGreyhoundLitters", "Home")"> Mioty / <span class="under_dropdown">Litters</span></a></li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"> BORZOI <b class="caret"></b><br /><span class="under">Borzoi</span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="@Url.Action("Index", "Borzoi")"> Psy / <span class="under_dropdown">Dogs</span></a></li>
+                            <li class="divider"></li>
+                            <li><a href="@Url.Action("AllPuppies", "Home", new { breedLink = "Borzoi" })"> Szczenięta / <span class="under_dropdown">Puppies</span></a></li>
+                            @*<li><a href="@Url.Action("Dog", "Home", new { dogLink = "Ari"})"> Reproduktor / <span class="under_dropdown">Sire</span></a></li>*@
+                            <li class="divider"></li>
+                            <li><a href="@Url.Action("BorzoiLitters", "Home")"> Mioty / <span class="under_dropdown">Litters</span></a></li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Charty i My <b class="caret"></b><br /><span class="under">About us</span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="@Url.Action("Index", "About")"> O nas / <span class="under_dropdown">Our story</span></a></li>
+                            <li class="divider"></li>
+                            <li><a href="@Url.Action("Movies", "Home")"> Filmy / <span class="under_dropdown">Video</span> </a></li>
+                            <li class="divider"></li>
+                            <li><a href="@Url.Action("FAQ", "Home")"> FAQ / <span class="under_dropdown">Frequency Asked Questions</span></a></li>
+                            <li class="divider"></li>
+                            <li><a href="http://www.zkwp.pl/main.polish/zg/wzorce/200.pdf" target="_blank"> FCI - Charcik Włoski / <span class="under_dropdown">FCI Standard - Italian Greyhound</span></a></li>
+                            <li><a href="http://www.zkwp.pl/main.polish/_documents/zkwp-pdf-wzorce-fci-CHART-ROSYJSKI-BORZOJ.pdf" target="_blank"> FCI - Borzoj / <span class="under_dropdown">FCI Standard - Borzoi</span></a></li>
+                        </ul>
+                    </li>
+
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> KONTAKT <b class="caret"></b><br /><span class="under">Contact</span></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="@Url.Action("CreateReservation", "Home")"> ZAREZERWUJ SZCZENIĘ / <span class="under_dropdown">Book your puppy</span> </a>
+                                    <a href="@Url.Action("Send", "Contact")"> KONTAKT / <span class="under_dropdown">Cantact</span> </a>
+                                </li>
+                            </ul>
+                        </li>
+                    }
+
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Admin <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="@Url.Action("Index", "Admin")"> Panel zarządzania</a></li>
+                                <li class="divider"></li>
+                                <li><a href="@Url.Action("AddEntry", "Admin")"> Dodaj wpis</a></li>
+                                <li class="divider"></li>
+                                <li><a href="@Url.Action("Add", "Litters")"> Dodaj miot</a></li>
+                                <li class="divider"></li>
+                                <li><a href="@Url.Action("UploadGallery", "Gallery")"> Galeria dodanych obrazów</a></li>
+                                <li class="divider"></li>
+                                <li><a href="@Url.Action("Send", "Contact")"> Kontakt</a></li>
+                                <li class="divider"></li>
+                                <li><a href="@Url.Action("LogOff", "Account")"> Wyloguj</a></li>
+                            </ul>
+                        </li>
+                    }
+                    <li>
+                        <a href="@Url.Action("Index", "Shop")" style="font-weight:bold"> SKLEP<br /><span class="under"> Shop</span> </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <div class="container body-content">
+        @Html.RenderAlert()
+        @RenderBody()
+        
+        <div class="snow"></div>
+        <style>
+        .editor-stage .snow {
+          height:50px;
+          background: #fff;
+        }
+        .snow{
+          position:fixed;
+          pointer-events:none;
+          top:0;
+          left:0;
+          right:0;
+          bottom:0;
+          height:100vh;
+          background: none;
+          background-image: url('https://s3-eu-west-1.amazonaws.com/static-ressources/s1.png'), url('https://s3-eu-west-1.amazonaws.com/static-ressources/s2.png'), url('https://s3-eu-west-1.amazonaws.com/static-ressources/s3.png');
+          z-index:100;
+          -webkit-animation: snow 10s linear infinite;
+          -moz-animation: snow 10s linear infinite;
+          -ms-animation: snow 10s linear infinite;
+          animation: snow 10s linear infinite;
+        }
+        @@keyframes snow {
+          0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+          50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
+          100% {background-position: 500px 1000px, 200px 400px, -100px 300px;}
+        }
+        @@-moz-keyframes snow {
+          0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+          50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
+          100% {background-position: 400px 1000px, 200px 400px, 100px 300px;}
+        }
+        @@-webkit-keyframes snow {
+          0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+          50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
+          100% {background-position: 500px 1000px, 200px 400px, -100px 300px;}
+        }
+        @@-ms-keyframes snow {
+          0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+          50% {background-position: 500px 500px, 100px 200px, -100px 150px;}
+          100% {background-position: 500px 1000px, 200px 400px, -100px 300px;}
+        }
+        </style>        
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+
+                </div>
+                <div class="col-lg-4 text-center" style="letter-spacing:6px;">
+                    <br />
+                    <i class="fa fa-youtube fa-2x fa-href" onclick="window.open('https://www.youtube.com/channel/UCKfw2pFfE-P1RxrJoLvApEQ/')"></i>
+                    <i class="fa fa-facebook fa-2x fa-href" onclick="window.open('https://www.facebook.com/supercharty')"></i>
+                    @*<i class="fa fa-google-plus fa-2x fa-href" onclick="window.open('https://www.instagram.com/supercharty.pl/')"></i>*@
+                    <i class="fa fa-instagram fa-2x fa-href" onclick="window.open('https://www.instagram.com/supercharty.pl/')"></i>
+                    @*<i class="fa fa-pinterest fa-2x fa-href"></i>*@
+                    <h3>SUPER CHARTY <br /><small>Anna Szkudlarz</small></h3>
+                    <hr />
+                </div>
+                <div class="col-lg-4 text-center">
+                    <img class="fci" alt="" src="/img/zkwp2.png" style="padding: 10px; max-width: 100px; object-fit: contain; filter: drop-shadow(0px 0px 12px black);" />
+                    <img class="fci" alt="" src="/img/fci2.png" style="padding: 10px; max-width: 100px; object-fit: contain; filter: drop-shadow(0px 0px 12px black); opacity:0.7;" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3">
+
+                </div>
+                <div class="col-lg-6 text-center">
+
+                    <p class="fbhref text-center" onclick="window.location.href = 'mailto:kontakt@supercharty.pl'" style="padding:0; margin:0; cursor:pointer;"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> kontakt@supercharty.pl</p>
+                    <p class="fbhref text-center" style="padding:0; margin:0; cursor:pointer;"><span class="glyphicon glyphicon-phone" aria-hidden="true"></span> 48 606 738 719</p>
+                    <br />
+                    <br />
+                </div>
+                <div class="col-lg-3">
+
+                </div>
+
+            </div>
+            <div class="row">
+                <p style="padding:0; margin:0; cursor:pointer; font-size:small" onclick="window.location.href = 'http://devarts.pl'" class="text-center">CREATED BY <b><a href="www.devarts.pl">DEVARTS.PL</a></b><br />POWERED BY <a href="@Url.Action("Login", "Account")">PURE<b>BREED</b></a> KENNEL MANAGEMENT SYSTEM</p>
+                <br />
+                <br />
+            </div>
+        </div>
+    </footer>
+
+    @*<script src="@Url.Content("~/js/bootstrap.js")"></script>*@
+    <script src="~/GentelellaAlelaTemplate/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    @RenderSection("scripts", false)
+</body>
+</html>

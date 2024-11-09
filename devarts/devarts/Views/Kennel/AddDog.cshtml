@@ -1,0 +1,966 @@
+﻿@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/fileUpload")
+@Scripts.Render("~/bundles/devarts")
+@Styles.Render("~/Content/font-awesome.css")
+@Styles.Render("~/Content/css")
+<style>
+    .breadcrumb {
+        padding: 20px !important;
+        margin: 10px !important;
+    }
+
+    .thumb {
+        height: 200px;
+        border: 1px solid #000;
+        margin: 10px 5px 0 10px;
+    }
+
+    .bar {
+        height: 20px;
+    }
+
+    .field-validation-error {
+        color: red;
+    }
+
+    .validation-summary-errors {
+        color: red;
+    }
+</style>
+
+<div class="row">
+    <div class="container">
+        <br />
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="x_panel">
+                    <ol class="breadcrumb">
+                        <li>
+                            @Html.ActionLink("Strona Główna", "Index", "Home")
+                        </li>
+                        <li>
+                            <a href="~/Admin/Index">Panel administratora</a>
+                        </li>
+                        <li>
+                            <a href="~/Kennel/Index">Hodowla</a>
+                        </li>
+
+                        <li class="active">Dodawanie psa do rasy</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2><i class="fa fa-bars"></i> @ViewBag.BreedName <small>Dodawanie psa do rasy</small></h2>
+            <ul class="nav navbar-right panel_toolbox">
+                <li>
+                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a href="#">Settings 1</a>
+                        </li>
+                        <li>
+                            <a href="#">Settings 2</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="close-link"><i class="fa fa-close"></i></a>
+                </li>
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            @model devarts.Models.Dog
+
+            @Scripts.Render("~/bundles/summernote")
+            @Styles.Render("~/content/summernote")
+            <script>
+                $(document).ready(function () {
+
+                    // walidowanie nawet ukrytych pól (jak jest otwarta zakładka po ang. a ukryta po pl to też ma walidować a standardowo tego nie robi)
+                    $.validator.setDefaults({
+                        ignore: []
+                    });
+
+                    $("#BornDate").datepicker();
+                    $("#DeathDate").datepicker();
+
+                    // Tabs
+                    $(document).ready(function () {
+                        if (location.hash) {
+                            $('a[href="' + location.hash + '"]').tab('show');
+                        }
+                        $(document.body).on("click", "a[data-toggle]", function (event) {
+                            location.hash = this.getAttribute("href");
+                        });
+                    });
+                    $(window).on('popstate', function () {
+                        var anchor = location.hash || $("a[data-toggle=tab]").first().attr("href");
+                        $('.tab-pane').addClass('fade');
+                        $('a[href="' + anchor + '"]').tab('show');
+                    });
+
+                    // ustawianie edytowalnych (summernote) pól
+                    //$('#entryContentShort').summernote({ height: 150 });
+                    $('#entryContentShortEng').summernote({ height: 150 });
+
+                    //$('#entryContent').summernote({ height: 300 });
+                    $('#entryContent').summernote({
+                        onKeyup: function (e) {
+                            $("#entryContent").val($("#entryContent").code());
+                        },
+                        height: 300,
+                    });
+
+                    $('#entryContentShort').summernote({
+                        onKeyup: function (e) {
+                            $("#entryContentShort").val($("#entryContentShort").code());
+                        },
+                        height: 300,
+                    });
+
+                    $('#entryContentEng').summernote({ height: 300 });
+                    $('#entryContentMed').summernote({ height: 300 });
+
+                    // Summernote, edit enter key
+                    //$.summernote.addPlugin({
+                    //    name: 'myenter',
+                    //    events: {
+                    //        // redefine insertParagraph
+                    //        'insertParagraph': function (event, editor, layoutInfo) {
+
+                    //            // custom enter key
+                    //            var newLine = '<br />';
+                    //            pasteHtmlAtCaret(newLine);
+
+                    //            // to stop default event
+                    //            //event.preventDefault();
+                    //        }
+                    //    }
+                    //});
+
+                    // summernote edit enterkey cd...
+                    function pasteHtmlAtCaret(html) {
+                        var sel, range;
+                        if (window.getSelection) {
+                            // IE9 and non-IE
+                            sel = window.getSelection();
+                            if (sel.getRangeAt && sel.rangeCount) {
+                                range = sel.getRangeAt(0);
+                                range.deleteContents();
+
+                                // Range.createContextualFragment() would be useful here but is
+                                // only relatively recently standardized and is not supported in
+                                // some browsers (IE9, for one)
+                                var el = document.createElement("div");
+                                el.innerHTML = html;
+                                var frag = document.createDocumentFragment(), node, lastNode;
+                                while ((node = el.firstChild)) {
+                                    lastNode = frag.appendChild(node);
+                                }
+                                range.insertNode(frag);
+
+                                // Preserve the selection
+                                if (lastNode) {
+                                    range = range.cloneRange();
+                                    range.setStartAfter(lastNode);
+                                    range.collapse(true);
+                                    sel.removeAllRanges();
+                                    sel.addRange(range);
+                                }
+                            }
+                        } else if (document.selection && document.selection.type != "Control") {
+                            // IE < 9
+                            document.selection.createRange().pasteHTML(html);
+                        }
+                    };
+
+                    // upload zdjęć
+                    $(function () {
+                        //var directoryName = $('#dogLink').val();
+                        $('#fileupload').fileupload({
+                            dataType: "json",
+                            //url: "/api/upload",
+                            limitConcurrentUploads: 1,
+                            sequentialUploads: true,
+                            progressInterval: 100,
+                            //maxChunkSize: 20000000,
+                            maxFileSize: 500000000,
+                            add: function (e, data) {
+                                $('#filelistholder').removeClass('hide');
+
+                                breedLink = $('#BreedLink').val();
+                                dogLink = $('#DogLink').val();
+                                dogId = @TempData["ProbablyNextDogId"];
+
+                                data.url = "/api/upload/dog/" + breedLink + "/" + dogLink + "/" + dogId;
+                                data.context = $('<div />').text(data.files[0].name).appendTo('#filelistholder');
+                                $('</div><div class="progress"><div class="bar" style="width:0%"></div></div>').appendTo(data.context);
+                                $('#saveAll').click(function (e) {
+                                    if ($("#addDog").valid()) {
+                                        //e.preventDefault();
+                                        data.submit();
+                                    }
+                                    else {
+                                        //e.preventDefault();
+                                    }
+                                });
+                                //$('#btnUploadAll').click(function () {
+                                //    data.submit();
+                                //});
+                                //$('#saveAll').click(function () {
+                                //    if ($("#addPost").valid()) {
+                                //        //e.preventDefault();
+                                //        data.submit();
+                                //    }
+                                //    else {
+                                //        $("#addPost").valid();
+                                //    }
+                                //});
+                                //$('#saveAll').click(function () {
+                                //    data.submit();
+                                //});
+                                if (data.files.length > 0) {
+                                    $("#saveAll").removeAttr("disabled");
+                                    $("#saveAll").html("<i class='fa fa-save'></i> Zapisz zwierzę");
+                                    //console.log('sdasdasd');
+                                } else {
+                                    $("#saveAll").val("Zanim zapiszesz zwierzę musisz dodać przynajmniej jedno zdjęcie.");
+                                }
+                                handleFileSelect(data);
+                            },
+                            done: function (e, data) {
+                                data.context.text(data.files[0].name + '... przesłano :)');
+                                $('</div><div class="progress"><div class="bar" style="width:100%"></div></div>').appendTo(data.context);
+                            },
+                            progressall: function (e, data) {
+                                var progress = parseInt(data.loaded / data.total * 100, 10);
+                                $('#overallbar').css('width', progress + '%');
+                            },
+                            progress: function (e, data) {
+                                var progress = parseInt(data.loaded / data.total * 100, 10);
+                                data.context.find('.bar').css('width', progress + '%');
+                            },
+                            stop: function (e, data) {
+                                $('#addDog').submit();
+                            }
+                        }).on("fileuploadprocessfail", function (e, data) {
+                            var file = data.files[data.index];
+                            console.log(file.error);
+                        });
+                    });
+
+                    // thumbnailsy w FileUpload
+                    function handleFileSelect(evt) {
+                        var files = evt.files; // FileList object
+
+                        // Loop through the FileList and render image files as thumbnails.
+                        for (var i = 0, f; f = files[i]; i++) {
+
+                            // Only process image files.
+                            if (!f.type.match('image.*')) {
+                                continue;
+                            }
+
+                            var reader = new FileReader();
+
+                            // Closure to capture the file information.
+                            reader.onload = (function (theFile) {
+                                return function (e) {
+                                    // Render thumbnail.
+                                    var span = document.createElement('span');
+                                    span.innerHTML = ['<img class="thumb" src="', e.target.result,
+                                        '" title="', escape(theFile.name), '"/>'].join('');
+                                    document.getElementById('list').insertBefore(span, null);
+                                };
+                            })(f);
+
+                            // Read in the image file as a data URL.
+                            reader.readAsDataURL(f);
+                        }
+                    }
+
+                    // walidacja bez submitu
+                    //$("#saveAll").click(function (e) {
+                    //    if (!$("#addPost").valid())
+                    //    {
+                    //        e.preventDefault();
+                    //    }
+                    //    else
+                    //    {
+                    //        $('#addImages').submit();
+                    //    }
+                    //});
+
+                    //sprawdzanie czy nie ma już wpisu o podanym url-u
+                    $("#DogLink").keyup(function () {
+                        var val = $("#DogLink").val();
+                        var mask = "^[A-Za-z0-9-_]+$";
+
+                        $.getJSON("@Url.Action("CheckDogLinkExists","AjaxKennel")", { dogLink: val }, function (res) {
+                            if (res == true) {
+                                if ($("#DogLink").val().match(mask)) {
+                                    $("#fileupload").addClass("hide");
+                                    $("#imgInfo").removeClass("label-primary");
+                                    $("#imgInfo").addClass("label-danger");
+                                    $("#imgInfo").html("Wypełnij pole <b>Nazwa folderu</b>");
+
+                                    $("#validateUrl").html("<p style='font-size:larger;'><span class='label label-danger'><i class='fa fa-lock'></i> Taki link już istnieje. Podaj inną wartość.</span></p>");
+                                }
+                            }
+                            else {
+                                if ($("#DogLink").val().match(mask)) {
+                                    $("#validateUrl").html("<p style='font-size:larger;'><span class='label label-success'><i class='fa fa-check'></i> Link pasuje :)</span></p>");
+
+                                    $("#fileupload").removeClass("hide");
+                                    $("#imgInfo").removeClass("label-danger");
+                                    $("#imgInfo").addClass("label-primary");
+                                    $("#imgInfo").html("Dodawanie zdjęć");
+                                }
+                                else {
+                                    if ($("#DogLink").val() != "" && $("#DogLink").val() != null) {
+
+                                        $("#fileupload").addClass("hide");
+                                        $("#imgInfo").removeClass("label-primary");
+                                        $("#imgInfo").addClass("label-danger");
+                                        $("#imgInfo").html("Wypełnij pole <b>Nazwa folderu</b>");
+
+                                        $("#validateUrl").html("<p style='font-size:larger;'><span class='label label-danger'><i class='fa fa-warning'></i> Błąd - dozwolone litery (bez polskich znaków), myślniki i cyfry.</span><br>"
+                                            + "<span class='label label-default'>Poprawne przykłady</span> - "
+                                            + "<span class='label label-success'>moj-nowy-post-12-03-2018</span> | "
+                                            + "<span class='label label-success'>krotki-artykul-wprowadzajacy</span> | "
+                                            + "<span class='label label-success'>wygrana-01022018</span>"
+                                            + "</p>");
+                                    } else {
+                                        $("#validateUrl").html("<p style='font-size:larger;'><span class='label label-danger'><i class='fa fa-info-circle'></i> Wypełnienie tego pola jest niezbędne - dozwolone litery (bez polskich znaków), myślniki i cyfry/liczby</span></p>");
+                                        $("#fileupload").addClass("hide");
+                                        $("#imgInfo").removeClass("label-primary");
+                                        $("#imgInfo").addClass("label-danger");
+                                        $("#imgInfo").html("Wypełnij pole <b>Nazwa folderu</b>");
+                                    }
+                                }
+                            }
+                        });
+                    });
+                });
+            </script>
+
+            <div class="container">
+                <div class="x-panel">
+                    @using (@Html.BeginForm("AddDog", "Kennel", FormMethod.Post, new { @id = "addDog", @enctype = "multipart/form-data" }))
+                    {@Html.ValidationSummary()
+                    <div class="row">
+                        <div class="col-lg-12 ">
+                            <h3><i class="fa fa-align-center"></i> Podstawowe dane</h3>
+                            <hr />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 hide">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Id, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.Id, new { @class = "form-control", @disabled = "disabled" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Id)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 hide">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.BreedLink, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.BreedLink, new { @class = "form-control", @readonly = "readonly" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.BreedLink)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DogName, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.DogName, new { @class = "form-control", @placeholder = "Podaj nazwę reprezentacyjną" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.DogName)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DogPetName, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.DogPetName, new { @class = "form-control", @placeholder = "Podaj nazwę reprezentacyjną" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.DogPetName)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.BornDate, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.BornDate, "{0:MM/dd/yyyy}", new { @class = "form-control", @placeholder = "np.: 23.06.2012, 01.01.2016" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.BornDate)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DogColour, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.DogColour, new { @class = "form-control", @placeholder = "Staraj się stosować określenia standardów kolorów w rasach" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.DogColour)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DogSex, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @Html.DropDownListFor(m => Model.DogSex, new SelectList(@ViewBag.DogSex, "Value", "Text"), new { @class = "form-control" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.DogSex)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DeathDate, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.DeathDate, new { @class = "form-control", @placeholder = "np.: 02.03.2005, 30.08.2019", style = "background-color:darkslategray; color:white;" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.DeathDate)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CauseOfDeath, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.CauseOfDeath, new { @class = "form-control", @placeholder = "Skręt jelita / Twist the intestines", style = "background-color:darkslategray; color:white;" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.CauseOfDeath)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12"><br /><br /></div>
+                        <div class="col-lg-12 ">
+                            <h3><i class="fa fa-align-left"></i> Dane hodowlane</h3>
+                            <hr />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Height, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.Height, new { @class = "form-control", @placeholder = "Wysokość w cm (w kłębie)" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Height)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Weight, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.Weight, new { @class = "form-control", @placeholder = "Masa w kg oddzielona kropką np.: 3.56, 5.60, 21.7" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Weight)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CoursingLicenceNumber, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.CoursingLicenceNumber, new { @class = "form-control", @placeholder = "Numer licencji coursingowej (opcjonalnie)" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.CoursingLicenceNumber)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.BloodlineNumber, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.BloodlineNumber, new { @class = "form-control", @placeholder = "Numer rodowodu np. PKR.X-2005" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.BloodlineNumber)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DepartmentNumber, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.DepartmentNumber, new { @class = "form-control", @placeholder = "Numer rej. oddziałowej" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.DepartmentNumber)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ChipNumber, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.ChipNumber, new { @class = "form-control", @placeholder = "Numer mikrochipa lub tatuażu" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.ChipNumber)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.BreedName, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.BreedName, new { @class = "form-control", @placeholder = "Pełna nazwa hodowli" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.BreedName)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.OwnerName, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.OwnerName, new { @class = "form-control", @placeholder = "Imię i nazwisko hodowcy" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.OwnerName)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.OwnerContact, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.OwnerContact, new { @class = "form-control", @placeholder = "Kontakt do hodowcy (opcjonalnie)" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.OwnerContact)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.BreedArchiveUrl, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.BreedArchiveUrl, new { @class = "form-control", @placeholder = "Link do zwierzęcia (opcjonalnie)" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.BreedArchiveUrl)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DogFatherName, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.DogFatherName, new { @class = "form-control", @placeholder = "Nazwa ojca zwierzęcia (bez nazwy hodowli)" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.DogFatherName)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DogMotherName, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.DogMotherName, new { @class = "form-control", @placeholder = "Nazwa matki zwierzęcia (bez nazwy hodowli)" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.DogMotherName)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DogFatherBreedName, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.DogFatherBreedName, new { @class = "form-control", @placeholder = "Hodowla, z której pochodzi ojciec" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.DogFatherBreedName)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DogMotherBreedName, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.DogMotherBreedName, new { @class = "form-control", @placeholder = "Hodowla, z której pochodzi matka" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.DogMotherBreedName)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DogFatherUrl, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.DogFatherUrl, new { @class = "form-control", @placeholder = "Link do ojca (opcjonalnie)" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.DogFatherUrl)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DogMotherUrl, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.DogMotherUrl, new { @class = "form-control", @placeholder = "Link do matki (opcjonalnie)" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.DogMotherUrl)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DogFatherCountry, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.DogFatherCountry, new { @class = "form-control", @placeholder = "Kraj pochodzenia ojca (opcjonalnie)" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.DogFatherCountry)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DogMotherCountry, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.DogMotherCountry, new { @class = "form-control", @placeholder = "Kraj pochodzenia matki (opcjonalnie)" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.DogMotherCountry)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DogFatherCity, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.DogFatherCity, new { @class = "form-control", @placeholder = "Miasto pochodzenia ojca (opcjonalnie)" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.DogFatherCity)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DogMotherCity, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.DogMotherCity, new { @class = "form-control", @placeholder = "Miasto pochodzenia matki (opcjonalnie)" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.DogMotherCity)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <hr />
+                            <div class="col-lg-3 pull-right">
+                                @Html.CheckBoxFor(model => model.Coowner, new { @class = "big-checkbox" })
+                                <b>
+                                    @Html.LabelFor(model => model.Coowner, new { @class = "label-checkbox green" })
+                                </b>
+                            </div>
+
+                            <div class="col-lg-3 pull-right">
+                                @Html.CheckBoxFor(model => model.IsForBreeding, new { @class = "big-checkbox" })
+                                <b>
+                                    @Html.LabelFor(model => model.IsForBreeding, new { @class = "label-checkbox" })
+                                </b>
+                            </div>
+
+                            <div class="col-lg-3 pull-right" style="vertical-align:middle;">
+                                @Html.CheckBoxFor(model => model.IsRetired, new { @class = "big-checkbox" })
+                                <b>
+                                    @Html.LabelFor(model => model.IsRetired, new { @class = "label-checkbox" })
+                                </b>
+                            </div>
+
+                            <div class="col-lg-3 pull-right">
+                                @Html.CheckBoxFor(model => model.IsReproductor, new { @class = "big-checkbox" })
+                                <b>
+                                    @Html.LabelFor(model => model.IsReproductor, new { @class = "label-checkbox" })
+                                </b>
+                            </div>
+                        </div>
+
+                        <!-- Współwłaściciel -->
+                        <div class="col-lg-12">
+                            <hr />
+                        </div>
+
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CoownerFirstName, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.CoownerFirstName, new { @class = "form-control", @placeholder = "Imię współwłaściciela" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.CoownerFirstName)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CoownerSurName, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.CoownerSurName, new { @class = "form-control", @placeholder = "Nazwisko współwłaściciela" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.CoownerSurName)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CoownerAddress, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.CoownerAddress, new { @class = "form-control", @placeholder = "Adres współwłaściciela" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.CoownerAddress)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CoownerContact, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.CoownerContact, new { @class = "form-control", @placeholder = "Kontakt do współwłaściciela" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.CoownerContact)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <hr />
+                            <br />
+                            <ul class="nav small dashboard nav-tabs bar_tabs" id="languagesTab">
+                                <li class="active"><a href="#sectionPL"><i class="fa fa-language"></i> Opis zwierzęcia</a></li>
+                                <li><a href="#sectionEN"><i class="fa fa-language"></i> Tytuły i inne osiągnięcia</a></li>
+                                <li><a href="#sectionMED"><i class="fa fa-check"></i> Badania</a></li>
+                            </ul>
+
+                            <div class="tab-content">
+                                <!-- Post po polsku -->
+                                <div id="sectionPL" class="tab-pane fade in active">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.DogDescription, new { @style = "font-weight: bold;" })
+                                        <div class="cols-sm-10">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-edit fa" aria-hidden="true"></i></span>
+                                                @Html.TextAreaFor(model => model.DogDescription, new { @class = "form-control", @id = "entryContentShort" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.DogDescription)
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Post po angielsku -->
+                                <div id="sectionEN" class="tab-pane fade">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.DegreeDescription, new { @style = "font-weight: bold;" })
+                                        <div class="cols-sm-10">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-edit fa" aria-hidden="true"></i></span>
+                                                @Html.TextAreaFor(model => model.DegreeDescription, new { @class = "form-control", @id = "entryContent" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.DegreeDescription)
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.AchievementsDescription, new { @style = "font-weight: bold;" })
+                                        <div class="cols-sm-10">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-edit fa" aria-hidden="true"></i></span>
+                                                @Html.TextAreaFor(model => model.AchievementsDescription, new { @class = "form-control", @id = "entryContentShortEng" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.AchievementsDescription)
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="sectionMED" class="tab-pane">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.DogMedicalDescription, new { @style = "font-weight: bold;" })
+                                        <div class="cols-sm-10">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-edit fa" aria-hidden="true"></i></span>
+                                                @Html.TextAreaFor(model => model.DogMedicalDescription, new { @class = "form-control", @id = "entryContentMed" })
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.DogMedicalDescription)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-lg-12"><br /><br /></div>
+                        <div class="col-lg-12 ">
+                            <h3><i class="fa fa-folder"></i> Katalogi na serwerze</h3>
+                            <hr />
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DogLink, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.DogLink, new { @class = "form-control", pattern = "^[A-Za-z0-9-]+$", maxlength = "50", placeholder = "Lea, Mickey, Mousse, Magnific-Marionette, Blue_Sun..." })
+                                    </div>
+                                    <div id="validateUrl" class="primary"><p style='font-size:larger;'><span class='label label-danger'><i class='fa fa-info-circle'></i> Wypełnienie tego pola jest niezbędne - dozwolone litery (bez polskich znaków), myślniki i cyfry/liczby</span></p></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                    @section Scripts {
+                        @Scripts.Render("~/bundles/jqueryval")
+                    }
+                    <div class="x-panel">
+                        <div class="form-group" id="imagesForm">
+                            <div class="col-md-12 text-center">
+                                <form id="addImages" action="/api/upload/dog" enctype="multipart/form-data">
+                                    <div class="row fileupload-buttonbar">
+                                        <div class="span7">
+                                            <div class="well">
+                                                <i class="icon-plus"></i><h4><span id="imgInfo" class="label label-danger">&nbsp;&nbsp;Najpierw wypełnij pole <b>Folder zwierzęcia</b></span></h4>
+                                                <input type="file" id="fileupload" class="hide" name="fileupload" accept="image/*" multiple="multiple">
+                                                @*<button style="margin:5px;" id="btnUploadAll" class="btn btn-xs btn-danger pull-right" type="button">
+                                        Załaduj wszystkie
+                                    </button>*@
+                                                <output id="list"></output>
+                                                <div class="clearfix">
+                                                </div>
+                                                <div class="progress">
+                                                    <div class="bar" id="overallbar" style="width: 0%">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="span7">
+                                            <div class="well hide" id="filelistholder">
+                                            </div>
+                                        </div>
+                                        <div class="span7">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <hr />
+                        </div>
+                    </div>
+
+                    <div class="x-panel text-center">
+                        <button id="saveAll" class="btn btn-lg btn-default" disabled><i class="fa fa-save"></i> Zanim zapiszesz zwierzę musisz dodać przynajmniej jedno zdjęcie.</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

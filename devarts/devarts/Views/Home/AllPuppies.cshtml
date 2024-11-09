@@ -1,0 +1,145 @@
+﻿@model IQueryable<devarts.Models.Litter>
+
+<style>
+    #dog {
+        transition: all 1s ease;
+    }
+
+        #dog:hover {
+            transform: scale(1.2, 1.2);
+        }
+
+    #img_cnt {
+        position: relative;
+        overflow: hidden;
+        background-size: cover !important;
+        z-index: 1;
+        margin: 0;
+        background-color: rgba(255,255,255,.7);
+        /*max-height: 290px;*/
+        max-height: 390px;
+        /*border-radius: 5px;*/
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="box">
+            <div class="col-lg-12">
+                <hr>
+                <h2 class="text-center orange"><i class="fa fa-paw"></i></h2>
+                <h2 class="intro-text text-center">
+                    <strong>DOSTĘPNE SZCZENIĘTA</strong> AVAILABLE PUPPIES<br />
+                </h2>
+                <hr>
+            </div>
+            @{
+                int i;
+                devarts.Repositories.KennelRepository kennelRepo = new devarts.Repositories.KennelRepository();
+                string breedlink = ViewBag.BreedLink;
+                var freepuppies = kennelRepo.GetAllPuppies().Where(p => p.IsForSale == true && p.BreedLink == breedlink);
+                i = 0;
+            }
+            <div class="row">
+                @if (freepuppies.Count() > 0)
+                {
+                    foreach (var puppy in freepuppies)
+                    {
+
+                        if (i != 0 && i % 4 == 0)
+                        {
+                        @:</div>
+                        @:<div class="row">
+                        }
+
+
+                        <div class="col-sm-3 text-center">
+                            <h6><small>@puppy.BreedLink</small></h6>
+                            <div id="img_cnt">
+                                <img alt="" style="cursor:pointer" src="~/Puppies/@puppy.BreedLink/@puppy.PuppyLink/@puppy.MainPicture" class="img-responsive" id="dog" onclick="window.location='@Url.Action("Puppy", "Home", new { puppyLink = puppy.PuppyLink } )'">
+                            </div>
+                            <h5>
+                                @puppy.PuppyName
+                                <small>@puppy.LitterLink</small>
+                            </h5>
+
+                        </div>
+
+                        i++;
+
+                    }
+                }
+                else
+                {
+                    <h4 class="text-center">W tym momencie nie posiadamy szczeniąt na sprzedaż.</h4>
+                }
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="box">
+                <div class="col-lg-12">
+                    <hr>
+                    <h2 class="text-center orange"><i class="fa fa-paw"></i></h2>
+                    <h2 class="intro-text text-center">
+                        <strong>WSZYSTKIE SZCZENIĘTA</strong> ALL PUPPIES<br />
+                    </h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="box">
+                <div class="crodp">
+                    <div class="row">
+                        @{
+                            var _age = new AgeHelper();
+                        }
+                        @if (Model.Count() > 0)
+                        {
+
+                            foreach (var litters in Model.OrderByDescending(l => l.BornDateOkay))
+                            {
+                                <div class="col-lg-12 text-center">
+                                    <hr />
+                                    <h4>@litters.LitterPresentationName</h4>
+                                    <p><small><i class="fa fa-heartbeat gold"></i> @litters.BornDate</small><br /><small class="gold">@_age.HowOld(litters.BornDate, null)</small></p>
+
+                                    <hr />
+                                </div>
+                                i = 0;
+                                var _litterRepo = new devarts.Repositories.KennelRepository();
+                                var puppies = _litterRepo.GetPuppiesByLitterLink(litters.LitterLink);
+                                foreach (var puppy in puppies)
+                                {
+
+                                    if (i != 0 && i % 4 == 0)
+                                    {
+                                    @:</div>
+                                    @:<div class="row">
+                                    }
+                                    <div class="col-sm-3">
+                                        <a href="@Url.Action("Puppy", "Home", new { puppyLink = puppy.PuppyLink })"><img class="img-responsive" src="~/Puppies/@puppy.BreedLink/@puppy.PuppyLink/@puppy.MainPicture" alt="" /></a>
+                                        @(puppy.PuppySex == false ? Html.Raw("<b><i class='fa fa-venus'></i></b>") : Html.Raw("<b><i class='fa fa-mars'></i></b>"))
+                                        <b><a class="small" href="@Url.Action("Puppy", "Home", new { puppyLink = puppy.PuppyLink })" target="_blank">@puppy.PuppyName</a></b>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    i++;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            <div class="col-lg-12">
+                                <p>
+                                    Do tej sekcji nie dodano jeszcze informacji.<br />
+                                    <small class="gold">Information hasn't been done to this section yet.</small>
+                                </p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

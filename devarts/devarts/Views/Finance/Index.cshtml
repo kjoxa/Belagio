@@ -1,0 +1,234 @@
+﻿@Styles.Render("~/Content/css")
+@Styles.Render("~/Content/DataTables")
+@Styles.Render("~/Content/font-awesome.css")
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/ajaxuntro")
+@Scripts.Render("~/Scripts/AssistantDataTables")
+@Scripts.Render("~/bundles/devarts")
+
+<br />
+<div id="alert-area"></div>
+<div id="alerts">
+</div>
+
+<div class="container">
+    <br />
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="x_panel">
+                <ol class="breadcrumb">
+                    <li>
+                        @Html.ActionLink("Strona Główna", "Index", "Home")
+                    </li>
+                    <li>
+                        @Html.ActionLink("Panel Administratora", "Index", "Admin")
+                    </li>
+                    <li>
+                        @Html.ActionLink("Asystent Hodowli", "Index", "Admin")
+                    </li>
+                    <li>
+                        <a href="~/Admin/AdminPanel">Finanse hodowli</a>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>
+                        <i class="fa fa-globe"></i> Euro <b>@ViewBag.EUR</b> | Dolar <b>@ViewBag.USD</b><br />
+                        <small style="margin-left: 1px">Pobrano z API Narodowego Banku Polskiego</small>
+                    </h2><br />
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <h3>Operacje</h3>
+                    <p>Co chcesz teraz zrobić?</p>
+                    <div class="col-lg-12">
+                        <hr />
+                        <a href="javaScript:void(0)" class="btn btn-app" id="addPosition"><span class="badge bg-dark-alfa-40"></span><i class="fa fa-money"></i><b>Dodaj...</b></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>
+                        <i class="fa fa-globe"></i> Wykres wydatków i przychodów <b>w skali roku</b><br />
+                        <small style="margin-left: 1px">Wykres obejmuje rok <b>2022</b></small>
+                    </h2><br />
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div class="x_content" style="height: 181px !important">
+                        <canvas id="mybarChartek"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-bar-chart-o fa-fw"></i> Zarządzanie finansami
+                    <div class="pull-right"></div>
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div id="morris-area-chart"></div>
+
+
+                    <ul class="nav small dashboard nav-tabs bar_tabs" id="financeTabs">
+                        <li class="active"><a href="#1"><i class="glyphicon glyphicon-import"></i> Zestawienie finansów<small> w formie listy</small></a></li>
+                        <li><a href="#2"><i class="glyphicon glyphicon-import"></i> Wykresy<small> i statystyki</small></a></li>
+                    </ul>
+
+                    <!-- TAB CONTENT -->
+                    <div class="tab-content">
+
+
+                        <div id="1" class="tab-pane fade in active">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    @Html.Partial("_financesList")
+                                </div>
+                            </div>
+                        </div>
+                        <div id="2" class="tab-pane fade">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="x_panel">
+                                        <div class="x_title">
+                                            <h2>Wykres <small>Liniowy</small></h2>
+                                            <ul class="nav navbar-right panel_toolbox">
+                                                <li>
+                                                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                                </li>
+                                                <li class="dropdown">
+                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                        <a class="dropdown-item" href="#">Settings 1</a>
+                                                        <a class="dropdown-item" href="#">Settings 2</a>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <a class="close-link"><i class="fa fa-close"></i></a>
+                                                </li>
+                                            </ul>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="x_content" style="height: 300px !important">
+                                            <canvas id="lineChartek"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="x_panel">
+                                        <div class="x_title">
+                                            <h2>Pie <small>Chart</small></h2>
+                                            <ul class="nav navbar-right panel_toolbox">
+                                                <li>
+                                                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                                </li>
+                                                <li class="dropdown">
+                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                        <a class="dropdown-item" href="#">Settings 1</a>
+                                                        <a class="dropdown-item" href="#">Settings 2</a>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <a class="close-link"><i class="fa fa-close"></i></a>
+                                                </li>
+                                            </ul>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="x_content">
+                                            <canvas id="pieChartek"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="x_panel">
+                                        <div class="x_title">
+                                            <h2>Donut <small>Chart</small></h2>
+                                            <ul class="nav navbar-right panel_toolbox">
+                                                <li>
+                                                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                                </li>
+                                                <li class="dropdown">
+                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                        <a class="dropdown-item" href="#">Settings 1</a>
+                                                        <a class="dropdown-item" href="#">Settings 2</a>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <a class="close-link"><i class="fa fa-close"></i></a>
+                                                </li>
+                                            </ul>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="x_content">
+                                            <canvas id="donut"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12"></div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h1>@ViewBag.siteName <small>@ViewBag.ownerFirstName @ViewBag.OwnerSurName</small></h1>
+                    <h5><strong>@ViewBag.devaArtsCMS</strong></h5>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content" id="testDiv">
+                    <h3>Podsumowanie @*@Html.Raw(Json.Encode(ViewBag.monthsNames))*@</h3>
+                    <p><b>Wydatki łącznie: </b><span class="red" style="font-weight: bold">@ViewBag.Expense</span></p>
+                    <p><b>Przychody łącznie: </b><span class="green">@ViewBag.NotExpense</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hide astra" id="data-container">
+        <span id="barChartLabels" data-barChartekLabels="@Json.Encode(ViewBag.monthsNames).Replace("\"", "'")"></span>
+        <span id="barChartLabelsJS" data-barchartekjs="@Json.Encode(ViewBag.monthsNamesJS).Replace("\"", "'")"></span>
+        <span id="barchartexpense" data-barchartexpense="@Html.Raw(string.Join(",", Json.Encode(ViewBag.monthsExpense)))"></span>
+        <span id="barchartincome" data-barchartincome="@Html.Raw(string.Join(",", Json.Encode(ViewBag.monthsIncome)))"></span>
+        <span id="urlbarchartupdate" data-urlbarchartupdate="@Url.Action("UpdateBarChart","Finance")"></span>
+        <span id="piechartdata" data-piechartdata="@Html.Raw(string.Join(",", Json.Encode(ViewBag.sumCathegories)))"></span>
+    </div>
+
+</div>
+
+<div id="addFinanceModal" class="modal fade">
+    @Html.Partial("_addFinance")
+</div>
+
+<div id="editFinanceModal" class="modal fade">
+    <div id='editFinanceModalContent'>
+        @Html.Partial("_editFinance")
+    </div>
+</div>
+
+<script type="text/javascript" src="~/ViewsJS/Finance/Finance.js"></script>

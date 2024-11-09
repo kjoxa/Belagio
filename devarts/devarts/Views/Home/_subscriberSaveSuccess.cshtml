@@ -1,0 +1,20 @@
+﻿<!-- NEWS LETTER -->
+@model devarts.Models.Subscriber
+<script>
+    $(document).ready(function () {
+        $(".fadeShow").fadeIn();
+    });
+</script>
+
+<style>
+    .fadeShow{
+        display:none;
+    }
+</style>
+
+<div class="col-md-12 pb-30 text-center-sm fadeShow">
+    <div class="text-center">
+        <h4 class="mt-0 mb-5 text-center"><span class="bold">DZIĘKUJĘ!</span></h4>
+        <span>Twój adres e-mail (@Model.Email) został zapisany, dzięki czemu pozostaniemy w kontakcie.</span>
+    </div>    
+</div>

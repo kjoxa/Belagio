@@ -1,0 +1,123 @@
+﻿
+.background-grey {
+    background: url(/Web/images/belagio/logo_container.jpg) no-repeat center center fixed;
+    background-size: cover;
+}
+
+.bg-overlay {
+    border-bottom: 10px solid white;
+}
+
+.heading-text.heading-section h2 {
+    color: white;
+}
+
+#footer .copyright-content {
+    min-height: 80px;
+    padding: 30px 0;
+    background-color: #353536;
+    font-size: 13px;
+}
+
+.footer-content {
+    padding: 60px 0 40px;
+    color: white;
+    background-color: #282525;
+}
+
+.lead {
+    color: white;
+}
+
+.hr-text {
+    line-height: 2.5em;
+    position: relative;
+    outline: 0;
+    border: 0;
+    color: black;
+    text-align: center;
+    height: 2.5em;
+    opacity: 0.5;
+    font-size: large;
+}
+
+    .hr-text:before {
+        content: "";
+        background: linear-gradient(to right, transparent, white, transparent);
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: 100%;
+        height: 1px;
+    }
+
+    .hr-text:after {
+        content: attr(data-content);
+        position: relative;
+        display: inline-block;
+        color: black;
+        padding: 0 0.5em;
+        line-height: 1.5em;
+        color: #000000;
+        background-color: #ffffff;
+    }
+
+.copyright-content {
+    background: url(/Web/images/belagio/logo_container.jpg) no-repeat center center fixed;
+    background-size: cover;
+}
+
+.footer-content {
+    border-top: 3px solid silver;
+    border-bottom: 3px solid silver;
+}
+
+.content{
+    margin-bottom:0;
+}
+
+.belagio_container {
+    padding: 20px;
+    background: rgb(68 68 68 / 86%);    
+}
+
+.belagio_container h3, h4, h5{
+    color:white;
+}
+
+.belagio-gallery{
+    background-color: initial;
+}
+
+/*tekst wbr hr*/
+.title{
+    font-size:medium;
+}
+
+.tabs .nav-tabs .nav-link {
+    color: #484848;
+    padding: 14px 24px;
+    color: rgb(209 209 209 / 80%);
+    transition: .3s ease;
+    font-weight: 500;
+    border: 0;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom: 2px solid #e6e8eb;
+}
+
+.tabs.tabs-vertical .nav-tabs .nav-link.active {
+    color: #ffffff;
+    background-color: transparent;
+    border-right: 2px solid #ffffff;
+}
+
+.tabs.tabs-vertical .nav-tabs .nav-link {
+    border-radius: 0;
+    border-bottom: 0;
+    border-right: 2px solid #575758;
+}
+
+.field-validation-error {
+    color: burlywood;
+}

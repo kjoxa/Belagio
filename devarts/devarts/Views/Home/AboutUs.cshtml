@@ -1,0 +1,644 @@
+﻿@section metatags
+{
+    <meta property="og:title" content="Leśna Magia - O hodowli">
+    <meta property="og:image" content="@System.Web.Configuration.WebConfigurationManager.AppSettings["webDomainName"]/Layout/logo_gold.png">
+    <meta property="og:url" content="@System.Web.Configuration.WebConfigurationManager.AppSettings["webDomainName"]/">
+    <meta property="og:description" content="Informacje o hodowli Leśna Magia">
+    <meta property="og:type" content="website">
+    <meta name="robots" content="noodp">
+}
+
+<div class="post-parallax parallax inverse-wrapper parallax2" style="background-image: url(/Layout/1.jpg);">
+    <div class="container inner text-center">
+        <div class="headline text-center">
+            @*<h2>hello! I'm lydia doe, a freelance photographer.</h2>
+                <p class="lead">based in london, I specialize in fashion, wedding, food & drink photography.</p>*@
+        </div>
+        <!-- /.headline -->
+    </div>
+</div>
+
+<section id="conceptual" class="light-wrapper">
+    <div class="container inner">
+        <div class="divide50"></div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box">
+                    @if (Request.Browser.IsMobileDevice)
+                    {
+                        <div class="">
+
+                            <div class="col-lg-12 text-center"> <img alt="" src="~/Layout/logo_black.png" style="width:130px" /> </div>                            
+
+                            <h3>O hodowli</h3>
+                            <p style="text-align:justify;">
+                                Mieszkamy na wsi, więc zwierzęta zawsze były obecne w naszym życiu. Chcieliśmy mieć jednak psa, który będzie przyjacielem całej rodziny.
+                                W  berneńczykach zakochaliśmy się od pierwszego wejrzenia, a zgłębiając wiedzę na temat tej rasy, utwierdziliśmy się w przekonaniu, że to właśnie pies dla nas.<br /><br />
+                                Nasza przygoda z berneńczykami rozpoczęła się w styczniu 2011 roku. Wtedy zamieszkała z nami Dafne z hodowli Swobodne Życie, która skradła nam serce i niemal
+                                natychmiast stała się nie tylko naszym przyjacielem, ale również członkiem rodziny.<br /><br />
+                                Dzięki pomocy bardziej doświadczonych ludzi poznawaliśmy magiczny psi świat. Jednocześnie dojrzewała w nas myśl o założeniu własnej hodowli.
+                                Wiosną 2012 roku Dafne (a właściwie cała rodzina) rozpoczęła wystawową przygodę, a niedługo po tym, wśród pól i lasów Podlasia,
+                                rodziła się hodowla Leśna Magia (więcej informacji o naszych psach znajdziesz w menu <b>PSY W HODOWLI</b> oraz <a href="@Url.Action("InMemories", "Home")"> W PAMIĘCI</a><br /><br />
+                                Hodowlę staramy się prowadzić w sposób profesjonalny i odpowiedzialny. Psy są częścią naszego życia rodzinnego,
+                                a powołując na świat szczenięta, pragniemy przede wszystkim zadbać o ich zdrowie i socjalizację.
+                                <br /><br />
+                                Wiemy, że czeka nas dużo wysiłku, ale w zamian otrzymujemy morze miłości od psich czworonogów, dlatego pragniemy dać innym możliwość poznania i pokochania tej wspaniałej rasy.
+                                <br /><br /><br />
+                                <strong class="text-center">
+                                    Zapraszamy!
+                                    <br />
+                                    Małgorzata i Sławomir Żukowscy
+                                </strong>
+                            </p>
+                            <br /><br />
+
+                            <p style="text-align:justify; font-size:small;">
+                                Nasza hodowla zarejestrowana jest w <b><a target="_blank" href="https://www.zkwp.pl/">Związku Kynologicznym w Polsce</a> <a target="_blank" href="http://www.zk.lublin.pl/oddzial/index.php">Oddział Lublin</a></b> jedynej polskiej organizacji kynologicznej, która jest członkiem <b><a target="_blank" href="http://www.fci.be/en/">Fédération Cynologique Internationale</a></b>.
+                                Jest to Międzynarodowa Federacja Kynologiczna zrzeszająca ponad 90 organizacji kynologicznych z Europy, Azji, Afryki, Ameryki Środkowej, Ameryki Południowej i Australii oraz krajów partnerskich, m.in. USA i Wielkiej Brytanii.
+                            </p>
+
+                            <hr />
+                            <div class="clearfix"></div>
+                            
+                            <div class="cbp-panel">
+                                <div class="col-lg-12">
+                                    <h3>Nasze strony <small>Our neighbours</small></h3>
+                                </div>
+                                <div class="col-lg-12">
+                                    <p style="text-align:justify; font-size:small;">
+                                        Hodowla znajduje się w miejscowości Sosnówka, która wyróżnia się wyjątkowymi walorami przyrodniczymi. Bogactwo tutejszych lasów to różnorodna flora i fauna. Doskonałe miejsce na piesze i rowerowe wycieczki. Brak zakładów przemysłowych i oddalenie od skupisk miejskich sprawia, że możemy poszczycić się nieskazitelnie czystym powietrzem.
+                                        Malownicze tereny naszej miejscowości i całej okolicy cieszą oko zarówno mieszkańców, jak i przyjezdnych, a dla naszych psów stwarzają  niezwykle sprzyjające warunki do zdrowego rozwoju i aktywności.
+                                    </p>
+                                </div>
+                                <div class="cbp cbp-onepage-grid">
+                                    <div class="cbp-item col-lg-4">
+                                        <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Layout/Contact/widok.jpg">
+                                            <div class="cbp-caption-defaultWrap"> <img src="~/Layout/Contact/widok.jpg" alt="" /> </div>
+                                            <div class="cbp-caption-activeWrap">
+                                                <div class="cbp-l-caption-alignCenter">
+                                                    <div class="cbp-l-caption-body">
+                                                        <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.cbp-caption-activeWrap -->
+                                        </a>
+                                    </div>
+                                    <div class="cbp-item col-lg-4">
+                                        <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Layout/Contact/widok1.jpg">
+                                            <div class="cbp-caption-defaultWrap"> <img src="~/Layout/Contact/widok1.jpg" alt="" /> </div>
+                                            <div class="cbp-caption-activeWrap">
+                                                <div class="cbp-l-caption-alignCenter">
+                                                    <div class="cbp-l-caption-body">
+                                                        <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.cbp-caption-activeWrap -->
+                                        </a>
+                                    </div>
+                                    <div class="cbp-item col-lg-4">
+                                        <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Layout/Contact/widok2.jpg">
+                                            <div class="cbp-caption-defaultWrap"> <img src="~/Layout/Contact/widok2.jpg" alt="" /> </div>
+                                            <div class="cbp-caption-activeWrap">
+                                                <div class="cbp-l-caption-alignCenter">
+                                                    <div class="cbp-l-caption-body">
+                                                        <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.cbp-caption-activeWrap -->
+                                        </a>
+                                    </div>
+                                    <div class="cbp-item col-lg-4">
+                                        <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Layout/Contact/widok3.jpg">
+                                            <div class="cbp-caption-defaultWrap"> <img src="~/Layout/Contact/widok3.jpg" alt="" /> </div>
+                                            <div class="cbp-caption-activeWrap">
+                                                <div class="cbp-l-caption-alignCenter">
+                                                    <div class="cbp-l-caption-body">
+                                                        <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.cbp-caption-activeWrap -->
+                                        </a>
+                                    </div>
+                                    <div class="cbp-item col-lg-4">
+                                        <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Layout/Contact/widok4.jpg">
+                                            <div class="cbp-caption-defaultWrap"> <img src="~/Layout/Contact/widok4.jpg" alt="" /> </div>
+                                            <div class="cbp-caption-activeWrap">
+                                                <div class="cbp-l-caption-alignCenter">
+                                                    <div class="cbp-l-caption-body">
+                                                        <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.cbp-caption-activeWrap -->
+                                        </a>
+                                    </div>
+                                    <div class="cbp-item col-lg-4">
+                                        <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Layout/Contact/widok5.jpg">
+                                            <div class="cbp-caption-defaultWrap"> <img src="~/Layout/Contact/widok5.jpg" alt="" /> </div>
+                                            <div class="cbp-caption-activeWrap">
+                                                <div class="cbp-l-caption-alignCenter">
+                                                    <div class="cbp-l-caption-body">
+                                                        <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.cbp-caption-activeWrap -->
+                                        </a>
+                                    </div>
+                                    <div class="cbp-item col-lg-4">
+                                        <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Layout/Contact/widok6.jpg">
+                                            <div class="cbp-caption-defaultWrap"> <img src="~/Layout/Contact/widok6.jpg" alt="" /> </div>
+                                            <div class="cbp-caption-activeWrap">
+                                                <div class="cbp-l-caption-alignCenter">
+                                                    <div class="cbp-l-caption-body">
+                                                        <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.cbp-caption-activeWrap -->
+                                        </a>
+                                    </div>
+                                    <div class="cbp-item col-lg-4">
+                                        <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Layout/Contact/widok7.jpg">
+                                            <div class="cbp-caption-defaultWrap"> <img src="~/Layout/Contact/widok7.jpg" alt="" /> </div>
+                                            <div class="cbp-caption-activeWrap">
+                                                <div class="cbp-l-caption-alignCenter">
+                                                    <div class="cbp-l-caption-body">
+                                                        <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.cbp-caption-activeWrap -->
+                                        </a>
+                                    </div>
+                                    <div class="cbp-item col-lg-4">
+                                        <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Layout/Contact/widok8.jpg">
+                                            <div class="cbp-caption-defaultWrap"> <img src="~/Layout/Contact/widok8.jpg" alt="" /> </div>
+                                            <div class="cbp-caption-activeWrap">
+                                                <div class="cbp-l-caption-alignCenter">
+                                                    <div class="cbp-l-caption-body">
+                                                        <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.cbp-caption-activeWrap -->
+                                        </a>
+                                    </div>
+                                    <div class="cbp-item col-lg-4">
+                                        <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Layout/Contact/widok9.jpg">
+                                            <div class="cbp-caption-defaultWrap"> <img src="~/Layout/Contact/widok9.jpg" alt="" /> </div>
+                                            <div class="cbp-caption-activeWrap">
+                                                <div class="cbp-l-caption-alignCenter">
+                                                    <div class="cbp-l-caption-body">
+                                                        <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.cbp-caption-activeWrap -->
+                                        </a>
+                                    </div>
+                                    <div class="cbp-item col-lg-4">
+                                        <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Layout/Contact/widok10.jpg">
+                                            <div class="cbp-caption-defaultWrap"> <img src="~/Layout/Contact/widok10.jpg" alt="" /> </div>
+                                            <div class="cbp-caption-activeWrap">
+                                                <div class="cbp-l-caption-alignCenter">
+                                                    <div class="cbp-l-caption-body">
+                                                        <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.cbp-caption-activeWrap -->
+                                        </a>
+                                    </div>
+                                    <div class="cbp-item col-lg-4">
+                                        <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Layout/Contact/widok11.jpg">
+                                            <div class="cbp-caption-defaultWrap"> <img src="~/Layout/Contact/widok11.jpg" alt="" /> </div>
+                                            <div class="cbp-caption-activeWrap">
+                                                <div class="cbp-l-caption-alignCenter">
+                                                    <div class="cbp-l-caption-body">
+                                                        <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.cbp-caption-activeWrap -->
+                                        </a>
+                                    </div>
+                                    <div class="cbp-item col-lg-4">
+                                        <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Layout/Contact/widok12.jpg">
+                                            <div class="cbp-caption-defaultWrap"> <img src="~/Layout/Contact/widok12.jpg" alt="" /> </div>
+                                            <div class="cbp-caption-activeWrap">
+                                                <div class="cbp-l-caption-alignCenter">
+                                                    <div class="cbp-l-caption-body">
+                                                        <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.cbp-caption-activeWrap -->
+                                        </a>
+                                    </div>
+                                    <div class="cbp-item col-lg-4">
+                                        <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Layout/Contact/widok13.jpg">
+                                            <div class="cbp-caption-defaultWrap"> <img src="~/Layout/Contact/widok13.jpg" alt="" /> </div>
+                                            <div class="cbp-caption-activeWrap">
+                                                <div class="cbp-l-caption-alignCenter">
+                                                    <div class="cbp-l-caption-body">
+                                                        <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.cbp-caption-activeWrap -->
+                                        </a>
+                                    </div>
+                                    <div class="cbp-item col-lg-4">
+                                        <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Layout/Contact/widok14.jpg">
+                                            <div class="cbp-caption-defaultWrap"> <img src="~/Layout/Contact/widok14.jpg" alt="" /> </div>
+                                            <div class="cbp-caption-activeWrap">
+                                                <div class="cbp-l-caption-alignCenter">
+                                                    <div class="cbp-l-caption-body">
+                                                        <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.cbp-caption-activeWrap -->
+                                        </a>
+                                    </div>
+                                    <div class="cbp-item col-lg-4">
+                                        <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Layout/Contact/widok15.jpg">
+                                            <div class="cbp-caption-defaultWrap"> <img src="~/Layout/Contact/widok15.jpg" alt="" /> </div>
+                                            <div class="cbp-caption-activeWrap">
+                                                <div class="cbp-l-caption-alignCenter">
+                                                    <div class="cbp-l-caption-body">
+                                                        <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.cbp-caption-activeWrap -->
+                                        </a>
+                                    </div>
+                                    <div class="cbp-item col-lg-4">
+                                        <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Layout/Contact/widok16.jpg">
+                                            <div class="cbp-caption-defaultWrap"> <img src="~/Layout/Contact/widok16.jpg" alt="" /> </div>
+                                            <div class="cbp-caption-activeWrap">
+                                                <div class="cbp-l-caption-alignCenter">
+                                                    <div class="cbp-l-caption-body">
+                                                        <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.cbp-caption-activeWrap -->
+                                        </a>
+                                    </div>
+                                    <div class="cbp-item col-lg-4">
+                                        <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Layout/Contact/widok17.jpg">
+                                            <div class="cbp-caption-defaultWrap"> <img src="~/Layout/Contact/widok17.jpg" alt="" /> </div>
+                                            <div class="cbp-caption-activeWrap">
+                                                <div class="cbp-l-caption-alignCenter">
+                                                    <div class="cbp-l-caption-body">
+                                                        <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.cbp-caption-activeWrap -->
+                                        </a>
+                                    </div>
+                                    <div class="cbp-item col-lg-4">
+                                        <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Layout/Contact/widok18.jpg">
+                                            <div class="cbp-caption-defaultWrap"> <img src="~/Layout/Contact/widok18.jpg" alt="" /> </div>
+                                            <div class="cbp-caption-activeWrap">
+                                                <div class="cbp-l-caption-alignCenter">
+                                                    <div class="cbp-l-caption-body">
+                                                        <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.cbp-caption-activeWrap -->
+                                        </a>
+                                    </div>
+                                </div>
+                                <!--/.cbp -->
+
+                            </div>
+                            <!--/.cbp-panel -->
+                        </div>
+
+                    }
+                    else
+                    {
+                        <div class="about-author">                            
+
+                            <div class="author-image"> <img alt="" src="~/Layout/logo_black.png" style="width:130px" /> </div>
+
+                            <h3>O hodowli</h3>
+                            <p style="text-align:justify;">
+                                Mieszkamy na wsi, więc zwierzęta zawsze były obecne w naszym życiu. Chcieliśmy mieć jednak psa, który będzie przyjacielem całej rodziny.
+                                W  berneńczykach zakochaliśmy się od pierwszego wejrzenia, a zgłębiając wiedzę na temat tej rasy, utwierdziliśmy się w przekonaniu, że to właśnie pies dla nas.<br /><br />
+                                Nasza przygoda z berneńczykami rozpoczęła się w styczniu 2011 roku. Wtedy zamieszkała z nami Dafne z hodowli Swobodne Życie, która skradła nam serce i niemal
+                                natychmiast stała się nie tylko naszym przyjacielem, ale również członkiem rodziny.<br /><br />
+                                Dzięki pomocy bardziej doświadczonych ludzi poznawaliśmy magiczny psi świat. Jednocześnie dojrzewała w nas myśl o założeniu własnej hodowli.
+                                Wiosną 2012 roku Dafne (a właściwie cała rodzina) rozpoczęła wystawową przygodę, a niedługo po tym, wśród pól i lasów Podlasia,
+                                rodziła się hodowla Leśna Magia (więcej informacji o naszych psach znajdziesz w menu <b>PSY W HODOWLI</b> oraz <a href="@Url.Action("InMemories", "Home")"> W PAMIĘCI</a><br /><br />
+                                Hodowlę staramy się prowadzić w sposób profesjonalny i odpowiedzialny. Psy są częścią naszego życia rodzinnego,
+                                a powołując na świat szczenięta, pragniemy przede wszystkim zadbać o ich zdrowie i socjalizację.
+                                <br /><br />
+                                Wiemy, że czeka nas dużo wysiłku, ale w zamian otrzymujemy morze miłości od psich czworonogów, dlatego pragniemy dać innym możliwość poznania i pokochania tej wspaniałej rasy.
+                                <br /><br /><br />
+                                <strong class="pull-right">
+                                    Zapraszamy!
+                                    <br />
+                                    Małgorzata i Sławomir Żukowscy
+                                </strong>
+                            </p>
+                            <br /><br />
+
+                            <p style="text-align:justify; font-size:small;">
+                                Nasza hodowla zarejestrowana jest w <b><a target="_blank" href="https://www.zkwp.pl/">Związku Kynologicznym w Polsce</a> <a target="_blank" href="http://www.zk.lublin.pl/oddzial/index.php">Oddział Lublin</a></b> jedynej polskiej organizacji kynologicznej, która jest członkiem <b><a target="_blank" href="http://www.fci.be/en/">Fédération Cynologique Internationale</a></b>.
+                                Jest to Międzynarodowa Federacja Kynologiczna zrzeszająca ponad 90 organizacji kynologicznych z Europy, Azji, Afryki, Ameryki Środkowej, Ameryki Południowej i Australii oraz krajów partnerskich, m.in. USA i Wielkiej Brytanii.
+                            </p>
+
+                            <hr />
+                            <div class="clearfix"></div>
+                            @*<div class="row">*@
+                            <div class="cbp-panel">
+                                <div class="col-lg-12">
+                                    <h3>Nasze strony <small>Our neighbours</small></h3>
+                                </div>
+                                <div class="col-lg-12">
+                                    <p style="text-align:justify; font-size:small;">
+                                        Hodowla znajduje się w miejscowości Sosnówka, która wyróżnia się wyjątkowymi walorami przyrodniczymi. Bogactwo tutejszych lasów to różnorodna flora i fauna. Doskonałe miejsce na piesze i rowerowe wycieczki. Brak zakładów przemysłowych i oddalenie od skupisk miejskich sprawia, że możemy poszczycić się nieskazitelnie czystym powietrzem.
+                                        Malownicze tereny naszej miejscowości i całej okolicy cieszą oko zarówno mieszkańców, jak i przyjezdnych, a dla naszych psów stwarzają  niezwykle sprzyjające warunki do zdrowego rozwoju i aktywności.
+                                    </p>
+                                </div>
+                                <div class="cbp cbp-onepage-grid">
+                                    <div class="cbp-item col-lg-4">
+                                        <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Layout/Contact/widok.jpg">
+                                            <div class="cbp-caption-defaultWrap"> <img src="~/Layout/Contact/widok.jpg" alt="" /> </div>
+                                            <div class="cbp-caption-activeWrap">
+                                                <div class="cbp-l-caption-alignCenter">
+                                                    <div class="cbp-l-caption-body">
+                                                        <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.cbp-caption-activeWrap -->
+                                        </a>
+                                    </div>
+                                    <div class="cbp-item col-lg-4">
+                                        <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Layout/Contact/widok1.jpg">
+                                            <div class="cbp-caption-defaultWrap"> <img src="~/Layout/Contact/widok1.jpg" alt="" /> </div>
+                                            <div class="cbp-caption-activeWrap">
+                                                <div class="cbp-l-caption-alignCenter">
+                                                    <div class="cbp-l-caption-body">
+                                                        <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.cbp-caption-activeWrap -->
+                                        </a>
+                                    </div>
+                                    <div class="cbp-item col-lg-4">
+                                        <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Layout/Contact/widok2.jpg">
+                                            <div class="cbp-caption-defaultWrap"> <img src="~/Layout/Contact/widok2.jpg" alt="" /> </div>
+                                            <div class="cbp-caption-activeWrap">
+                                                <div class="cbp-l-caption-alignCenter">
+                                                    <div class="cbp-l-caption-body">
+                                                        <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.cbp-caption-activeWrap -->
+                                        </a>
+                                    </div>
+                                    <div class="cbp-item col-lg-4">
+                                        <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Layout/Contact/widok3.jpg">
+                                            <div class="cbp-caption-defaultWrap"> <img src="~/Layout/Contact/widok3.jpg" alt="" /> </div>
+                                            <div class="cbp-caption-activeWrap">
+                                                <div class="cbp-l-caption-alignCenter">
+                                                    <div class="cbp-l-caption-body">
+                                                        <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.cbp-caption-activeWrap -->
+                                        </a>
+                                    </div>
+                                    <div class="cbp-item col-lg-4">
+                                        <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Layout/Contact/widok4.jpg">
+                                            <div class="cbp-caption-defaultWrap"> <img src="~/Layout/Contact/widok4.jpg" alt="" /> </div>
+                                            <div class="cbp-caption-activeWrap">
+                                                <div class="cbp-l-caption-alignCenter">
+                                                    <div class="cbp-l-caption-body">
+                                                        <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.cbp-caption-activeWrap -->
+                                        </a>
+                                    </div>
+                                    <div class="cbp-item col-lg-4">
+                                        <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Layout/Contact/widok5.jpg">
+                                            <div class="cbp-caption-defaultWrap"> <img src="~/Layout/Contact/widok5.jpg" alt="" /> </div>
+                                            <div class="cbp-caption-activeWrap">
+                                                <div class="cbp-l-caption-alignCenter">
+                                                    <div class="cbp-l-caption-body">
+                                                        <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.cbp-caption-activeWrap -->
+                                        </a>
+                                    </div>
+                                    <div class="cbp-item col-lg-4">
+                                        <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Layout/Contact/widok6.jpg">
+                                            <div class="cbp-caption-defaultWrap"> <img src="~/Layout/Contact/widok6.jpg" alt="" /> </div>
+                                            <div class="cbp-caption-activeWrap">
+                                                <div class="cbp-l-caption-alignCenter">
+                                                    <div class="cbp-l-caption-body">
+                                                        <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.cbp-caption-activeWrap -->
+                                        </a>
+                                    </div>
+                                    <div class="cbp-item col-lg-4">
+                                        <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Layout/Contact/widok7.jpg">
+                                            <div class="cbp-caption-defaultWrap"> <img src="~/Layout/Contact/widok7.jpg" alt="" /> </div>
+                                            <div class="cbp-caption-activeWrap">
+                                                <div class="cbp-l-caption-alignCenter">
+                                                    <div class="cbp-l-caption-body">
+                                                        <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.cbp-caption-activeWrap -->
+                                        </a>
+                                    </div>
+                                    @*<div class="cbp-item col-lg-4">
+                                        <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Layout/Contact/widok8.jpg">
+                                            <div class="cbp-caption-defaultWrap"> <img src="~/Layout/Contact/widok8.jpg" alt="" /> </div>
+                                            <div class="cbp-caption-activeWrap">
+                                                <div class="cbp-l-caption-alignCenter">
+                                                    <div class="cbp-l-caption-body">
+                                                        <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </a>
+                                    </div>*@
+                                    <div class="cbp-item col-lg-4">
+                                        <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Layout/Contact/widok9.jpg">
+                                            <div class="cbp-caption-defaultWrap"> <img src="~/Layout/Contact/widok9.jpg" alt="" /> </div>
+                                            <div class="cbp-caption-activeWrap">
+                                                <div class="cbp-l-caption-alignCenter">
+                                                    <div class="cbp-l-caption-body">
+                                                        <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.cbp-caption-activeWrap -->
+                                        </a>
+                                    </div>
+                                    <div class="cbp-item col-lg-4">
+                                        <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Layout/Contact/widok10.jpg">
+                                            <div class="cbp-caption-defaultWrap"> <img src="~/Layout/Contact/widok10.jpg" alt="" /> </div>
+                                            <div class="cbp-caption-activeWrap">
+                                                <div class="cbp-l-caption-alignCenter">
+                                                    <div class="cbp-l-caption-body">
+                                                        <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.cbp-caption-activeWrap -->
+                                        </a>
+                                    </div>
+                                    <div class="cbp-item col-lg-4">
+                                        <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Layout/Contact/widok11.jpg">
+                                            <div class="cbp-caption-defaultWrap"> <img src="~/Layout/Contact/widok11.jpg" alt="" /> </div>
+                                            <div class="cbp-caption-activeWrap">
+                                                <div class="cbp-l-caption-alignCenter">
+                                                    <div class="cbp-l-caption-body">
+                                                        <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.cbp-caption-activeWrap -->
+                                        </a>
+                                    </div>
+                                    <div class="cbp-item col-lg-4">
+                                        <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Layout/Contact/widok12.jpg">
+                                            <div class="cbp-caption-defaultWrap"> <img src="~/Layout/Contact/widok12.jpg" alt="" /> </div>
+                                            <div class="cbp-caption-activeWrap">
+                                                <div class="cbp-l-caption-alignCenter">
+                                                    <div class="cbp-l-caption-body">
+                                                        <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.cbp-caption-activeWrap -->
+                                        </a>
+                                    </div>
+                                    <div class="cbp-item col-lg-4">
+                                        <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Layout/Contact/widok13.jpg">
+                                            <div class="cbp-caption-defaultWrap"> <img src="~/Layout/Contact/widok13.jpg" alt="" /> </div>
+                                            <div class="cbp-caption-activeWrap">
+                                                <div class="cbp-l-caption-alignCenter">
+                                                    <div class="cbp-l-caption-body">
+                                                        <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.cbp-caption-activeWrap -->
+                                        </a>
+                                    </div>
+                                    <div class="cbp-item col-lg-4">
+                                        <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Layout/Contact/widok14.jpg">
+                                            <div class="cbp-caption-defaultWrap"> <img src="~/Layout/Contact/widok14.jpg" alt="" /> </div>
+                                            <div class="cbp-caption-activeWrap">
+                                                <div class="cbp-l-caption-alignCenter">
+                                                    <div class="cbp-l-caption-body">
+                                                        <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.cbp-caption-activeWrap -->
+                                        </a>
+                                    </div>
+                                    <div class="cbp-item col-lg-4">
+                                        <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Layout/Contact/widok15.jpg">
+                                            <div class="cbp-caption-defaultWrap"> <img src="~/Layout/Contact/widok15.jpg" alt="" /> </div>
+                                            <div class="cbp-caption-activeWrap">
+                                                <div class="cbp-l-caption-alignCenter">
+                                                    <div class="cbp-l-caption-body">
+                                                        <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.cbp-caption-activeWrap -->
+                                        </a>
+                                    </div>
+                                    <div class="cbp-item col-lg-4">
+                                        <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Layout/Contact/widok16.jpg">
+                                            <div class="cbp-caption-defaultWrap"> <img src="~/Layout/Contact/widok16.jpg" alt="" /> </div>
+                                            <div class="cbp-caption-activeWrap">
+                                                <div class="cbp-l-caption-alignCenter">
+                                                    <div class="cbp-l-caption-body">
+                                                        <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.cbp-caption-activeWrap -->
+                                        </a>
+                                    </div>
+                                    <div class="cbp-item col-lg-4">
+                                        <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Layout/Contact/widok17.jpg">
+                                            <div class="cbp-caption-defaultWrap"> <img src="~/Layout/Contact/widok17.jpg" alt="" /> </div>
+                                            <div class="cbp-caption-activeWrap">
+                                                <div class="cbp-l-caption-alignCenter">
+                                                    <div class="cbp-l-caption-body">
+                                                        <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.cbp-caption-activeWrap -->
+                                        </a>
+                                    </div>
+                                    <div class="cbp-item col-lg-4">
+                                        <a class="cbp-caption fancybox-media" data-rel="portfolio" href="~/Layout/Contact/widok18.jpg">
+                                            <div class="cbp-caption-defaultWrap"> <img src="~/Layout/Contact/widok18.jpg" alt="" /> </div>
+                                            <div class="cbp-caption-activeWrap">
+                                                <div class="cbp-l-caption-alignCenter">
+                                                    <div class="cbp-l-caption-body">
+                                                        <div class="cbp-l-caption-title"><span class="cbp-plus"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/.cbp-caption-activeWrap -->
+                                        </a>
+                                    </div>
+                                </div>
+                                <!--/.cbp -->
+
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+        <div class="divide20"></div>
+        <div class="divide20"></div>
+        <div class="box">
+            <div class="about-author">
+
+            </div>
+        </div>
+
+    </div>
+    <!-- /.container -->
+</section>
+<!-- /#conceptual -->

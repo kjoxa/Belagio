@@ -1,0 +1,103 @@
+﻿
+#wrapper {
+    position: relative;
+}
+
+.family-tree {
+    position: relative;
+    margin-left: 250px;
+}
+
+    .family-tree:before {
+        content: "";
+        width: 50px;
+        border-top: 2px solid rgba(170, 150, 91);
+        position: absolute;
+        left: -100px;
+        top: 50%;
+        margin-top: 1px;
+    }
+
+.entry {
+    position: relative;
+    min-height: 60px;
+}
+
+    .entry:before {
+        content: "";
+        height: 100%;
+        border-left: 2px solid rgba(170, 150, 91);
+        position: absolute;
+        left: -50px;
+    }
+
+    .entry:after {
+        content: "";
+        width: 50px;
+        border-top: 2px solid rgba(170, 150, 91);
+        position: absolute;
+        left: -50px;
+        top: 50%;
+        margin-top: 1px;
+    }
+
+    .entry:first-child:before {
+        width: 10px;
+        height: 50%;
+        top: 50%;
+        margin-top: 2px;
+        border-radius: 1px 0 0 0;
+    }
+
+    .entry:first-child:after {
+        height: 10px;
+        border-radius: 1px 0 0 0;
+    }
+
+    .entry:last-child:before {
+        width: 10px;
+        height: 50%;
+        border-radius: 0 0 0 1px;
+    }
+
+    .entry:last-child:after {
+        height: 10px;
+        border-top: none;
+        border-bottom: 2px solid rgba(170, 150, 91);
+        border-radius: 0 0 0 1px;
+        margin-top: -9px;
+    }
+
+    .entry.sole:before {
+        display: none;
+    }
+
+    .entry.sole:after {
+        width: 50px;
+        height: 0;
+        margin-top: 1px;
+        border-radius: 0;
+    }
+
+.label {
+    display: block;
+    min-width: 150px;
+    max-width: 150px;
+    padding: 5px 10px;
+    line-height: 20px;
+    text-align: center;
+    border: 2px solid #545454;
+    border-radius: 2px;
+    background: #2e2d2d;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    font-size: 10px;
+    margin-top: -27px;
+    color: #FFF;
+}
+
+    .label:hover, .label a:hover {
+        color: #FFF !important;
+        background: #080808;
+    }

@@ -1,0 +1,69 @@
+﻿<div class="panel panel-default">
+    <div class="panel-heading">
+        <i class="fa fa-bar-chart-o fa-fw"></i> Cieczki
+        <div class="pull-right">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                    Czyszczenie
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu pull-right" role="menu">
+                    <li>
+                        <a id="btnRemoveStatistics"><i class="fa fa-remove"></i> Wyczyść listę odwiedzin strony</a>
+                    </li>
+                    <li>
+                        <a id="btnRemoveTracing"><i class="fa fa-remove"></i> Wyczyść listę kliknięć użytkowników</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div id="morris-area-chart"></div>
+
+        <!-- /.panel-body -->
+        <ul class="nav small dashboard nav-tabs bar_tabs" id="statisticTab">
+            @*
+        <li class="active"><a href="#sectionAA"><i class="glyphicon glyphicon-tag"></i> ZERO SEMESTER / PREPARATORY</a></li>*@
+            <li class="active"><a href="#sectionA"><i class="glyphicon glyphicon-import"></i> Cieczki</a></li>
+            <li><a href="#sectionB"><i class="glyphicon glyphicon-import"></i> Ciąże</a></li>
+            <li><a href="#sectionC"><i class="glyphicon glyphicon-import"></i> Szczenięta</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="sectionA" class="tab-pane fade in active">
+                <table id="bitchDataTable" class="table small table-striped table-hover" width="100%" cellspacing="0">
+                    <tfoot>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nazwa suki</th>
+                            <th>Rozpoczęcie cieczki</th>
+                            <th>Rozpoczęcie ruji</th>
+                            <th>Dzień krycia</th>
+                            <th>Poziom progesteronu</th>
+                            <th>Komentarz</th>
+                            <th>Sukces</th>
+                            <th>Akcje</th>
+                        </tr>
+                    </tfoot>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nazwa suki</th>
+                            <th>Rozpoczęcie cieczki</th>
+                            <th>Rozpoczęcie ruji</th>
+                            <th>Dzień krycia</th>
+                            <th>Poziom progesteronu</th>
+                            <th>Komentarz</th>
+                            <th>Sukces</th>
+                            <th>Akcje</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

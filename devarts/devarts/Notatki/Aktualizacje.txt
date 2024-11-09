@@ -1,0 +1,12 @@
+﻿# 15.08.2020 USTAWIANIE ZDJĘĆ PSÓW WEDLE UZNANIA
+
++ SQL
+	Update DogImages Set ImageIndex = 1000;
+	Update LitterImages Set ImageIndex = 1000;
+	Update PuppyImages Set ImageIndex = 1000;
+
++ Backend
+	- kennelDataTablesScripts.js
+	- EditDog.cshtml
+	- _imagesByDog.cshtml
+	- ajaxKennelController.cs

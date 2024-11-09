@@ -1,0 +1,108 @@
+﻿@Styles.Render("~/Content/css")
+@Styles.Render("~/Content/DataTables")
+@Styles.Render("~/Content/font-awesome.css")
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/ajaxuntro")
+@Scripts.Render("~/Scripts/AssistantDataTables")
+@Scripts.Render("~/bundles/devarts")
+
+<br />
+<div id="alert-area"></div>
+<div id="alerts">
+</div>
+
+<div class="row">
+    <div class="container">
+        <br />
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="x_panel">
+                    <ol class="breadcrumb">
+                        <li>
+                            @Html.ActionLink("Strona Główna", "Index", "Home")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Panel Administratora", "Index", "Admin")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Asystent Hodowli", "Index", "Admin")
+                        </li>
+                        <li>
+                            <a href="~/Admin/AdminPanel">Rezerwacje szczeniąt</a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="x_panel">
+        <div class="x_title">
+            <h1>@ViewBag.siteName <small>@ViewBag.ownerFirstName @ViewBag.OwnerSurName</small></h1>
+            <h5><strong>@ViewBag.devaArtsCMS</strong></h5>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <h3>Pozycjonowanie SEO</h3>
+            <p>Moduł zarządzania elementami służącymi do optymalizacji pozycjonowania witryny.</p>
+        </div>
+    </div>
+</div>
+
+<ul class="nav small dashboard nav-tabs bar_tabs" id="financeTabs">
+    <li class="active"><a href="#1"><i class="glyphicon glyphicon-import"></i> Lista wszystkich<small> cieczek</small></a></li>
+    <li><a href="#2"><i class="glyphicon glyphicon-import"></i> Szybkie<small> podsumowanie</small></a></li>
+</ul>
+
+<div class="tab-content">
+    <div id="1" class="tab-pane fade in active">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Szybkie<small>podsumowanie</small></h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                    <li>
+                                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a class="dropdown-item" href="#">Settings 1</a>
+                                            <a class="dropdown-item" href="#">Settings 2</a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a class="close-link"><i class="fa fa-close"></i></a>
+                                    </li>
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                                <div class="row">
+                                    <div class="col-12 text-center">
+
+                                    </div>
+                                </div>
+                                <div class="row">
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <div id="2" class="tab-pane fade">
+        <h1>B</h1>
+    </div>
+</div>

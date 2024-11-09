@@ -1,0 +1,162 @@
+﻿@model devarts.Models.SearchWithNews
+@using PagedList.Mvc;
+
+<script src="~/Layout/style/js/jquery.min.js"></script>
+
+@section metatags
+{
+    <meta property="og:title" content="Leśna Magia - Aktualności dotyczące hodowli">
+    <meta property="og:image" content="@System.Web.Configuration.WebConfigurationManager.AppSettings["webDomainName"]/Layout/logo_gold.png">
+    <meta property="og:url" content="@System.Web.Configuration.WebConfigurationManager.AppSettings["webDomainName"]/">
+    <meta property="og:description" content="Najnowsze informacje dotyczące hodowli">
+    <meta property="og:type" content="website">
+    <meta name="robots" content="noodp">
+}
+
+<div class="tp-fullscreen-container revolution">
+    <div class="tp-fullscreen">
+        <ul>
+            @if (Request.Browser.IsMobileDevice)
+            {
+            <li data-transition="fade">
+                <img src="~/Layout/1mobile.jpg" alt="" data-bgposition="center top" data-bgfit="cover" data-bgrepeat="no-repeat" />
+                <h1 class="tp-caption large sfr" data-x="30" data-y="263" data-speed="900" data-start="800" data-end="4000" data-easing="Sine.easeOut">Witamy</h1>
+                <h1 class="tp-caption large sfr" data-x="30" data-y="263" data-speed="900" data-start="4000" data-easing="Sine.easeOut">Welcome</h1>
+                <div class="tp-caption medium sfr" data-x="30" data-y="348" data-speed="900" data-start="1500" data-end="4000" data-easing="Sine.easeOut">
+                    na stronie hodowli <br />
+                    <b>Berneńskich Psów Pasterskich</b>
+                </div>
+                <div class="tp-caption medium sfr" data-x="30" data-y="348" data-speed="900" data-start="4000" data-easing="Sine.easeOut">
+                    <strong>
+                        to webpage of kennel <br />
+                        <b>Bernese Mountain Dog</b>
+                    </strong>
+                </div>
+            </li>
+            }
+            else
+            {
+                <li data-transition="fade">
+                    <img src="~/Layout/2.jpg" alt="" data-bgposition="center top" data-bgfit="cover" data-bgrepeat="no-repeat" />
+                    <div class="tp-caption large text-center sfl" data-x="center" data-y="283" data-speed="900" data-start="800" data-easing="Sine.easeOut"></div>
+                    <div class="tp-caption large text-center sfr" data-x="center" data-y="363" data-speed="900" data-start="1500" data-easing="Sine.easeOut"></div>
+                </li>
+            }
+
+            <li data-transition="fade">
+                <img src="~/Layout/3.jpg" alt="" data-bgposition="center top" data-bgfit="cover" data-bgrepeat="no-repeat" />
+                <div class="tp-caption large text-center sfb" data-x="center" data-y="293" data-speed="900" data-start="800" data-easing="Sine.easeOut"></div>
+                <div class="tp-caption medium text-center sfb" data-x="center" data-y="387" data-speed="900" data-start="1500" data-easing="Sine.easeOut"></div>
+            </li>
+            <li data-transition="fade">
+                <img src="~/Layout/4.jpg" alt="" data-bgposition="center top" data-bgfit="cover" data-bgrepeat="no-repeat" />
+                <div class="tp-caption large text-center sfb" data-x="center" data-y="293" data-speed="900" data-start="800" data-easing="Sine.easeOut"></div>
+                <div class="tp-caption medium text-center sfb" data-x="center" data-y="387" data-speed="900" data-start="1500" data-easing="Sine.easeOut"></div>
+            </li>
+        </ul>
+        <div class="tp-bannertimer tp-bottom"></div>
+    </div>
+    <!-- /.tp-fullscreen-container -->
+</div>
+<!-- /.revolution -->
+<div class="dark-wrapper">
+    <div class="container inner">
+        <h3 class="section-title text-center">Aktualności <small>News</small></h3>
+        <hr />
+        <div class="divide10"></div>
+        @{
+            int i = 0;
+        }
+        <div class="row">
+            @foreach (var post in Model.Post)
+            {
+                if (post.IsPublished)
+                {
+                    if (i != 0 && i % 3 == 0)
+                    {
+                    @:</div>
+                    @:<div class="row">
+                    }
+                    <div class="col-lg-4">
+                        <div class="item post">
+                            <a style="cursor:pointer" href="@Url.Action("Post", "Home", new { postLink = post.PostLink })"><figure class="main"><img src="~/Posts/@post.PostLink/@post.mainImage" alt="" /></figure></a>
+                            <div class="box text-center">
+                                <div class="category cat9"><span><a href="@Url.Action("Post", "Home", new { postLink = post.PostLink })">@post.CategoryName</a></span></div>
+                                <h4 class="post-title"><a href="@Url.Action("Post", "Home", new { postLink = post.PostLink })">@post.PostName</a></h4>
+                                <div class="meta"><span class="date">@post.PostDate</span><span class="comments"><a href="#"><i class="fa fa-eye"></i> @post.PostShow</a></span></div>
+                                <p>@Html.Raw(post.PostContentShort)</p>
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <a href="@Url.Action("EditPost", "Admin", new { postLink = post.PostLink })" target="_blank" class="btn-xs btn-danger"><i class="fa fa-edit"></i> Edytuj</a>
+                                }
+                            </div>
+                            <!-- /.box -->
+                        </div>
+                    </div>
+                    i++;
+                }
+            }
+
+            <!-- /.post -->
+        </div>
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                @Html.PagedListPager(Model.Post, page => Url.Action("Index", new { page }))
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            @Html.Partial("_searchView", Model.Search)
+        </div>
+    </div>
+</div>
+
+<div class="light-wrapper">
+    <div class="container inner">
+        <div class="thin">
+            <h3 class="section-title text-center">Dostępne szczenięta&nbsp;<small>Available puppies</small></h3>
+            <hr />
+        </div>
+        <!-- /.thin -->
+        <div class="divide10"></div>
+        @{
+            devarts.Repositories.KennelRepository kennelRepo = new devarts.Repositories.KennelRepository();
+            var puppies = kennelRepo.GetAllPuppies().Where(p => p.IsForSale == true);
+            i = 0;
+        }
+        <div class="row">
+            @if (puppies.Count() > 0)
+            {
+                foreach (var puppy in puppies)
+                {
+
+                    if (i != 0 && i % 3 == 0)
+                    {
+                    @:</div>
+                    @:<div class="row">
+                    }
+                    <div class="col-sm-4">
+                        <div class="caption-overlay">
+                            <figure><a href="@Url.Action("Puppy", "Home", new { puppyLink = puppy.PuppyLink })"><img src="~/Puppies/@puppy.BreedLink/@puppy.PuppyLink/@puppy.MainPicture" alt="" /> </a></figure>
+                            <div class="caption bottom-right">
+                                <div class="title">
+                                    <h3 class="main-title layer">@puppy.PuppyName, @puppy.LitterLink</h3>
+                                </div>
+                                <!--/.title -->
+                            </div>
+                            <!--/.caption -->
+                        </div>
+                    </div>
+                    i++;
+
+                }
+            }
+            else
+            {
+                <h4 class="text-center">W tym momencie nie posiadamy szczeniąt na sprzedaż.</h4>
+            }
+        </div>
+        <!-- /.container -->
+    </div>
+    <!-- /.light-wrapper -->
+</div>

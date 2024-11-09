@@ -1,0 +1,41 @@
+﻿tfoot input {
+    width: 100%;
+    padding: 1px;
+    box-sizing: border-box;
+    font-weight: 100;
+    border-radius: 2px;
+    text-align: center;
+    border: 1px dotted silver;
+    font-size: x-small;
+    transition: 0.5s;
+}
+
+/*tfoot input:focus{
+        font-weight:bold;
+        color:red;
+        font-size:small;        
+    }*/
+
+tfoot th {
+    background-color: #cee2f3;
+    padding: 1px;
+}
+
+.notEmpty {
+    font-weight: bold !important;
+    color: red !important;
+    font-size: small !important;
+}
+
+tfoot th {
+    padding: 2px !important;
+}
+
+/*Powiększenie wysokości okienka ładowania*/
+.dataTables_processing{
+    height:45px !important;
+}
+
+.dt-body-center {
+    text-align: center;
+}

@@ -1,0 +1,111 @@
+﻿
+@section metatags
+{
+    <meta property="og:title" content="WILKORIA Waterfall">
+    <meta property="og:image" content="@System.Web.Configuration.WebConfigurationManager.AppSettings["webDomainName"]/images/waterfall1.jpg">
+    <meta property="og:url" content="@System.Web.Configuration.WebConfigurationManager.AppSettings["webDomainName"]/Home/WilkoriaWaterfall">
+    <meta property="og:description" content="WILKORIA Waterfull (Litter W)">
+    <meta property="og:type" content="article">
+    <meta name="robots" content="noodp">
+    @Styles.Render("~/MAGallery/css")
+    @Scripts.Render("~/MAGallery/js")
+}
+
+<script src="@Url.Content("~/js/myscripts.js")"></script>
+<link href="@Url.Content("~/css/pedigreeViews.css")" rel="stylesheet" type="text/css" />
+
+<script>
+    $(document).ready(function () {
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    });
+</script>
+
+<div class="container">
+    <div class="row">
+        <div class="box">
+            <div class="col-lg-12">
+                <hr>
+                <h2 class="text-center orange"><i class="fa fa-paw"></i></h2>
+                <h2 class="intro-text text-center">
+                    <strong>Wilkoria Waterfall</strong><br /> KENNEL WILKORIA (LITTER W)
+                </h2>
+                <hr>
+            </div>
+            <div class="col-md-6">
+                <img alt="" src="/images/waterfall1.jpg" class="img-responsive img-border-left">
+            </div>
+            <div class="col-md-6">
+                <h5>
+                    <i class="fa fa-heart gold"></i> 08.10.2019
+                </h5>
+                <h5>
+                    <small>Ojciec / Father</small><br /><b>CHPL JCHPL</b><br /> Cyrenne Sperides <strong>De Salkin Aidan</strong>
+                </h5>
+                <h5><small>Matka / Mother</small><br /><br /> AGATHA CHRISTIE <strong>Dai Giardini Dello Zar</strong></h5>
+                <h5><small>Umaszczenie / Colour</small><br />Izabelowate </h5>
+                <br />
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="box">
+            <div class="col-lg-12">
+                <div class="bs-example">
+                    <ul class="nav nav-tabs" id="myTab">
+                        <li class="active"><a style="padding:10px;" href="#images"><strong>ZDJĘCIA & OPIS</strong><br /><small>IMAGES & DESCRIPTION</small></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="tab-content">
+                    <div id="images" class="tab-pane fade in active">
+                        <div class="crop">
+                            <div class="row">
+                                <div class="box-x">
+                                    <div class="col-lg-12">
+                                        <div class="col-lg-12">
+                                            @*<h2 class="text-center orange"><i class="fa fa-sticky-note"></i></h2>*@
+                                            <h2 class="intro-text text-center">
+                                                Opis <strong>WALTER</strong>
+                                            </h2>
+                                            <hr>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <p>
+                                            Piękny chłopczyk charcika włoskiego, niezwykle elegancki i obiecujący na wystawy, z cudownych ruchem. Pochodzi z wybitnego skojarzenia, ma bardzo interesujący rodowód, prowadzi zdrową i wolną od złamań linię.
+                                            Poszukiwany domek wystawowy, najchętniej z doświadczeniem w chartach, możliwa współwłasność.<br />
+                                            <br />
+                                            <a href="https://italiangreyhound.breedarchive.com/animal/testmating?sire_uuid=92676b51-1187-4424-bb6d-4aac56e59c45&dam_uuid=a049b684-672b-4ddc-a5e8-8663cc345534" target="_blank">Link do rodowodu rodziców</a>
+                                        </p>
+                                        <br />
+                                    </div>
+                                </div>
+                                <div class="box-x">
+                                    <div class="row" id="img-container">
+                                        <div class="box-x">
+                                            <ul id="myGallery" class="gallery col-xs-12">
+                                                <li class="col-xs-6 col-sm-3"><span><img src="/Images/Waterfall1.jpg" /></span></li>
+                                                <li class="col-xs-6 col-sm-3"><span><img src="/Images/Waterfall2.jpg" /></span></li>
+                                                <li class="col-xs-6 col-sm-3"><span><img src="/Images/Waterfall3.jpg" /></span></li>
+                                                <li class="col-xs-6 col-sm-3"><span><img src="/Images/Waterfall4.jpg" /></span></li>
+                                                <li class="col-xs-6 col-sm-3"><span><img src="/Images/Waterfall5.jpg" /></span></li>
+                                            </ul>
+                                        </div>
+                                        <script type="text/javascript">
+                                            MAgallery("myGallery");
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,281 @@
+﻿@model devarts.Models.Reproduction
+
+<div class="modal-dialog" style="width:1200px">
+    <div class="modal-content">
+        @using (Ajax.BeginForm("EditReproduction", "Reproduction", new AjaxOptions
+        {
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "patientList",
+            LoadingElementId = "loader",
+            OnSuccess = "OnEditSuccessOperations()"
+        }, new { Id = "editReproductionForm" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="modal-title" id="myModalLabel">
+                    <i class="fa fa-bar-chart"></i> Edycja cieczki
+                    <small> i danych porodu</small>
+                </h3>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6 form-horizontal">
+                        <div class="form-group">
+                            @Html.TextBoxFor(model => model.Id, new { @id = "edit_Id", @class = "form-control hide" })
+                            @Html.LabelFor(model => model.DogName, htmlAttributes: new { @class = "control-label col-lg-3" })
+                            <div class="col-lg-9">
+                                @Html.TextBoxFor(model => model.DogName, new { @id = "dog_Name", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.DogName)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.FatherName, htmlAttributes: new { @class = "control-label col-lg-3" })
+                            <div class="col-lg-9">
+                                @Html.TextBoxFor(model => model.FatherName, new { @id = "edit_FatherName", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.FatherName)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.EstrusStartDate, htmlAttributes: new { @class = "control-label col-lg-3" })
+                            <div class="col-lg-9">
+                                @Html.TextBoxFor(model => model.EstrusStartDate, "{0:yyyy.MM.dd HH:mm}", new { @name = "edit_EstrusStartDate", @id = "edit_EstrusStartDate", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.EstrusStartDate)
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.MatingDate_First, htmlAttributes: new { @class = "control-label col-lg-3" })
+                            <div class="col-lg-9">
+                                @Html.TextBoxFor(model => model.MatingDate_First, "{0:yyyy.MM.dd HH:mm}", new { @name = "edit_MatingDateFirst", @id = "edit_MatingDateFirst", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.MatingDate_First)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.MatingDate_Second, htmlAttributes: new { @class = "control-label col-lg-3" })
+                            <div class="col-lg-9">
+                                @Html.TextBoxFor(model => model.MatingDate_Second, "{0:yyyy.MM.dd HH:mm}", new { @name = "edit_MatingDateFirst", @id = "edit_MatingDateFirst", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.MatingDate_Second)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.MatingDate_Third, htmlAttributes: new { @class = "control-label col-lg-3" })
+                            <div class="col-lg-9">
+                                @Html.TextBoxFor(model => model.MatingDate_Third, "{0:yyyy.MM.dd HH:mm}", new { @name = "edit_MatingDateFirst", @id = "edit_MatingDateFirst", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.MatingDate_Third)
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ProgessteronBestDay, htmlAttributes: new { @class = "control-label col-lg-3" })
+                            <div class="col-lg-9">
+                                @Html.TextBoxFor(model => model.ProgessteronBestDay, new { @id = "edit_FatherName", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.ProgessteronBestDay)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ProgessteronBestVal, htmlAttributes: new { @class = "control-label col-lg-3" })
+                            <div class="col-lg-9">
+                                @Html.TextBoxFor(model => model.ProgessteronBestVal, new { @id = "edit_FatherName", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.ProgessteronBestVal)
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CorrectDaysToEstrus, htmlAttributes: new { @class = "control-label col-lg-3" })
+                            <div class="col-lg-9">
+                                @Html.TextBoxFor(model => model.CorrectDaysToEstrus, new { @id = "edit_FatherName", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.CorrectDaysToEstrus)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CorrectDaysToPregnancy, htmlAttributes: new { @class = "control-label col-lg-3" })
+                            <div class="col-lg-9">
+                                @Html.TextBoxFor(model => model.CorrectDaysToPregnancy, new { @id = "edit_FatherName", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.CorrectDaysToPregnancy)
+                            </div>
+                        </div>
+                    </div>                    
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 form-horizontal">
+                        <div class="form-group">
+                            @Html.TextBoxFor(model => model.Id, new { @id = "edit_Id", @class = "form-control hide" })
+                            @Html.LabelFor(model => model.DogName, htmlAttributes: new { @class = "control-label col-lg-3" })
+                            <div class="col-lg-9">
+                                @Html.TextBoxFor(model => model.DogName, new { @id = "dog_Name", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.DogName)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.FatherName, htmlAttributes: new { @class = "control-label col-lg-3" })
+                            <div class="col-lg-9">
+                                @Html.TextBoxFor(model => model.FatherName, new { @id = "edit_FatherName", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.FatherName)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.EstrusStartDate, htmlAttributes: new { @class = "control-label col-lg-3" })
+                            <div class="col-lg-9">
+                                @Html.TextBoxFor(model => model.EstrusStartDate, "{0:yyyy.MM.dd HH:mm}", new { @name = "edit_EstrusStartDate", @id = "edit_EstrusStartDate", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.EstrusStartDate)
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.MatingDate_First, htmlAttributes: new { @class = "control-label col-lg-3" })
+                            <div class="col-lg-9">
+                                @Html.TextBoxFor(model => model.MatingDate_First, "{0:yyyy.MM.dd HH:mm}", new { @name = "edit_MatingDateFirst", @id = "edit_MatingDateFirst", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.MatingDate_First)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.MatingDate_Second, htmlAttributes: new { @class = "control-label col-lg-3" })
+                            <div class="col-lg-9">
+                                @Html.TextBoxFor(model => model.MatingDate_Second, "{0:yyyy.MM.dd HH:mm}", new { @name = "edit_MatingDateFirst", @id = "edit_MatingDateFirst", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.MatingDate_Second)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.MatingDate_Third, htmlAttributes: new { @class = "control-label col-lg-3" })
+                            <div class="col-lg-9">
+                                @Html.TextBoxFor(model => model.MatingDate_Third, "{0:yyyy.MM.dd HH:mm}", new { @name = "edit_MatingDateFirst", @id = "edit_MatingDateFirst", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.MatingDate_Third)
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ProgessteronBestDay, htmlAttributes: new { @class = "control-label col-lg-3" })
+                            <div class="col-lg-9">
+                                @Html.TextBoxFor(model => model.ProgessteronBestDay, new { @id = "edit_FatherName", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.ProgessteronBestDay)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ProgessteronBestVal, htmlAttributes: new { @class = "control-label col-lg-3" })
+                            <div class="col-lg-9">
+                                @Html.TextBoxFor(model => model.ProgessteronBestVal, new { @id = "edit_FatherName", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.ProgessteronBestVal)
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CorrectDaysToEstrus, htmlAttributes: new { @class = "control-label col-lg-3" })
+                            <div class="col-lg-9">
+                                @Html.TextBoxFor(model => model.CorrectDaysToEstrus, new { @id = "edit_FatherName", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.CorrectDaysToEstrus)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CorrectDaysToPregnancy, htmlAttributes: new { @class = "control-label col-lg-3" })
+                            <div class="col-lg-9">
+                                @Html.TextBoxFor(model => model.CorrectDaysToPregnancy, new { @id = "edit_FatherName", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.CorrectDaysToPregnancy)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <input class="btn btn-danger" type="submit" value="Zapisz">
+                        <a href="#" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close"></i> Zamknij</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#EstrusStartDate").datepicker({
+            dateFormat: 'yy.mm.dd',
+            onSelect: function (datetext) {
+                var d = new Date(); // for now
+
+                var h = d.getHours();
+                h = (h < 10) ? ("0" + h) : h;
+
+                var m = d.getMinutes();
+                m = (m < 10) ? ("0" + m) : m;
+
+                datetext = datetext + " " + h + ":" + m;
+
+                $('#EstrusStartDate').val(datetext);
+            }
+        });
+
+        $("#MatingDate_First").datepicker({
+            dateFormat: 'yy.mm.dd',
+            onSelect: function (datetext) {
+                var d = new Date(); // for now
+
+                var h = d.getHours();
+                h = (h < 10) ? ("0" + h) : h;
+
+                var m = d.getMinutes();
+                m = (m < 10) ? ("0" + m) : m;
+
+                datetext = datetext + " " + h + ":" + m;
+
+                $('#MatingDate_First').val(datetext);
+            }
+        });
+
+        $("#edit_EstrusStartDate").datepicker({
+            dateFormat: 'yy.mm.dd',
+            onSelect: function (datetext) {
+                var d = new Date(); // for now
+
+                var h = d.getHours();
+                h = (h < 10) ? ("0" + h) : h;
+
+                var m = d.getMinutes();
+                m = (m < 10) ? ("0" + m) : m;
+
+                datetext = datetext + " " + h + ":" + m;
+
+                $('#edit_EstrusStartDate').val(datetext);
+            }
+        });
+
+        $("#edit_MatingDateFirst").datepicker({
+            dateFormat: 'yy.mm.dd',
+            onSelect: function (datetext) {
+                var d = new Date(); // for now
+
+                var h = d.getHours();
+                h = (h < 10) ? ("0" + h) : h;
+
+                var m = d.getMinutes();
+                m = (m < 10) ? ("0" + m) : m;
+
+                //var s = d.getSeconds();
+                //s = (s < 10) ? ("0" + s) : s;
+
+                datetext = datetext + " " + h + ":" + m;/* + ":" + s;*/
+
+                $('#edit_MatingDateFirst').val(datetext);
+            }
+        });
+    });   
+</script>
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script type="text/javascript">
+    (function ($) {
+        $.validator.unobtrusive.adapters.addBool("checkboxrequired", "required");
+    }(jQuery));
+</script>

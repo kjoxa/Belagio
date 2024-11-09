@@ -1,0 +1,54 @@
+﻿@model devarts.Models.Contact
+
+<div class="container maintenance-container">
+    <div class="col-md-12 text-center">
+        <img src="~/images/examples/logo.png" style="width:30%;" alt="Map">
+    </div>
+    <div class="row m-bot-40">
+        <div class="col-md-12">
+            <div class="mb-50">
+                <h2 class="section-title">
+                    @*<img src="~/images/examples/logo-contact.png" style="width:100px" alt="Logo">*@
+                    SANGUE AZZURRO <small><span class="bold">WARSAW, POLAND</span></small><br />
+                    <small style="font-size:small;">Hodowla znajduje się pod Warszawą w Nadbużańskim Parku Krajobrazowym, nad rzeką Liwiec.</small>
+
+                    <br />
+                    <br />
+                    <small style="font-size:small"><b>E-MAIL</b> contact@sangueazzurro.pl <br /> <b>PHONE</b> +48 609 996 337</small>
+                </h2>
+            </div>
+        </div>
+        @*<div class="col-md-12">
+                <div class="col-md-12">
+                    <div class="col-md-3">
+                        <img src="~/images/examples/logo.png" class="logo" alt="Logo">
+                    </div>
+                    <div class="col-md-9">
+                        <div class="col-md-12 maintenance-text-container">
+                            <br />
+                            <br />
+                            <h2>SANGUE AZZURRO<br /><small>WARSAW, POLAND</small></h2>
+                            <h3>
+                                <i class="fa fa-phone"> </i>   609 996 337<br />
+                                <i class="fa fa-envelope"> </i>  gojapietralik@gmail.com
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+        <div class="col-md-12 text-center">
+            <img src="~/images/examples/mapn.png" style="width:100%;" alt="Map">
+        </div>
+        @*<div class="col-md-12 maintenance-text-container">
+                <h2>SANGUE AZZURRO</h2>
+                <h3>HANDMADE with LOVE</h3>
+                <p>The page is currently unavailable due to the server maintenance. The site is under maintenance probably because we are working to improve this website. Please check back later when the maintenance is over. If you need support, you may simply send us an email at <a class="a-invert" href="mailto:email@felius.com">email@felius.com</a></p>
+
+            </div>*@
+
+    </div>
+    @Html.Partial("~/Views/Contact/Send.cshtml", Model)
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+</div>

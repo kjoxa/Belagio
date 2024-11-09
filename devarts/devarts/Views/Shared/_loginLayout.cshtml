@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Purebreed - Logowanie do systemu</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="~/LoginLayout/images/icons/favicon.ico" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/LoginLayout/vendor/bootstrap/css/bootstrap.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/LoginLayout/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/LoginLayout/fonts/iconic/css/material-design-iconic-font.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/LoginLayout/vendor/animate/animate.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/LoginLayout/vendor/css-hamburgers/hamburgers.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/LoginLayout/vendor/animsition/css/animsition.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/LoginLayout/vendor/select2/select2.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/LoginLayout/vendor/daterangepicker/daterangepicker.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/LoginLayout/css/util.css">
+    <link rel="stylesheet" type="text/css" href="~/LoginLayout/css/main.css">
+    <!--===============================================================================================-->
+</head>
+<body style="background-image: url(/Web/images/belagio/logo.jpg); background-size: cover ">
+
+    @Html.RenderAlert()
+    @RenderBody()
+
+
+    <div id="dropDownSelect1"></div>
+
+    <!--===============================================================================================-->
+    <script src="~/LoginLayout/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/LoginLayout/vendor/animsition/js/animsition.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/LoginLayout/vendor/bootstrap/js/popper.js"></script>
+    <script src="~/LoginLayout/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/LoginLayout/vendor/select2/select2.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/LoginLayout/vendor/daterangepicker/moment.min.js"></script>
+    <script src="~/LoginLayout/vendor/daterangepicker/daterangepicker.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/LoginLayout/vendor/countdowntime/countdowntime.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/LoginLayout/js/main.js"></script>
+    @RenderSection("scripts", false)
+</body>
+</html>

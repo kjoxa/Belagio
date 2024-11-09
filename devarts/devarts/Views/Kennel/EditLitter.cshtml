@@ -1,0 +1,684 @@
+﻿@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/fileUpload")
+@Scripts.Render("~/bundles/devarts")
+@Styles.Render("~/Content/font-awesome.css")
+@Styles.Render("~/Content/css")
+
+<style>
+    .breadcrumb {
+        padding: 20px !important;
+        margin: 10px !important;
+    }
+
+    .thumb {
+        height: 200px;
+        border: 1px solid #000;
+        margin: 10px 5px 0 10px;
+    }
+
+    .bar {
+        height: 20px;
+    }
+
+    .field-validation-error {
+        color: red;
+    }
+
+    .validation-summary-errors {
+        color: red;
+    }
+</style>
+
+<div class="row">
+    <div class="container">
+        <br />
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="x_panel">
+                    <ol class="breadcrumb">
+                        <li>
+                            @Html.ActionLink("Strona Główna", "Index", "Home")
+                        </li>
+                        <li>
+                            <a href="~/Admin/Index">Panel administratora</a>
+                        </li>
+                        <li>
+                            <a href="~/Kennel/Index">Hodowla</a>
+                        </li>
+
+                        <li class="active">Edycja miotu</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="container">
+        <br />
+        <div class="row">
+            <div class="col-lg-12">
+                <a href="@Url.Action("AddPuppy","Kennel", new { litterId = Model.litter.Id })" class="btn btn-app"><i class="fa fa-check"></i> Dodaj <b>szczenię</b></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2><i class="fa fa-bars"></i> @ViewBag.BreedName <small>Dodawanie miotu</small></h2>
+            <ul class="nav navbar-right panel_toolbox">
+                <li>
+                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a href="#">Settings 1</a>
+                        </li>
+                        <li>
+                            <a href="#">Settings 2</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="close-link"><i class="fa fa-close"></i></a>
+                </li>
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            @model devarts.Models.LitterWithImagesAndDog
+
+            @Scripts.Render("~/bundles/summernote")
+            @Styles.Render("~/content/summernote")
+            <script>
+                $(document).ready(function () {
+
+                    // walidowanie nawet ukrytych pól (jak jest otwarta zakładka po ang. a ukryta po pl to też ma walidować a standardowo tego nie robi)
+                    $.validator.setDefaults({
+                        ignore: []
+                    });                    
+
+                    $('#BornDate').datepicker({
+                        //comment the beforeShow handler if you want to see the ugly overlay
+                        beforeShow: function () {
+                            setTimeout(function () {
+                                $('.ui-datepicker').css('z-index', 1000);
+                            }, 0);
+                        }
+                    });
+                    // Tabs
+                    $(document).ready(function () {
+                        if (location.hash) {
+                            $('a[href="' + location.hash + '"]').tab('show');
+                        }
+                        $(document.body).on("click", "a[data-toggle]", function (event) {
+                            location.hash = this.getAttribute("href");
+                        });
+                    });
+                    $(window).on('popstate', function () {
+                        var anchor = location.hash || $("a[data-toggle=tab]").first().attr("href");
+                        $('.tab-pane').addClass('fade');
+                        $('a[href="' + anchor + '"]').tab('show');
+                    });
+
+                    // ustawianie edytowalnych (summernote) pól
+                    //$('#entryContentShort').summernote({ height: 150 });
+                    $('#entryContentShortEng').summernote({ height: 150 });
+
+                    //$('#entryContent').summernote({ height: 300 });
+                    $('#entryContent').summernote({
+                        onKeyup: function (e) {
+                            $("#entryContent").val($("#entryContent").code());
+                        },
+                        height: 300,
+                    });
+
+                    $('#entryContentShort').summernote({
+                        onKeyup: function (e) {
+                            $("#entryContentShort").val($("#entryContentShort").code());
+                        },
+                        height: 300,
+                    });
+
+                    $('#entryContentEng').summernote({ height: 300 });
+
+                    // Summernote, edit enter key
+                    //$.summernote.addPlugin({
+                    //    name: 'myenter',
+                    //    events: {
+                    //        // redefine insertParagraph
+                    //        'insertParagraph': function (event, editor, layoutInfo) {
+
+                    //            // custom enter key
+                    //            var newLine = '<br />';
+                    //            pasteHtmlAtCaret(newLine);
+
+                    //            // to stop default event
+                    //            //event.preventDefault();
+                    //        }
+                    //    }
+                    //});
+
+                    // summernote edit enterkey cd...
+                    function pasteHtmlAtCaret(html) {
+                        var sel, range;
+                        if (window.getSelection) {
+                            // IE9 and non-IE
+                            sel = window.getSelection();
+                            if (sel.getRangeAt && sel.rangeCount) {
+                                range = sel.getRangeAt(0);
+                                range.deleteContents();
+
+                                // Range.createContextualFragment() would be useful here but is
+                                // only relatively recently standardized and is not supported in
+                                // some browsers (IE9, for one)
+                                var el = document.createElement("div");
+                                el.innerHTML = html;
+                                var frag = document.createDocumentFragment(), node, lastNode;
+                                while ((node = el.firstChild)) {
+                                    lastNode = frag.appendChild(node);
+                                }
+                                range.insertNode(frag);
+
+                                // Preserve the selection
+                                if (lastNode) {
+                                    range = range.cloneRange();
+                                    range.setStartAfter(lastNode);
+                                    range.collapse(true);
+                                    sel.removeAllRanges();
+                                    sel.addRange(range);
+                                }
+                            }
+                        } else if (document.selection && document.selection.type != "Control") {
+                            // IE < 9
+                            document.selection.createRange().pasteHTML(html);
+                        }
+                    };
+
+                    // upload zdjęć
+                    $(function () {
+                        //var directoryName = $('#dogLink').val();
+                        $('#fileupload').fileupload({
+                            dataType: "json",
+                            //url: "/api/upload",
+                            limitConcurrentUploads: 1,
+                            //maxNumberOfFiles: 1,
+                            sequentialUploads: true,
+                            progressInterval: 100,
+                            //maxChunkSize: 20000000,
+                            maxFileSize:  50000000,
+                            add: function (e, data) {
+                                $('#filelistholder').removeClass('hide');
+
+                                breedId = $('#litter_BreedId').val();
+                                dogId = $('#litter_DogId').val();
+                                litterId = $('#litter_Id').val();
+                                breedLink = $('#litter_BreedLink').val();
+                                dogLink = $('#litter_DogLink').val();
+                                directory = $('#litter_LitterLink').val();
+                                litterLink = $('#litter_LitterLink').val();
+
+                                data.url = "/api/upload/litter/" + breedLink + "/" + litterLink + "/" + breedId + "/" + dogId + "/" + litterId + "/" + dogLink + "/";
+                                console.log(data.files[0].name);
+                                data.context = $('<div />').text(data.files[0].name).appendTo('#filelistholder');
+                                $('</div><div class="progress"><div class="bar" style="width:0%"></div></div>').appendTo(data.context);
+                                $("#savePost").hide();
+                                $("#saveAll").show();
+
+                                $('#saveAll').click(function (e) {
+                                    if ($("#addLitter").valid()) {
+                                        //e.preventDefault();
+                                        data.submit();
+                                    }
+                                    else {
+                                        e.preventDefault();
+                                    }
+                                });
+                                //$('#btnUploadAll').click(function () {
+                                //    data.submit();
+                                //});
+                                //$('#saveAll').click(function () {
+                                //    if ($("#addPost").valid()) {
+                                //        //e.preventDefault();
+                                //        data.submit();
+                                //    }
+                                //    else {
+                                //        $("#addPost").valid();
+                                //    }
+                                //});
+                                //$('#saveAll').click(function () {
+                                //    data.submit();
+                                //});
+                                if (data.files.length > 0) {
+                                    $("#saveAll").removeAttr("disabled");
+                                    $("#saveAll").html("<i class='fa fa-save'></i> Zapisz miot");
+                                    //console.log('sdasdasd');
+                                } else {
+                                    $("#saveAll").val("Zanim zapiszesz miot musisz dodać zdjęcie zapowiedzi");
+                                }
+                                handleFileSelect(data);
+                            },
+                            done: function (e, data) {
+                                data.context.text(data.files[0].name + '... przesłano :)');
+                                $('</div><div class="progress"><div class="bar" style="width:100%"></div></div>').appendTo(data.context);
+                            },
+                            progressall: function (e, data) {
+                                var progress = parseInt(data.loaded / data.total * 100, 10);
+                                $('#overallbar').css('width', progress + '%');
+                            },
+                            progress: function (e, data) {
+                                var progress = parseInt(data.loaded / data.total * 100, 10);
+                                data.context.find('.bar').css('width', progress + '%');
+                            },
+                            stop: function (e, data) {
+                                $('#addLitter').submit();
+                            }
+                        }).on("fileuploadprocessfail", function (e, data) {
+                            var file = data.files[data.index];
+                            console.log(file.error);
+                        });
+                    });
+
+                    // thumbnailsy w FileUpload
+                    function handleFileSelect(evt) {
+                        var files = evt.files; // FileList object
+
+                        // Loop through the FileList and render image files as thumbnails.
+                        for (var i = 0, f; f = files[i]; i++) {
+
+                            // Only process image files.
+                            if (!f.type.match('image.*')) {
+                                continue;
+                            }
+
+                            var reader = new FileReader();
+
+                            // Closure to capture the file information.
+                            reader.onload = (function (theFile) {
+                                return function (e) {
+                                    // Render thumbnail.
+                                    var span = document.createElement('span');
+                                    span.innerHTML = ['<img class="thumb" src="', e.target.result,
+                                        '" title="', escape(theFile.name), '"/>'].join('');
+                                    document.getElementById('list').insertBefore(span, null);
+                                };
+                            })(f);
+
+                            // Read in the image file as a data URL.
+                            reader.readAsDataURL(f);
+                        }
+                    }
+
+                    $("#savePost").click(function (e) {
+                        if ($("#addLitter").valid()) {
+                            if (document.getElementById("fileupload").files.length == 0) {
+                                $("#addLitter").submit();
+                            };
+                        }
+                    });
+
+                    //sprawdzanie czy nie ma już wpisu o podanym url-u
+                    $("#LitterLink").keyup(function () {
+                        var val = $("#LitterLink").val();
+                        var mask = "^[A-Za-z0-9-]+$";
+
+                        $.getJSON("@Url.Action("CheckLitterLinkExists","AjaxKennel")", { litterLink: val }, function (res) {
+                            if (res == true) {
+                                if ($("#LitterLink").val().match(mask)) {
+                                    $("#validateUrl").html("<p style='font-size:larger;'><span class='label label-danger'><i class='fa fa-lock'></i> Taki link już istnieje. Podaj inną wartość.</span></p>");
+                                }
+                            }
+                            else {
+                                if ($("#LitterLink").val().match(mask)) {
+                                    $("#validateUrl").html("<p style='font-size:larger;'><span class='label label-success'><i class='fa fa-check'></i> Link pasuje :)</span></p>");
+                                }
+                                else {
+                                    if ($("#LitterLink").val() != "" && $("#LitterLink").val() != null) {
+                                        $("#validateUrl").html("<p style='font-size:larger;'><span class='label label-danger'><i class='fa fa-warning'></i> Błąd - dozwolone litery (bez polskich znaków), myślniki i cyfry.</span><br>"
+                                            + "<span class='label label-default'>Poprawne przykłady</span> - "
+                                            + "<span class='label label-success'>moj-nowy-post-12-03-2018</span> | "
+                                            + "<span class='label label-success'>krotki-artykul-wprowadzajacy</span> | "
+                                            + "<span class='label label-success'>wygrana-01022018</span>"
+                                            + "</p>");
+                                    } else {
+                                        $("#validateUrl").html("<p style='font-size:larger;'><span class='label label-danger'><i class='fa fa-info-circle'></i> Wypełnienie tego pola jest niezbędne - dozwolone litery (bez polskich znaków), myślniki i cyfry/liczby</span></p>");
+                                    }
+                                }
+                            }
+                        });
+                    });
+                });
+            </script>
+
+            <div class="container">
+                <div class="x-panel">
+                    @using (@Html.BeginForm("EditLitter", "Kennel", FormMethod.Post, new { @id = "addLitter", @enctype = "multipart/form-data" }))
+                    {@Html.ValidationSummary()
+                    <div class="row">
+                        <div class="col-lg-12 ">
+                            <h3><i class="fa fa-align-center"></i> Podstawowe dane</h3>
+                            <hr />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-4 hide">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.litter.Id, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.litter.Id, new { @class = "form-control", @disabled = "disabled" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.litter.Id)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hide">
+                            @Html.TextBoxFor(model => model.litter.Id, new { @class = "form-control", @disabled = "disabled" })
+                            @Html.TextBoxFor(model => model.litter.BreedId, new { @class = "form-control", @disabled = "disabled" })
+                            @Html.TextBoxFor(model => model.litter.DogId, new { @class = "form-control", @disabled = "disabled" })
+                            @Html.TextBoxFor(model => model.litter.BreedLink, new { @class = "form-control", @disabled = "disabled" })
+                            @Html.TextBoxFor(model => model.litter.DogLink, new { @class = "form-control", @disabled = "disabled" })
+                        </div>
+                        <div class="col-lg-4 hide">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.litter.BreedLink, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.litter.BreedLink, new { @class = "form-control", @readonly = "readonly" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.litter.BreedLink)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.litter.Letter, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                                        @Html.DropDownListFor(m => Model.litter.Letter, new SelectList(@ViewBag.Letters, "Value", "Text"), new { @class = "form-control" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.litter.Letter)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.litter.LitterPresentationName, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.litter.LitterPresentationName, new { @class = "form-control", @placeholder = "Litter A, Litter B, Litter C..." })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.litter.LitterPresentationName)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.litter.MaleCount, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.litter.MaleCount, new { @class = "form-control", @placeholder = "3" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.litter.MaleCount)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.litter.FemaleCount, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.litter.FemaleCount, new { @class = "form-control", @placeholder = "4" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.litter.FemaleCount)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.litter.BornDate, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.litter.BornDate, new { @class = "form-control", @placeholder = "np.: 23.06.2012, 01.01.2016" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.litter.BornDate)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.litter.DogFather, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.litter.DogFather, new { @class = "form-control", @placeholder = "np. Cyrene'Sperides De Salkin Aidan" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.litter.DogFather)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.litter.DogFatherDegree, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.litter.DogFatherDegree, new { @class = "form-control", @placeholder = "CHPL, JCHPL" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.litter.DogFatherDegree)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.litter.DogFatherLink, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.litter.DogFatherLink, new { @class = "form-control", @placeholder = "http://www.breedarchive.com lub inne miejsce" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.litter.DogFatherLink)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.litter.Description, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-edit fa" aria-hidden="true"></i></span>
+                                        @Html.TextAreaFor(model => model.litter.Description, new { @class = "form-control", @id = "entryContent" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.litter.Description)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.litter.Tags, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.litter.Tags, new { @class = "form-control", @placeholder = "Litter A, Szczenięta miotu A..." })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.litter.Tags)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            @Html.Partial("_imagesByLitter", Model)
+                        </div>
+                        <div class="col-lg-12"><br /></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12"><br /><br /></div>
+                        <div class="col-lg-12 ">
+                            <h3><i class="fa fa-plus"></i> Dodatkowe pola w widoku miotu<small> (wypełnienie jest opcjonalne)</small></h3>
+                            <hr />
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="col-lg-12">
+                                        <h4>Zdjęcie matki<br /><small>Zdjęcie matki jest zdjęciem głównym ustawionym w systemie (panel edycji psa w hodowli)</small></h4>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <img style="width:100%" src="~/Dogs/@Model.litter.BreedLink/@Model.dog.DogLink/@Model.dog.MainPicture" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="col-lg-12">
+                                        <h4>Zdjęcie ojca<br /><small>Aby wybrać zdjęcie ojca, przejdź do galerii powyżej i naciśnij zielony przycisk nad wybranym zdjęciem</small></h4>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        @if (string.IsNullOrEmpty(Model.litter.FatherPictureName))
+                                        {
+                                            <img style="width:100%" src="~/Web/images/empty_image.png" />
+                                        }
+                                        else
+                                        {
+                                            <img style="width:100%" src="~/Litters/@Model.litter.BreedLink/@Model.litter.LitterLink/@Model.litter.FatherPictureName" />
+                                        }
+                                    </div>                                    
+                                </div>
+                            </div>
+                            <div class="row">                                
+                                <div class="col-lg-6">                                    
+                                    <div class="col-lg-12">
+                                        <hr />
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.litter.MotherLitterDescription, new { @style = "font-weight: bold;" })
+                                            <div class="cols-sm-10">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                                    @Html.TextAreaFor(model => model.litter.MotherLitterDescription, new { @class = "form-control", rows = "5", @placeholder = "Opis matki po wyświetleniu miotu..." })
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.litter.MotherLitterDescription)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-6">                                    
+                                    <div class="col-lg-12">
+                                        <hr />
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.litter.FatherLitterDescription, new { @style = "font-weight: bold;" })
+                                            <div class="cols-sm-10">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                                    @Html.TextAreaFor(model => model.litter.FatherLitterDescription, new { @class = "form-control", rows = "5" ,@placeholder = "Opis ojca po wyświetleniu miotu..." })
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.litter.FatherLitterDescription)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                        
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12 ">
+                            <h3><i class="fa fa-folder"></i> Katalog na serwerze</h3>
+                            <hr />
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.litter.LitterLink, new { @style = "font-weight: bold;" })
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa" aria-hidden="true"></i></span>
+                                        @Html.TextBoxFor(model => model.litter.LitterLink, new { @class = "form-control", @placeholder = "LitterA, LitterB, LitterX...", @readonly = "readonly" })
+                                    </div>
+                                    <div id="validateUrl" class="primary"><p style='font-size:larger;'><span class='label label-primary'><i class='fa fa-info-circle'></i> Tego pola nie można edytować.</span></p></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <hr />
+                            <div class="col-lg-3 pull-right">
+                                @Html.CheckBoxFor(model => model.litter.Visibility, new { @class = "big-checkbox" })
+                                <b>
+                                    @*@Html.LabelFor(model => model.litter.Visibility, new { @class = "label-checkbox green" })*@
+                                    <label class="label-checkbox red">Nie wyświetlaj tego miotu</label>
+                                </b>
+                            </div>
+                        </div>
+                    </div>
+                }
+                    @section Scripts {
+                        @Scripts.Render("~/bundles/jqueryval")
+                    }
+                    <div class="x-panel">
+                        <div class="form-group" id="imagesForm">
+                            <div class="col-md-12 text-center">
+                                <form id="addImages" action="/api/upload/litter" enctype="multipart/form-data">
+                                    <div class="row fileupload-buttonbar">
+                                        <div class="span7">
+                                            <div class="well">
+                                                <i class="icon-plus"></i><span>&nbsp;&nbsp;Tu możesz zmienić zdjęcie zapowiedzi</span>
+                                                <input value="Wybierz zdjęcie do zmiany" type="file" id="fileupload" name="fileupload" accept="image/*" multiple="multiple">
+                                                @*<button style="margin:5px;" id="btnUploadAll" class="btn btn-xs btn-danger pull-right" type="button">
+                                        Załaduj wszystkie
+                                    </button>*@
+                                                <output id="list"></output>
+                                                <div class="clearfix">
+                                                </div>
+                                                <div class="progress">
+                                                    <div class="bar" id="overallbar" style="width: 0%">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="span7">
+                                            <div class="well hide" id="filelistholder">
+                                            </div>
+                                        </div>
+                                        <div class="span7">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <hr />
+                        </div>
+                    </div>
+
+                    <div class="x-panel text-center">
+                        <button id="saveAll" class="btn btn-lg btn-default" style="display:none"><i class="fa fa-check"></i> Zapisz zmiany</button>
+                        <button id="savePost" class="btn btn-lg btn-default"><i class="fa fa-check"></i> Zapisz zmiany</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

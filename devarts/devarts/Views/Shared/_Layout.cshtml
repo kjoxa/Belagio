@@ -1,0 +1,242 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from inspirothemes.com/polo/page-about-basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 10 Oct 2022 14:13:12 GMT -->
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="author" content="INSPIRO" />
+    <meta name="description" content="Themeforest Template Polo, html template">
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>BELAGIO | Hodowla Hiszpańskich Psów Dowodnych</title>
+
+    <link href="~/Web/css/plugins.css" rel="stylesheet">
+    <link href="~/Web/css/style.css" rel="stylesheet">
+    @RenderSection("metatags", false)
+    @Scripts.Render("~/bundles/jquery")
+    @*<link href="~/GentelellaAlelaTemplate/vendors/font-awesome/css/fontawesome.min.css" rel="stylesheet">*@
+    @Styles.Render("~/Content/font-awesome.css")
+</head>
+
+<body>
+    <style>
+        .bg-overlay {
+            background: url(/Web/images/belagio/logo.jpg) no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+
+        .copyright-content {
+            min-height: 80px;
+            padding: 30px 0;
+            background-color: #6d6f72;
+            font-size: 13px;
+            color: white !important;
+        }
+
+        .footer-content {
+            padding: 60px 0 40px;
+            color: white;
+            background-color: #bbbbbb;
+        }
+
+        #header {
+            line-height: 5px;
+        }
+
+        .dropdown-menu {
+            margin-top: 15px;
+        }
+
+        body {
+            background-color:black;
+        }
+
+        li a {
+            display: inline-block;
+        }
+
+    </style>
+
+    <div class="body-inner">
+        <header id="header" data-transparent="true" data-fullwidth="true" class="dark submenu-light">
+            <div class="header-inner" style="padding-top: 20px; margin-bottom:20px;">
+                <div class="container" style="margin-bottom:50px">
+
+                    <div id="logo">
+                        <a href="@Url.Action("Index", "Home")" style="padding-top:20px; margin:10px">
+                            <span class="logo-default text-center" id="belagio">Belagio<small style="font-size: 10px"><br /> Spanish Water Dog FCI Kennel</small></span>
+                            <span class="logo-dark text-center" id="belagio">Belagio<small style="font-size: 10px; font-family:sans-serif"><br>SPANISH WATER DOG FCI KENNEL</small></span>
+                        </a>                        
+                    </div>
+
+                    <div id="search">
+                        <a id="btn-search-close" class="btn-search-close" aria-label="Close search form">
+                            <i class="icon-x"></i>
+                        </a>
+                        <form class="search-form" action="https://inspirothemes.com/polo/search-results-page.html"
+                              method="get">
+                            <input class="form-control" name="q" type="text" placeholder="Type & Search..." />
+                            <span class="text-muted">Start typing & press "Enter" or "ESC" to close</span>
+                        </form>
+                    </div>
+
+                    @*<div class="header-extras">
+                        <ul>
+                            <li>
+                                <div class="p-dropdown">
+                                    <a href="#"><i class="icon-globe"></i><span>EN</span></a>
+                                    <ul class="p-dropdown-content">
+                                        <li><a href="#">Polski</a></li>
+                                        <li><a href="#">Angielski</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>*@
+
+                    <div id="mainMenu-trigger">
+                        <a class="lines-button x"><span class="lines"></span></a>
+                    </div>
+
+                    <div id="mainMenu">
+                        <div class="container">
+                            <nav>
+                                <ul>
+                                    <li><a class="text-center" href="@Url.Action("Index", "Home")">STRONA GŁÓWNA<br /><span class="under">Home</span></a></li>
+                                    <li>
+                                        <a class="text-center" href="@Url.Action("Blog", "Home")">Nasz blog<br /><span class="under">Blog</span></a>
+                                    </li>
+
+                                    @{
+                                        devarts.Repositories.KennelRepository kennelRepo = new devarts.Repositories.KennelRepository();
+                                        var dogs = kennelRepo.GetAllDogs().Where(dog => string.IsNullOrEmpty(dog.DeathDate)).OrderByDescending(dog => dog.DogSex).ThenByDescending(dog => dog.Id);
+                                        if (dogs.Count() > 0)
+                                        {
+                                            <li class="dropdown">
+                                                <a href="#" class="text-center dropdown-toggle_X js-activated" data-toggle="dropdown">Nasze psy<br /><span class="under">Dogs</span></a>
+                                                <ul class="dropdown-menu">
+                                                    @foreach (var dog in dogs)
+                                                    {
+                                                        if (dog.DogSex == false)
+                                                        {
+                                                            if (dog.DogKennelNameFirst)
+                                                            {
+                                                                <li><a href="@Url.Action("Dog", "Home", new { dogLink = dog.DogLink })"><b><i class="fa fa-venus gold"></i></b> @dog.DogName <small style="color: #0e4266 !important ">@dog.BreedName</small></a></li>
+                                                            }
+                                                            else
+                                                            {
+                                                                <li><a href="@Url.Action("Dog", "Home", new { dogLink = dog.DogLink })"><b><i class="fa fa-venus gold"></i></b> <small style="color: #0e4266 !important ">@dog.BreedName</small> @dog.DogName</a></li>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            if (dog.DogKennelNameFirst)
+                                                            {
+                                                                <li><a href="@Url.Action("Dog", "Home", new { dogLink = dog.DogLink })"><b><i class="fa fa-mars gold"></i></b> @dog.DogName <small style="color: #0e4266 !important ">@dog.BreedName</small></a></li>
+                                                            }
+                                                            else
+                                                            {
+                                                                <li><a href="@Url.Action("Dog", "Home", new { dogLink = dog.DogLink })"><b><i class="fa fa-mars gold"></i></b> <small style="color: #0e4266 !important ">@dog.BreedName</small> @dog.DogName</a></li>
+                                                            }
+                                                        }
+                                                    }
+                                                </ul>
+                                            </li>
+                                        }
+                                    }
+                                    <li>
+                                        <a class="text-center" href="@Url.Action("Puppies", "Home")">Szczenięta<br /><span class="under">Puppies</span></a>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a class="text-center" href="@Url.Action("Litters", "Home")">Wszystkie mioty<br /><span class="under">All Litters</span></a>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a class="text-center" href="@Url.Action("CreateReservation", "Home")">Rezerwacja<br /><span class="under">Reservation</span></a>
+                                    </li>
+                                    <li class="dropdown mega-menu-item">
+                                        <a class="text-center" href="@Url.Action("Index", "Contact")">Kontakt<br /><span class="under">Contact</span></a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section id="page-title" data-bg-parallax="Web/images/belagio/parallax/14.jpg">
+            <div class="bg-overlay"></div>
+            <div class="container">
+                <div class="page-title">
+                    @*<h1 class="text-uppercase text-medium">Serdecznie witamy!</h1>
+                        <span>Na stronie hodowli <b>Hiszpańskich Psów Dowodnych</b></span>*@
+                    <img src="~/Web/images/belagio/logo_srebrne_transparentnetło.png" style="width:50%" />
+                    <br />
+                    <br />
+                </div>
+                <div class="bottom-slider"></div>
+            </div>
+        </section>
+
+        @RenderBody()
+
+        <footer id="footer">
+            <div class="footer-content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-4 text-center">
+                            <img class="fci" alt="" src="~/Web/images/zkwp2.png" style="padding: 10px; max-width: 100px; object-fit: contain; filter: sepia(1)">
+                            <img class="fci" alt="" src="~/Web/images/fci2.png" style="padding: 10px; max-width: 100px; object-fit: contain; filter: sepia(1)">
+                        </div>
+
+                        <div class="col-lg-4 text-center" style="padding-top:25px">
+                            <div class="widget">
+                                @*<div class="widget-title">SKONTAKTUJ SIĘ <br /><small>Contact with us</small></div>*@
+                                <a href="@Url.Action("Index", "Contact")"
+                                   class="btn btn-inverted" target="_blank">Formularz kontaktowy <br /><small>Contact form</small></a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 text-center" style="padding-top:25px">
+                            <a style="margin: 10px; color: rgba(170, 150, 91)" target="_blank" href="https://www.facebook.com/Belagio-FCI-Hiszpa%C5%84ski-pies-dowodny-Belagio-Spanish-Water-Dogs-102518781798914"><i class="fa fa-4x fa-facebook"></i></a>
+                            <a style="margin: 10px; color: rgba(170, 150, 91)" target="_blank" href="https://www.instagram.com/belagio_spanishwaterdogs"><i class="fa fa-4x fa-instagram"></i> </a>
+                            <a style="margin: 10px; color: rgba(170, 150, 91)" target="_blank" href="https://www.youtube.com/channel/UCyY7ZjXlkKZnJ_POVu9cJ4A"><i class="fa fa-4x fa-youtube"></i> </a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright-content">
+                <div class="container">
+                    <div class="copyright-text text-center">
+                        <b>Belagio</b> - Hiszpański Pies Dowodny<br />
+                        <a href="@Url.Action("Login", "Account")" target="_blank" rel="noopener" style="color:silver">
+                            Powered by PureBreed Kennel Management System
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <a id="scrollTop"><i class="icon-chevron-up"></i><i class="icon-chevron-up"></i></a>
+
+    <script src="~/Web/js/jquery.js"></script>
+    <script src="~/Web/js/plugins.js"></script>
+
+    <script src="~/Web/js/functions.js"></script>
+    @Styles.Render("~/Web/css/custom_style.css")
+    @Styles.Render("~/Content/purebreed.css")
+    @RenderSection("scripts", false)
+</body>
+
+<!-- Mirrored from inspirothemes.com/polo/page-about-basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 10 Oct 2022 14:13:12 GMT -->
+
+</html>

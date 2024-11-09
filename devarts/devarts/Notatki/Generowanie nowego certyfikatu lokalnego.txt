@@ -1,0 +1,6 @@
+﻿Start a Command Prompt (cmd) as Administrator, go to the folder “c:\Program Files (x86)\IIS Express” and run this command for one of your applications (replace PORT with the port of your application):
+
+IisExpressAdminCmd.exe setupsslUrl -url:https://localhost:PORT/ -UseSelfSigned
+
+CAŁE POLECENIE:
+C:\Program Files (x86)\IIS Express>IisExpressAdminCmd.exe setupsslUrl -url:https://localhost:44127/ -UseSelfSigned

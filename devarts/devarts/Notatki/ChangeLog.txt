@@ -1,0 +1,5 @@
+﻿Do zmiany
+1. DODAWANIE RASY
+	- poprawienie formularza żeby pole BreedLink było walidowane
+
+2. UTWORZENIE WIDUKU MIOTÓW

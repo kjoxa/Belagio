@@ -1,0 +1,49 @@
+﻿@Scripts.Render("~/bundles/jquery")
+@Styles.Render("~/Content/font-awesome.css")
+
+@Styles.Render("~/Content/DataTables")
+@Scripts.Render("~/Scripts/PostDataTables")
+
+<style>
+    /*styl pozycjonujący rodzaj urządzenia*/
+    .dt-body-center {
+        text-align: center;
+    }
+
+    #alert-area {
+        display: none;
+    }
+</style>
+<br />
+<div id="alert-area"></div>
+<div id="alerts">
+</div>
+
+<div class="row">
+    <div class="container">
+        <br />
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="x_panel">
+                    <ol class="breadcrumb">
+                        <li>
+                            @Html.ActionLink("Strona Główna", "Index", "Home")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Panel Administratora", "Index", "Admin")
+                        </li>
+                        <li>
+                            <a href="~/Admin/Post">Zarządzanie wpisami</a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    @Html.Partial("_postsView")
+</div>
+
